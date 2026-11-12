@@ -1,0 +1,2385 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="max-image-preview:large" name="robots"/>
+<link href="/favicon.ico" rel="icon" sizes="32x32"/>
+<link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="/icons/apple-touch-icon-180.png" rel="apple-touch-icon" sizes="180x180"/>
+<meta content="zh_CN" property="og:locale"/><meta content="pt_BR" property="og:locale:alternate"/><meta content="fr_FR" property="og:locale:alternate"/><meta content="es_ES" property="og:locale:alternate"/><meta content="nl_NL" property="og:locale:alternate"/><meta content="en_US" property="og:locale:alternate"/>
+<link as="font" crossorigin="" href="/fonts/newsreader-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="/fonts/instrument-latin-var.woff2" rel="preload" type="font/woff2"/>
+<link href="/assets/s-63b67768c422.css" rel="stylesheet"/>
+<link href="/tailwind.css?v=62ddc714" rel="stylesheet"/>
+<link href="/manifest.webmanifest" rel="manifest"/>
+<meta content="#FBF5E9" name="theme-color"/>
+<meta content="yes" name="mobile-web-app-capable"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="ExploreSR" name="apple-mobile-web-app-title"/>
+<link href="/assets/s-53a1243c3b06.css" rel="stylesheet"/>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(()=>{}));</script>
+<link href="/assets/s-bbf380cc3b18.css" rel="stylesheet"/>
+<link href="/assets/s-3add1bbd5c8c.css" rel="stylesheet"/>
+<script src="/assets/j-ecba2aa6bf8f.js"></script>
+<script src="/assets/j-1745dd5071a0.js"></script>
+<!-- Google tag (gtag.js) -->
+<script src="/assets/j-7605322af15a.js"></script>
+<!-- GA4 interaction events: WhatsApp / phone / email / directions / outbound clicks -->
+<script src="/assets/j-40e3e1099ca7.js"></script>
+<script src="/assets/j-f595b0d0e5f8.js"></script>
+<title>Troefcall 在线玩：免费的苏里南纸牌游戏</title>
+<meta content="免费在线玩 Troefcall，无需下载应用。用 WhatsApp 链接邀请朋友，加入正在进行的牌桌，或与电脑练习。" name="description"/>
+<link href="https://exploresuriname.com/zh/troefcall" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Explore Suriname" property="og:site_name"/>
+<meta content="https://exploresuriname.com/zh/troefcall" property="og:url"/>
+<meta content="Troefcall 在线玩：免费的苏里南纸牌游戏" property="og:title"/>
+<meta content="免费在线玩 Troefcall，无需下载应用。用 WhatsApp 链接邀请朋友，加入正在进行的牌桌，或与电脑练习。" property="og:description"/>
+<meta content="https://exploresuriname.com/images/og-pages/troefcall.jpg" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Troefcall 在线玩：免费的苏里南纸牌游戏" name="twitter:title"/>
+<meta content="免费在线玩 Troefcall，无需下载应用。用 WhatsApp 链接邀请朋友，加入正在进行的牌桌，或与电脑练习。" name="twitter:description"/>
+<meta content="https://exploresuriname.com/images/og-pages/troefcall.jpg" name="twitter:image"/>
+<link crossorigin="" href="https://esr-troefcall.surinamedomains.workers.dev" rel="preconnect"/>
+<style>.tc{--cw:56px;--fh:520px;--hh:130px;--tc-gold:var(--gold,#E7AE4D);--tc-forest:var(--forest,#1B4332);--tc-ink:var(--ink,#233028);--tc-card:var(--card,#FFFDF6);--tc-line:var(--line,#EBE0CB);--tc-coral:var(--coral,#E76F51);position:relative;max-width:1060px;margin:0 auto;color:var(--tc-ink);-webkit-tap-highlight-color:transparent;scroll-margin-top:8px}
+.tc *,.tc *::before,.tc *::after{box-sizing:border-box}
+.tc button,.tc input{font:inherit;color:inherit}
+.tc button{cursor:pointer;-webkit-appearance:none;appearance:none}
+.tc [hidden]{display:none!important}
+.tc-serif,.tc-p-big,.tc-p-t,.tc-opt b{font-family:Newsreader,'Playfair Display',Georgia,'Times New Roman',serif}
+
+/* lobby */
+.tc-lobby{max-width:470px;margin:0 auto;background:var(--tc-card);border:1px solid var(--tc-line);border-radius:14px;padding:22px 20px 16px;box-shadow:0 18px 40px -26px rgba(27,67,50,.55)}
+.tc-wait{text-align:center;padding:48px 20px}
+.tc-msg{margin:0 0 14px;padding:10px 12px;border-radius:8px;background:#FBEFD9;border:1px solid #F0D9A8;font-size:.9rem;line-height:1.4}
+.tc-wait .tc-msg{background:none;border:0;margin:0;color:#5C6657}
+.tc-field{display:block;margin-bottom:14px}
+.tc-lbl{display:block;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7466;margin-bottom:5px}
+.tc-inp{width:100%;min-width:0;height:46px;padding:0 13px;border:1px solid #d9cfb9;border-radius:9px;background:#fff;font-size:16px;outline:none}
+.tc-inp:focus{border-color:var(--tc-forest);box-shadow:0 0 0 3px rgba(45,106,79,.18)}
+.tc-opts{display:grid;gap:9px;margin:4px 0 14px}
+.tc-opt{display:block;width:100%;text-align:left;padding:13px 15px;border-radius:11px;border:1px solid #d9cfb9;background:#fff;transition:transform .12s,box-shadow .12s,border-color .12s}
+.tc-opt b{display:block;font-size:1.16rem;font-weight:600;line-height:1.2;color:var(--tc-forest)}
+.tc-opt span{display:block;font-size:.8rem;line-height:1.35;color:#5C6657;margin-top:3px}
+.tc-opt-p{background:var(--tc-forest);border-color:var(--tc-forest)}
+.tc-opt-p b{color:#fff}.tc-opt-p span{color:rgba(255,255,255,.78)}
+@media (hover:hover){.tc-opt:hover{transform:translateY(-2px);box-shadow:0 10px 22px -14px rgba(27,67,50,.6);border-color:var(--tc-forest)}}
+.tc-invite{background:#E1F0DD;border:1px solid #bfdcb8;border-radius:11px;padding:14px;margin-bottom:12px;text-align:center}
+.tc-inv-t{margin:0 0 10px;font-weight:700;color:var(--tc-forest)}
+.tc-join{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border-top:1px solid var(--tc-line);padding-top:13px}
+.tc-join .tc-lbl{grid-column:1/-1;margin:0}
+.tc-code{text-transform:uppercase;letter-spacing:.3em;font-weight:700;text-align:center}
+.tc-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:9999px;border:1px solid transparent;font-weight:700;font-size:.93rem;text-decoration:none;line-height:1.15;text-align:center}
+.tc-btn-p{background:var(--tc-forest);color:#fff!important}
+.tc-btn-g{background:#fff;border-color:#cfc5ad;color:var(--tc-ink)!important}
+.tc-btn-wa{background:#1fa855;color:#fff!important}
+.tc-wide{width:100%}
+.tc-link{background:none;border:0;padding:6px 2px;font-size:.84rem;font-weight:600;color:#3d6b55;text-decoration:underline;text-underline-offset:3px}
+.tc-foot{margin:12px 0 0;font-size:.76rem;color:#8a8f80;text-align:center}
+.tc-foot:empty{display:none}
+.tc-online{display:block;text-align:center;font-size:.8rem;font-weight:700;color:#2D6A4F;margin-top:12px}
+.tc-online::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#35b36b;margin-right:7px;box-shadow:0 0 0 3px rgba(53,179,107,.2)}
+
+/* table */
+.tc-game{position:relative;display:flex;gap:12px;align-items:stretch}
+.tc-main{flex:1;min-width:0;max-width:100%;border-radius:16px;overflow:hidden;background:#0f241a;box-shadow:0 24px 50px -30px rgba(15,36,26,.9)}
+.tc-top{display:flex;align-items:center;gap:6px;height:46px;padding:0 6px;background:#0f241a;color:#f4ecda}
+.tc-ib{position:relative;display:grid;place-items:center;width:38px;height:38px;flex:none;border-radius:9999px;border:0;background:rgba(255,255,255,.08);color:#f4ecda}
+.tc-title{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(244,236,218,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+.tc-score{margin-left:auto;margin-right:auto;display:flex;align-items:center;gap:9px;white-space:nowrap;min-width:0;flex:0 1 auto;overflow:hidden}
+.tc-sc{display:inline-flex;align-items:baseline;gap:5px}
+.tc-sc small,.tc-final small{font-size:.66rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;opacity:.7}
+.tc-sc b{font-size:1.3rem;font-weight:800;font-variant-numeric:tabular-nums}
+.tc-sc-us b{color:var(--tc-gold)}
+.tc-score .tc-sc-us::after{content:"–";margin-left:7px;opacity:.5}
+.tc-to{font-size:.66rem;opacity:.55;border:1px solid rgba(255,255,255,.22);border-radius:9999px;padding:2px 7px}
+.tc-badge{position:absolute;top:-2px;right:-2px;min-width:17px;height:17px;border-radius:9px;background:var(--tc-coral);color:#fff;font-size:.62rem;font-weight:800;font-style:normal;display:grid;place-items:center;padding:0 4px}
+.tc-felt{position:relative;height:var(--fh);overflow:hidden;user-select:none;-webkit-user-select:none;background:radial-gradient(ellipse at 50% 40%,#2c7c57 0%,#1f5f43 52%,#143e2b 100%);box-shadow:inset 0 0 0 5px #2a1c11,inset 0 0 0 6px rgba(231,174,77,.4),inset 0 0 70px rgba(0,0,0,.35)}
+
+.tc-hud{position:absolute;top:14px;z-index:4;color:#f6efe0}
+.tc-hud-l{left:14px;display:flex;align-items:center;gap:8px}
+.tc-hud-r{right:14px}
+.tc-troef{width:42px;height:42px;border-radius:50%;background:#fffdf8;display:grid;place-items:center;font-size:27px;line-height:1;box-shadow:0 0 0 2px var(--tc-gold),0 2px 6px rgba(0,0,0,.35)}
+.tc-troef.tc-none{background:rgba(255,255,255,.14);color:#f6efe0;box-shadow:0 0 0 2px rgba(255,255,255,.25);font-size:20px;font-weight:700}
+.tc-troef-l small,.tc-trow small{display:block;font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;opacity:.66}
+.tc-troef-l b{font-size:.86rem}
+.tc-trow{display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-bottom:5px}
+.tc-trow small{min-width:0}
+.tc-trow b{font-size:.84rem;min-width:11px;text-align:right;font-variant-numeric:tabular-nums}
+.tc-pips{display:inline-flex;gap:3px}
+.tc-pips i{width:8px;height:11px;border-radius:2px;background:rgba(255,255,255,.2)}
+.tc-trow-us .tc-pips i.on{background:var(--tc-gold)}
+.tc-trow-them .tc-pips i.on{background:#f08a70}
+
+.tc-seat{position:absolute;z-index:3;display:flex;align-items:center;gap:7px;color:#f6efe0;--p:1}
+.tc-s-t{top:12px;left:50%;transform:translateX(-50%)}
+.tc-s-l{left:12px;top:calc((var(--fh) - var(--hh) - 40px + 70px)/2 - 34px);flex-direction:column;align-items:flex-start}
+.tc-s-r{right:12px;top:calc((var(--fh) - var(--hh) - 40px + 70px)/2 - 34px);flex-direction:column;align-items:flex-end;text-align:right}
+.tc-av{position:relative;width:40px;height:40px;flex:none;border-radius:50%;background:#f6efe0;color:var(--tc-forest);display:grid;place-items:center;font-weight:800;font-size:1.05rem}
+.tc-bot .tc-av{background:rgba(255,255,255,.16);color:#f6efe0}
+.tc-av::after{content:"";position:absolute;inset:-5px;border-radius:50%;background:conic-gradient(var(--tc-gold) calc(var(--p)*360deg),rgba(255,255,255,.14) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));opacity:0;transition:opacity .2s}
+.tc-turn .tc-av::after{opacity:1}
+.tc-low .tc-av::after{background:conic-gradient(var(--tc-coral) calc(var(--p)*360deg),rgba(255,255,255,.14) 0)}
+.tc-off .tc-av{opacity:.45}
+.tc-meta{min-width:0;line-height:1.15}
+.tc-nm{display:block;font-size:.84rem;font-weight:700;max-width:104px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc-meta small{display:block;font-size:.62rem;opacity:.66;white-space:nowrap}
+.tc-tags{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.tc-s-r .tc-tags{justify-content:flex-end}
+.tc-tag,.tc-cnt{font-style:normal;font-size:.56rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:9999px;background:rgba(255,255,255,.16);white-space:nowrap}
+.tc-tag-c{background:var(--tc-gold);color:#2a1c11}
+.tc-cnt{background:none;border:1px solid rgba(255,255,255,.3);border-radius:3px;padding:2px 4px;letter-spacing:0}
+.tc-bub{position:absolute;z-index:6;top:100%;margin-top:6px;max-width:170px;width:max-content;background:#fffdf8;color:var(--tc-ink);font-size:.78rem;line-height:1.3;padding:6px 9px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,.3);word-break:break-word;text-align:left}
+.tc-s-l .tc-bub{left:0}.tc-s-r .tc-bub{right:0}.tc-s-t .tc-bub{left:50%;transform:translateX(-50%)}
+
+.tc-mid{position:absolute;left:50%;top:calc((var(--fh) - var(--hh) - 40px + 70px)/2);width:0;height:0;z-index:2}
+.tc-slot{position:absolute;width:var(--cw);height:calc(var(--cw)*1.42)}
+.tc-sl-t{left:calc(var(--cw)*-.5);top:calc(var(--cw)*-1.3)}
+.tc-sl-b{left:calc(var(--cw)*-.5);top:calc(var(--cw)*-.12)}
+.tc-sl-l{left:calc(var(--cw)*-1.4);top:calc(var(--cw)*-.71)}
+.tc-sl-r{left:calc(var(--cw)*.4);top:calc(var(--cw)*-.71)}
+.tc-sl-b{z-index:2}.tc-sl-l,.tc-sl-r{z-index:1}
+
+.tc-card{position:relative;width:var(--cw);height:calc(var(--cw)*1.42);border-radius:calc(var(--cw)*.11);background:#fffdf8;border:1px solid rgba(20,30,25,.34);box-shadow:0 1px 3px rgba(0,0,0,.3);font-family:Georgia,'Times New Roman',serif;color:#1c2420;overflow:hidden}
+.tc-card.tc-red{color:#bf2a1c}
+.tc-ix{position:absolute;left:calc(var(--cw)*.075);top:calc(var(--cw)*.06);display:flex;flex-direction:column;align-items:center;line-height:.95;font-size:calc(var(--cw)*.31)}
+.tc-ix b{font-weight:700;letter-spacing:-.05em}
+.tc-ix i{font-style:normal;font-size:.86em;margin-top:.05em}
+.tc-pip{position:absolute;right:calc(var(--cw)*.09);bottom:calc(var(--cw)*.07);font-size:calc(var(--cw)*.66);line-height:1}
+.tc-face .tc-pip{display:flex;flex-direction:column;align-items:center;justify-content:center;left:calc(var(--cw)*.3);right:calc(var(--cw)*.09);top:calc(var(--cw)*.36);bottom:calc(var(--cw)*.09);border:1.5px solid currentColor;border-radius:calc(var(--cw)*.06);background:rgba(231,174,77,.2);font-size:calc(var(--cw)*.2)}
+.tc-face .tc-pip b{font-size:2.2em;line-height:1;font-weight:700}
+.tc-face .tc-pip i{font-style:normal;font-size:1.5em;line-height:1}
+.tc-ace .tc-pip{font-size:calc(var(--cw)*.8)}
+.tc-win{box-shadow:0 0 0 3px var(--tc-gold),0 4px 12px rgba(0,0,0,.4)}
+
+.tc-hand{position:absolute;left:0;right:0;bottom:14px;height:var(--hh);z-index:8}
+.tc-hand .tc-card{position:absolute;cursor:pointer;transition:transform .12s ease-out,filter .15s}
+.tc-hand .tc-tr{box-shadow:inset 0 0 0 2px rgba(231,174,77,.95),0 1px 3px rgba(0,0,0,.3)}
+.tc-hand .tc-no{filter:brightness(.66) saturate(.6)}
+.tc-some .tc-ok{transform:translateY(-9px)}
+.tc-hand .tc-sel{transform:translateY(-16px);box-shadow:0 0 0 3px var(--tc-gold),0 8px 16px rgba(0,0,0,.4)}
+@media (hover:hover){.tc-hand .tc-ok:hover{transform:translateY(-12px)}}
+.tc-dealt{animation:tcDeal .32s cubic-bezier(.2,.8,.25,1) both}
+@keyframes tcDeal{from{opacity:0;transform:translateY(40px) scale(.9)}}
+.tc-shake{animation:tcShake .28s}
+@keyframes tcShake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+.tc-me{position:absolute;left:12px;bottom:calc(var(--hh) + 20px);z-index:4;display:flex;align-items:center;gap:5px;color:#f6efe0;max-width:46%}
+.tc-me .tc-nm{max-width:88px}
+.tc-me.tc-turn .tc-nm{color:var(--tc-gold)}
+.tc-status{position:absolute;right:12px;bottom:calc(var(--hh) + 18px);z-index:4;max-width:52%;font-size:.78rem;font-weight:700;color:#f6efe0;background:rgba(0,0,0,.3);padding:5px 11px;border-radius:9999px;overflow:hidden;text-align:center;line-height:1.2}
+.tc-status.tc-mine{background:var(--tc-gold);color:#2a1c11}
+.tc-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:#2a1c11;opacity:.55;transform-origin:left;transition:transform .25s linear}
+.tc-bar.tc-low{background:#b3261e;opacity:1}
+.tc-note{position:absolute;left:50%;top:70px;transform:translateX(-50%);z-index:20;max-width:86%;width:max-content;background:rgba(15,36,26,.92);color:#f6efe0;font-size:.8rem;font-weight:600;padding:7px 13px;border-radius:9999px;text-align:center;line-height:1.3;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+.tc-toast{position:absolute;left:50%;top:calc((var(--fh) - var(--hh) - 40px + 70px)/2);transform:translate(-50%,-50%);z-index:22;background:#fffdf8;color:var(--tc-ink);border-radius:16px;padding:12px 20px;text-align:center;box-shadow:0 14px 34px rgba(0,0,0,.45);animation:tcPop .22s ease-out;min-width:150px;max-width:86%}
+.tc-toast b{display:block;font-size:.92rem}
+.tc-toast small{display:block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-top:2px}
+.tc-toast-g{display:block;font-size:56px;line-height:1}
+.tc .tc-red{color:#bf2a1c}.tc .tc-blk{color:#1c2420}
+.tc-toast-kap{background:var(--tc-gold)}
+.tc-toast-kap b{font-family:Newsreader,Georgia,serif;font-size:2.4rem;line-height:1}
+@keyframes tcPop{from{opacity:0;transform:translate(-50%,-50%) scale(.8)}}
+
+.tc-ov{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:14px;background:rgba(9,24,17,.62)}
+.tc-ov-soft{background:rgba(9,24,17,.3);pointer-events:none}
+.tc-ov-top{background:linear-gradient(rgba(9,24,17,.66) 0,rgba(9,24,17,.66) calc(100% - var(--hh) - 70px),rgba(9,24,17,0) calc(100% - var(--hh) - 20px));place-items:start center;padding-top:62px;pointer-events:none}
+.tc-ov-top .tc-panel{pointer-events:auto}
+.tc-ov-wait{place-items:start center;overflow-y:auto;padding:12px}
+.tc-panel{width:100%;max-width:372px;background:var(--tc-card);border-radius:16px;padding:18px 16px 15px;text-align:center;box-shadow:0 22px 50px rgba(0,0,0,.5);animation:tcRise .2s ease-out}
+@keyframes tcRise{from{opacity:0;transform:translateY(10px)}}
+.tc-p-t{margin:0 0 5px;font-size:1.3rem;font-weight:600;line-height:1.2;color:var(--tc-forest)}
+.tc-p-big{margin:0 0 4px;font-size:2rem;font-weight:600;line-height:1.08;color:var(--tc-forest)}
+.tc-p-s{display:block;margin:0 0 12px;font-size:.84rem;line-height:1.45;color:#56604f}
+.tc-p-k{display:block;font-size:.64rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a8f80;margin-top:8px}
+.tc-p-hint{margin:7px 0 0;font-size:.72rem;line-height:1.35;color:#6b7466}
+.tc-p-pts{margin:2px 0 8px;font-weight:800;font-size:1rem}
+.tc-good .tc-p-pts{color:#2D6A4F}.tc-bad .tc-p-pts{color:#b3402a}
+.tc-bad .tc-p-big,.tc-bad .tc-p-t{color:#7c2d1c}
+.tc-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tc-row .tc-btn{flex:1 1 auto}
+.tc-col{flex-direction:column}
+.tc-panel>.tc-btn{margin-top:4px}
+.tc-panel>.tc-link{display:block;margin:8px auto 0}
+.tc-panel>small.tc-p-s{margin:8px 0 0}
+.tc-final{display:flex;justify-content:center;align-items:baseline;gap:10px;margin:4px 0 12px;color:var(--tc-ink)}
+.tc-final span{display:inline-flex;align-items:baseline;gap:6px}
+.tc-final b{font-size:2.1rem;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.tc-final i{font-style:normal;opacity:.4;font-size:1.4rem}
+.tc-suits{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tc-suit{display:flex;flex-direction:column;align-items:center;gap:1px;padding:9px 2px 8px;border-radius:11px;border:1.5px solid #d9cfb9;background:#fff;min-width:0}
+.tc-suit span{font-size:34px;line-height:1}
+.tc-suit b{font-size:.7rem;color:var(--tc-ink);max-width:100%;white-space:nowrap}
+.tc-suit small{font-size:.66rem;color:#8a8f80}
+@media (hover:hover){.tc-suit:hover{border-color:var(--tc-forest);background:#E1F0DD}}
+.tc-codebox{display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:1px dashed #cfc5ad;border-radius:9px;padding:6px 10px;margin-bottom:8px}
+.tc-codebox small{font-size:.62rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a8f80}
+.tc-codebox b{font-size:1.35rem;letter-spacing:.22em;font-weight:800;color:var(--tc-forest);user-select:all;-webkit-user-select:all}
+.tc-row2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.tc-row2 .tc-btn{min-height:42px;padding:0 8px;font-size:.8rem}
+.tc-mini{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-areas:". t ." "l c r" ". b .";gap:5px;margin:10px 0 2px}
+.tc-mini>*{min-width:0}
+.tc-ms{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:44px;padding:5px 4px;border-radius:10px;border:1.5px solid #d9cfb9;background:#fff;line-height:1.15}
+.tc-ms b{font-size:.8rem;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tc-ms small{font-size:.6rem;color:#8a8f80}
+.tc-ms-a{border-color:#d9a03c;background:#FDF3DC}
+.tc-ms-b{border-color:#7fb99b;background:#E9F4E6}
+.tc-ms-free{border-style:dashed;background:transparent;color:#56604f}
+.tc-ms-me{box-shadow:0 0 0 2px var(--tc-forest)}
+.tc-ms[disabled]{cursor:default;opacity:1}
+.tc-mc{grid-area:c;border-radius:10px;background:radial-gradient(#2c7c57,#143e2b);min-height:44px}
+.tc-len{display:flex;gap:5px;align-items:center;justify-content:center;flex-wrap:wrap;margin:10px 0 9px}
+.tc-len small{width:100%;font-size:.64rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#8a8f80}
+.tc-pill{min-height:34px;padding:0 10px;border-radius:9999px;border:1.5px solid #d9cfb9;background:#fff;font-size:.74rem;font-weight:700;white-space:nowrap}
+.tc-pill.on{background:var(--tc-forest);border-color:var(--tc-forest);color:#fff}
+.tc-pulse{animation:tcPulse 1.6s ease-in-out infinite}
+@keyframes tcPulse{50%{opacity:.5}}
+.tc-menu{position:absolute;top:6px;right:6px;z-index:50;width:min(280px,calc(100% - 12px));background:var(--tc-card);border-radius:12px;padding:6px;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+.tc-mi{display:flex;width:100%;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:0 11px;border:0;background:none;border-radius:8px;font-size:.88rem;font-weight:600;text-align:left;text-decoration:none;color:var(--tc-ink)!important}
+.tc-mi-x{color:#a33a25!important}
+@media (hover:hover){.tc-mi:hover{background:rgba(0,0,0,.05)}}
+.tc-sw{flex:none;width:38px;height:22px;border-radius:11px;background:#cfc8b6;position:relative;transition:background .15s}
+.tc-sw::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.tc-sw.on{background:#2D6A4F}.tc-sw.on::after{transform:translateX(16px)}
+
+/* chat: side panel on wide screens, bottom sheet on phones */
+.tc-chat{display:none;flex-direction:column;background:var(--tc-card);border:1px solid var(--tc-line);border-radius:16px;overflow:hidden}
+.tc-chat-h{display:flex;align-items:center;justify-content:space-between;padding:6px 6px 6px 14px;border-bottom:1px solid var(--tc-line);font-size:.9rem}
+.tc-chat-h .tc-ib{background:rgba(0,0,0,.06);color:var(--tc-ink);width:34px;height:34px}
+.tc-chat-l{flex:1;min-height:0;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:7px;overscroll-behavior:contain}
+.tc-chat-rule,.tc-chat-e{margin:0;font-size:.72rem;line-height:1.4;color:#8a8f80}
+.tc-cm{font-size:.86rem;line-height:1.35;word-break:break-word}
+.tc-cm b{font-size:.74rem;margin-right:6px}
+.tc-cm-us b{color:#a36a12}.tc-cm-them b{color:#b3402a}.tc-cm-me b{color:#2D6A4F}
+.tc-cm-muted{opacity:.4}
+.tc-cm-mute{border:0;background:none;padding:0 0 0 8px;font-size:.66rem;color:#9aa091;text-decoration:underline}
+.tc-quick{display:flex;gap:6px;overflow-x:auto;padding:8px 10px;border-top:1px solid var(--tc-line);scrollbar-width:none}
+.tc-quick::-webkit-scrollbar{display:none}
+.tc-q{flex:none;min-height:32px;padding:0 11px;border-radius:9999px;border:1px solid #d9cfb9;background:#fff;font-size:.78rem;font-weight:600;white-space:nowrap}
+.tc-chat-f{display:flex;gap:6px;padding:0 10px 10px}
+.tc-chat-f .tc-inp{height:42px}
+.tc-send{background:var(--tc-forest);color:#fff;width:42px;height:42px}
+.tc-chat-open .tc-chat{display:flex;position:absolute;left:0;right:0;bottom:0;height:min(64%,400px);z-index:60;border-radius:16px 16px 0 0;box-shadow:0 -14px 40px rgba(0,0,0,.45)}
+@media (min-width:980px){
+  .tc-in-game:not(.tc-solo) .tc-chat{display:flex;position:static;width:290px;height:auto;flex:none;box-shadow:none;border-radius:16px}
+  .tc-in-game .tc-chat-x,.tc-in-game .tc-chatbtn{display:none}
+}
+/* phones: troef and tricks on one strip, partner below it */
+@media (max-width:639px){
+  .tc-hud{top:13px}.tc-hud-l{left:13px}.tc-hud-r{right:13px}
+  .tc-s-t{top:62px}
+  .tc-s-l,.tc-s-r{top:calc((var(--fh) - var(--hh) - 40px + 106px)/2 - 30px)}
+  .tc-s-l{left:9px}.tc-s-r{right:9px}
+  .tc-mid,.tc-toast{top:calc((var(--fh) - var(--hh) - 40px + 106px)/2)}
+  .tc-av{width:36px;height:36px}
+  .tc-s-l .tc-nm,.tc-s-r .tc-nm{max-width:66px;font-size:.76rem}
+  .tc-note{top:104px}
+  .tc-main{border-radius:12px}
+  .tc-title{display:none}
+  .tc-score{margin-left:6px}
+  .tc-ov-top{padding-top:54px}
+}
+@media (max-width:380px){.tc-suit b{font-size:.6rem;letter-spacing:-.02em}.tc-suits{gap:5px}.tc-to{display:none}.tc-score{gap:6px}.tc-sc{gap:4px}.tc-sc small{font-size:.58rem;letter-spacing:.03em}.tc-sc b{font-size:1.15rem}.tc-score .tc-sc-us::after{margin-left:5px}.tc-top{gap:4px;padding:0 4px}.tc-ib{width:36px;height:36px}}
+@media (prefers-reduced-motion:reduce){.tc *{animation:none!important;transition:none!important}}
+.tc-p-wait{padding:14px 14px 12px}
+.tc-p-wait .tc-p-t{font-size:1.18rem}
+.tc-p-wait .tc-p-s{margin-bottom:8px;font-size:.8rem}
+.tc-p-wait>small.tc-p-s{margin:6px 0 0;font-size:.72rem}
+
+.tcp-hero{text-align:center;color:#fff;padding:2.6rem 1rem 2.4rem}
+.tcp-hero .tcp-crumb{font-size:.66rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 1.1rem}
+.tcp-hero .tcp-crumb a{color:inherit}
+.tcp-eye{font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold,#E7AE4D);margin:0 0 .5rem}
+.tcp-hero h1{font-size:clamp(2.4rem,calc(7vw / var(--z,1)),3.4rem);margin:0 0 .6rem}
+.tcp-lede{max-width:36rem;margin:0 auto;color:rgba(255,255,255,.76);font-size:1rem;line-height:1.55}
+.tcp-main{padding:1.1rem .6rem 0}
+.tcp-sec{max-width:46rem;margin:3.2rem auto 0;padding:0 .5rem;color:var(--ink,#233028)}
+.tcp-sec h2{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:1.75rem;line-height:1.15;margin:0 0 1rem;color:var(--forest,#1B4332)}
+.tcp-sec h3{font-family:Newsreader,Georgia,serif;font-weight:600;font-size:1.25rem;margin:2rem 0 .7rem;color:var(--forest,#1B4332)}
+.tcp-sec p{font-size:.95rem;line-height:1.65;margin:0 0 .9rem;color:#3b463d}
+.tcp-steps{list-style:none;margin:0;padding:0;display:grid;gap:.6rem;counter-reset:s}
+.tcp-steps li{counter-increment:s;position:relative;background:var(--card,#FFFDF6);border:1px solid var(--line,#EBE0CB);border-radius:10px;padding:.85rem 1rem .85rem 3.3rem}
+.tcp-steps li::before{content:counter(s);position:absolute;left:.9rem;top:.8rem;width:1.75rem;height:1.75rem;border-radius:50%;background:var(--forest,#1B4332);color:#fff;font-weight:700;font-size:.85rem;display:grid;place-items:center}
+.tcp-steps b{display:block;font-size:1rem;margin-bottom:.15rem;color:var(--ink,#233028)}
+.tcp-steps span{display:block;font-size:.9rem;line-height:1.55;color:#4a554b}
+.tcp-score{width:100%;border-collapse:collapse;background:var(--card,#FFFDF6);border:1px solid var(--line,#EBE0CB);border-radius:10px;overflow:hidden;font-size:.9rem;margin-bottom:1rem}
+.tcp-score td{padding:.7rem .9rem;border-top:1px solid var(--line,#EBE0CB);vertical-align:top;line-height:1.45}
+.tcp-score tr:first-child td{border-top:0}
+.tcp-score td:last-child{text-align:right;font-weight:700;white-space:nowrap;color:var(--forest,#1B4332)}
+.tcp-words{margin:0;display:grid;gap:.45rem}
+.tcp-words div{display:grid;grid-template-columns:6.4rem 1fr;gap:.8rem;font-size:.9rem;line-height:1.5;padding:.45rem 0;border-top:1px solid var(--line,#EBE0CB)}
+.tcp-words dt{font-weight:700;color:var(--forest,#1B4332)}
+.tcp-words dd{margin:0;color:#4a554b}
+.tcp-ways{display:grid;gap:.7rem;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));margin-bottom:1rem}
+.tcp-ways div{background:var(--card,#FFFDF6);border:1px solid var(--line,#EBE0CB);border-radius:10px;padding:1rem}
+.tcp-ways b{display:block;font-family:Newsreader,Georgia,serif;font-size:1.15rem;font-weight:600;color:var(--forest,#1B4332);margin-bottom:.3rem}
+.tcp-ways span{display:block;font-size:.88rem;line-height:1.55;color:#4a554b}
+.tcp-faq details{background:var(--card,#FFFDF6);border:1px solid var(--line,#EBE0CB);border-radius:10px;padding:.8rem 1rem;margin-bottom:.5rem}
+.tcp-faq summary{font-weight:700;font-size:.93rem;cursor:pointer;color:var(--ink,#233028)}
+.tcp-faq details p{margin:.55rem 0 0;font-size:.9rem}
+.tcp-more{font-size:.9rem;line-height:2;margin:0 0 3rem}
+.tcp-more a{color:var(--forest2,#2D6A4F);font-weight:600;margin-right:.9rem;white-space:nowrap}
+.tcp-more a:hover{text-decoration:underline}
+@media (max-width:420px){.tcp-score td:last-child{white-space:normal}.tcp-words div{grid-template-columns:5.2rem 1fr}}
+</style>
+<style>nav button,nav a{white-space:nowrap}</style><link href="https://exploresuriname.com/troefcall" hreflang="en" rel="alternate"/><link href="https://exploresuriname.com/nl/troefcall" hreflang="nl" rel="alternate"/><link href="https://exploresuriname.com/es/troefcall" hreflang="es" rel="alternate"/><link href="https://exploresuriname.com/zh/troefcall" hreflang="zh-Hans" rel="alternate"/><link href="https://exploresuriname.com/fr/troefcall" hreflang="fr" rel="alternate"/><link href="https://exploresuriname.com/pt/troefcall" hreflang="pt-BR" rel="alternate"/><link href="https://exploresuriname.com/troefcall" hreflang="x-default" rel="alternate"/></head>
+<body class="bg-gray-50 overflow-x-hidden">
+<div class="util-rail"><div class="util-in"><div class="util-l"><a href="currency" title="CME cash rate: we buy / we sell">USD <strong>37.40</strong> / <strong>37.70</strong></a><a href="conditions">27° Paramaribo</a><a href="daily-notices"><strong>1</strong> 条今日停电停水通知</a></div><div class="util-r"><span data-srdate="2026-11-11">11月11日 周三</span></div></div></div>
+<nav class="w-full z-50" style="position:sticky;top:0;background:rgba(251,245,233,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(123,103,61,.14)">
+<div class="site-navin max-w-7xl mx-auto px-5 flex items-center justify-between gap-4" style="height:57px">
+<a class="flex flex-col justify-center flex-shrink-0" href="./">
+<span class="navmark" translate="no"><span style="color:var(--forest)">Explore</span><span style="color:var(--coral)">Suriname</span></span>
+<span class="navtag">帕拉马里博本地维护</span>
+</a>
+<div class="hidden lg:flex items-center navlinks"><div class="relative" id="dd-expl" onmouseenter="openDd('dd-expl')" onmouseleave="closeDd('dd-expl')"><button class="dd-trigger nvt text-gray-700" onclick="toggleDd('dd-expl')">探索<svg class="dd-chevron nvc" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu megap megap-2 hidden" id="dd-expl-menu" data-nf=""></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="events">活动</a><div class="relative" id="dd-live" onmouseenter="openDd('dd-live')" onmouseleave="closeDd('dd-live')"><button class="dd-trigger nvt text-gray-700" onclick="toggleDd('dd-live')">实时<svg class="dd-chevron nvc" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden nvd bg-white rounded-2xl shadow-xl border-gray-100" id="dd-live-menu" data-nf=""></div></div><div class="relative" id="dd-plan" onmouseenter="openDd('dd-plan')" onmouseleave="closeDd('dd-plan')"><button class="dd-trigger nvt text-gray-700" onclick="toggleDd('dd-plan')">行程规划<svg class="dd-chevron nvc" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden nvd bg-white rounded-2xl shadow-xl border-gray-100" id="dd-plan-menu" data-nf=""></div></div><div class="relative" id="dd-learn" onmouseenter="openDd('dd-learn')" onmouseleave="closeDd('dd-learn')"><button class="dd-trigger nvt text-gray-700" onclick="toggleDd('dd-learn')">了解苏里南<svg class="dd-chevron nvc" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden nvd bg-white rounded-2xl shadow-xl border-gray-100" id="dd-learn-menu" data-nf=""></div></div><div class="relative" id="dd-games" onmouseenter="openDd('dd-games')" onmouseleave="closeDd('dd-games')"><button class="dd-trigger nav-active flex items-center gap-1 text-sm font-semibold transition py-1" onclick="toggleDd('dd-games')" style="color:var(--forest)">游戏<svg class="dd-chevron nvc" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="dd-menu hidden nvd bg-white rounded-2xl shadow-xl border-gray-100" id="dd-games-menu" data-nf="" data-na="[[0,&quot;block px-4 py-2.5 text-sm font-semibold rounded-lg&quot;,&quot;color:var(--forest);background:var(--mint)&quot;]]"></div></div><a class="text-sm text-gray-700 hover:text-green-800 transition py-1" href="news">新闻</a></div>
+<div class="flex items-center gap-2 flex-shrink-0">
+<button aria-label="Search" class="navsearch" onclick="openSearch()" title="Search listings (press /)">
+<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<span class="nslabel">搜索…</span>
+</button><div class="hidden lg:flex" data-langswitch="1" style="position:relative;align-items:center;margin-left:8px;flex-shrink:0"><button aria-expanded="false" aria-label="Language" onclick="var m=this.nextElementSibling,o=m.style.display==='block';document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';});m.style.display=o?'none':'block';this.setAttribute('aria-expanded',(!o).toString());event.stopPropagation();" style="display:flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;font-size:12px;font-weight:600;color:#6b7280;padding:4px 7px;border-radius:8px" type="button"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><span>中文</span><svg fill="none" height="11" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0;opacity:.7" viewBox="0 0 24 24" width="11"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div data-langmenu="1" style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:#fff;border:1px solid #eee;border-radius:10px;box-shadow:0 8px 24px rgba(20,42,30,.12);padding:5px;min-width:112px;z-index:60"><a href="/troefcall" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">EN</a><a href="/nl/troefcall" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">NL</a><a href="/es/troefcall" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">ES</a><a href="/zh/troefcall" lang="zh-Hans" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:var(--forest);background:#eef4ee">中文</a><a href="/fr/troefcall" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">FR</a><a href="/pt/troefcall" style="display:block;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#374151">PT</a></div></div>
+<button aria-label="Menu" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition" id="hamburger" onclick="toggleMobileMenu()">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+</div>
+<div class="hidden lg:hidden border-t bg-white px-4 py-2 pb-3 flex flex-col gap-0 max-h-[75vh] overflow-y-auto" id="mm"><div data-langswitch-mobile="1" style="display:flex;flex-wrap:wrap;row-gap:8px;align-items:center;gap:16px;padding:10px 2px 12px;margin-bottom:4px;border-bottom:1px solid #eee;font-size:15px;font-weight:600"><svg fill="none" height="15" stroke="#6b7280" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.6 2.6 2.6 15.4 0 18"></path><path d="M12 3c-2.6 2.6-2.6 15.4 0 18"></path></svg><a href="/troefcall" style="color:#6b7280;text-decoration:none">EN</a><a href="/nl/troefcall" style="color:#6b7280;text-decoration:none">NL</a><a href="/es/troefcall" style="color:#6b7280;text-decoration:none">ES</a><a href="/zh/troefcall" lang="zh-Hans" style="color:var(--forest);text-decoration:underline">中文</a><a href="/fr/troefcall" style="color:#6b7280;text-decoration:none">FR</a><a href="/pt/troefcall" style="color:#6b7280;text-decoration:none">PT</a><button aria-label="Install app" id="pwa-nav" onclick="pwaInstall()" style="display:none;margin-left:auto;align-items:center;gap:6px;background:var(--forest);color:#fff;border:0;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" type="button"><svg fill="none" height="15" stroke="currentColor" stroke-width="2" style="flex-shrink:0" viewBox="0 0 24 24" width="15"><path d="M12 4v10m0 0l-4-4m4 4l4-4M5 20h14" stroke-linecap="round" stroke-linejoin="round"></path></svg><span>Install</span></button></div>
+<div class="mq" id="mg-quick" data-nf=""></div><div class="mob-group"><button class="mob-group-btn nvg text-gray-800 border-gray-100" onclick="toggleMobGroup('mg-expl')"><span>探索</span><svg class="mob-chevron nvh" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body nvi hidden" id="mg-expl" data-nf=""></div></div><div class="mob-group"><button class="mob-group-btn nvg text-gray-800 border-gray-100" onclick="toggleMobGroup('mg-live')"><span>实时</span><svg class="mob-chevron nvh" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body nvi hidden" id="mg-live" data-nf=""></div></div><div class="mob-group"><button class="mob-group-btn nvg text-gray-800 border-gray-100" onclick="toggleMobGroup('mg-plan')"><span>行程规划</span><svg class="mob-chevron nvh" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body nvi hidden" id="mg-plan" data-nf=""></div></div><div class="mob-group"><button class="mob-group-btn nvg text-gray-800 border-gray-100" onclick="toggleMobGroup('mg-learn')"><span>了解苏里南</span><svg class="mob-chevron nvh" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body nvi hidden" id="mg-learn" data-nf=""></div></div><div class="mob-group"><button class="mob-group-btn nvg text-gray-800 border-gray-100" onclick="toggleMobGroup('mg-games')" style="color:var(--forest)"><span>游戏</span><svg class="mob-chevron nvh rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><div class="mob-group-body nvi" id="mg-games" data-nf="" data-na="[[0,&quot;flex items-center gap-2 py-2.5 px-3 text-sm font-semibold rounded-lg&quot;,&quot;color:var(--forest);background:var(--mint)&quot;]]"></div></div><a class="flex items-center py-3 px-1 text-sm font-semibold text-gray-800" href="news">新闻</a>
+</div>
+</nav>
+<script src="/assets/n-26e09b9cbea6.js"></script>
+<script src="/assets/j-6513c153357d.js"></script>
+<!-- ── Global Search Modal ───────────────────────────────────────────── -->
+<div id="search-modal" onclick="if(event.target===this)closeSearch()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);padding:80px 16px 16px">
+<div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 25px 60px rgba(0,0,0,.25);overflow:hidden">
+<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #f0f0f0">
+<svg fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#9ca3af;flex-shrink:0" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35" stroke-linecap="round"></path></svg>
+<input autocomplete="off" id="search-input" oninput="runSearch(this.value)" onkeydown="searchKey(event)" placeholder="搜索所有商家…" spellcheck="false" style="flex:1;border:none;outline:none;font-size:1rem;color:#111;background:transparent" type="text"/>
+<button onclick="closeSearch()" style="color:#9ca3af;font-size:1.3rem;line-height:1;background:none;border:none;cursor:pointer">✕</button>
+</div>
+<div id="search-results" style="max-height:420px;overflow-y:auto;padding:8px 0">
+<p id="search-hint" style="text-align:center;color:var(--ink-soft);font-size:.85rem;padding:32px 0">输入关键词，搜索商家…</p>
+</div>
+</div>
+</div>
+<script src="/assets/j-2b072d0e5b8c.js"></script><div class="pg-hero tcp-hero"><p class="tcp-crumb"><a href="./"><span>首页</span></a> › <span translate="no">Troefcall</span></p><p class="tcp-eye">苏里南纸牌游戏</p><h1 class="serif" translate="no">Troefcall</h1><p class="tcp-lede">苏里南的二对二纸牌游戏，打开浏览器就能玩。先拿七墩赢下一局，七比零就是 Kap。可以和朋友在线对战，也可以与电脑练习。</p></div><main class="tcp-main"><div class="tc" data-api="https://esr-troefcall.surinamedomains.workers.dev" data-rules="#tc-rules" id="tc-app"><noscript><p>Troefcall 是网页游戏，需要启用 JavaScript。</p></noscript></div><section class="tcp-sec" id="tc-rules"><h2>Troefcall 怎么玩</h2><div><div><ol class="tcp-steps"><li><b>四人两队</b><span>搭档面对面坐。使用全部 52 张牌，A 最大，2 最小。</span></li><li><b>叫牌人定 Troef</b><span>发牌人左手边的玩家是叫牌人（caller）。他先拿五张牌，并从这五张里选定将牌花色，也就是 Troef。之后每人发满十三张。</span></li><li><b>No picture, no game</b><span>叫牌人的十三张牌里如果没有 K、Q、J，可以要求重新发牌。</span></li><li><b>必须跟牌</b><span>叫牌人先出第一张牌。手里有同花色的牌就必须跟出。没有的话可以出任意一张：出 Troef 赢下这一墩，或者垫一张不要的牌。</span></li><li><b>谁赢这一墩</b><span>最大的 Troef 获胜。如果没人出 Troef，则首引花色中最大的牌获胜。赢家出下一墩的第一张牌。</span></li><li><b>先拿七墩获胜</b><span>十三墩里先拿到七墩的一方赢下这一局，本局随即结束。</span></li></ol><h3>计分</h3><table class="tcp-score"><tbody><tr><td>拿到七墩，对方至少有一墩</td><td>2 分</td></tr><tr><td>Kap：七比零，并且就此停下</td><td>5 分</td></tr><tr><td>Baunie：Kap 之后继续打，十三墩全拿</td><td>15 分</td></tr><tr><td>Baunie 失败：继续打却输了一墩</td><td>对方得 2 分</td></tr></tbody></table><p>打出 Kap 之后，由赢下第七墩的玩家决定：停下拿 5 分，还是继续打 Baunie。叫牌方得分时，发牌人和叫牌人都不变。对方得分时，原叫牌人改为发牌，他左手边的玩家成为新的叫牌人。先到 15 分的一方赢得整场比赛；桌主也可以把比赛设为 10 分或 20 分。</p><p>与线下牌桌有一点不同：线下时，赢下第七墩的玩家的搭档也可以叫停 Kap，那样只算 2 分。在线对局只由赢下第七墩的玩家决定。</p><h3>牌桌用语</h3><dl class="tcp-words"><div><dt>Troef</dt><dd>将牌花色，这门花色的牌大过其他所有花色。</dd></div><div><dt>Caller</dt><dd>定 Troef 的玩家，即叫牌人。</dd></div><div><dt>Kap</dt><dd>一方拿到七墩而对方一墩未得。</dd></div><div><dt>Kap partij</dt><dd>打出 Kap 后叫停时说的话，也可以轻敲桌面表示。</dd></div><div><dt>Baunie</dt><dd>十三墩全拿，也叫 bom。</dd></div><div><dt>Prent</dt><dd>人头牌：K、Q、J。</dd></div></dl></div></div></section><section class="tcp-sec"><h2>三种玩法</h2><div><div><div class="tcp-ways"><div><b>马上开打</b><span>直接坐到一张开放的牌桌。空位先由电脑顶上，有人来了再让座，所以不用等待。</span></div><div><b>和朋友一起</b><span>开一张牌桌，把链接用 WhatsApp 发出去。可以安排谁和谁做搭档，并选择比赛长度：10、15 或 20 分。</span></div><div><b>与电脑对战</b><span>和三位电脑玩家同桌。页面打开后不联网也能玩，比赛进度保存在你的手机上。</span></div></div><p>有人离开时，电脑会立刻接手。如果你掉线了，座位和手牌会为你保留，重新连上即可继续。</p></div></div></section><section class="tcp-sec"><h2>关于 Troefcall</h2><p>Troefcall 在苏里南各地以及荷兰的苏里南家庭中都很流行，生日聚会、阳台上、俱乐部里都能见到。它也叫 troeftjaal，与源自印度的纸牌游戏 Court Piece 关系很近。苏里南的 Surinaamse Troefcall Bond 和 1996 年成立的荷兰 Troefcall Sport Bond Nederland（TSBN）都组织俱乐部联赛。本牌桌采用 TSBN 的比赛规则。</p></section><section class="tcp-sec tcp-faq"><h2>常见问题</h2><div><div><details><summary>Explore Suriname 上的 Troefcall 免费吗？</summary><p>免费。不用安装应用，也不用注册账号。输入一个名字就可以入座。</p></details><details><summary>怎样和朋友在线玩 Troefcall？</summary><p>点“和朋友一起玩”。你会得到一张牌桌，它有自己的链接和五位代码。把链接用 WhatsApp 发出去，打开的人就会坐到你的牌桌。安排好谁坐谁对面，然后开始。空位由电脑来打。</p></details><details><summary>可以一个人玩吗？</summary><p>可以。选“与电脑练习”，会有三位电脑玩家和你同桌。也可以点“马上开打”，和当时在线的玩家坐到一桌。</p></details><details><summary>什么是 Kap？</summary><p>一方拿到七墩而对方一墩未得，就是 Kap，得 5 分而不是 2 分。打出 Kap 后可以继续打 Baunie，也就是十三墩全拿，得 15 分。但只要输掉一墩，对方就得 2 分。</p></details><details><summary>谁来选 Troef？</summary><p>叫牌人，也就是发牌人左手边的玩家。他定 Troef 时只看到自己的五张牌。</p></details><details><summary>有玩家离开会怎样？</summary><p>电脑会立刻接手，牌局继续。如果是你自己掉线，座位会保留一段时间，回来后手牌还在。</p></details><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://exploresuriname.com/zh/troefcall#webpage","url":"https://exploresuriname.com/zh/troefcall","name":"Troefcall 在线玩：免费的苏里南纸牌游戏","description":"免费在线玩 Troefcall，无需下载应用。用 WhatsApp 链接邀请朋友，加入正在进行的牌桌，或与电脑练习。","inLanguage":"zh-Hans","isPartOf":{"@type":"WebSite","name":"Explore Suriname","url":"https://exploresuriname.com/zh/"},"breadcrumb":{"@id":"https://exploresuriname.com/zh/troefcall#breadcrumb"},"mainEntity":{"@id":"https://exploresuriname.com/zh/troefcall#game"},"datePublished":"2026-11-11","isAccessibleForFree":true},{"@type":"BreadcrumbList","@id":"https://exploresuriname.com/zh/troefcall#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://exploresuriname.com/zh/"},{"@type":"ListItem","position":2,"name":"Troefcall","item":"https://exploresuriname.com/zh/troefcall"}]},{"@type":"VideoGame","@id":"https://exploresuriname.com/zh/troefcall#game","name":"Troefcall","url":"https://exploresuriname.com/zh/troefcall","description":"苏里南的二对二纸牌游戏，打开浏览器就能玩。先拿七墩赢下一局，七比零就是 Kap。可以和朋友在线对战，也可以与电脑练习。","genre":"Card game","gamePlatform":"Web browser","playMode":["SinglePlayer","MultiPlayer"],"numberOfPlayers":{"@type":"QuantitativeValue","minValue":1,"maxValue":4},"inLanguage":"zh-Hans","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"Explore Suriname","url":"https://exploresuriname.com/zh/"}},{"@type":"FAQPage","@id":"https://exploresuriname.com/zh/troefcall#faq","mainEntity":[{"@type":"Question","name":"Explore Suriname 上的 Troefcall 免费吗？","acceptedAnswer":{"@type":"Answer","text":"免费。不用安装应用，也不用注册账号。输入一个名字就可以入座。"}},{"@type":"Question","name":"怎样和朋友在线玩 Troefcall？","acceptedAnswer":{"@type":"Answer","text":"点“和朋友一起玩”。你会得到一张牌桌，它有自己的链接和五位代码。把链接用 WhatsApp 发出去，打开的人就会坐到你的牌桌。安排好谁坐谁对面，然后开始。空位由电脑来打。"}},{"@type":"Question","name":"可以一个人玩吗？","acceptedAnswer":{"@type":"Answer","text":"可以。选“与电脑练习”，会有三位电脑玩家和你同桌。也可以点“马上开打”，和当时在线的玩家坐到一桌。"}},{"@type":"Question","name":"什么是 Kap？","acceptedAnswer":{"@type":"Answer","text":"一方拿到七墩而对方一墩未得，就是 Kap，得 5 分而不是 2 分。打出 Kap 后可以继续打 Baunie，也就是十三墩全拿，得 15 分。但只要输掉一墩，对方就得 2 分。"}},{"@type":"Question","name":"谁来选 Troef？","acceptedAnswer":{"@type":"Answer","text":"叫牌人，也就是发牌人左手边的玩家。他定 Troef 时只看到自己的五张牌。"}},{"@type":"Question","name":"有玩家离开会怎样？","acceptedAnswer":{"@type":"Answer","text":"电脑会立刻接手，牌局继续。如果是你自己掉线，座位会保留一段时间，回来后手牌还在。"}}]}]}</script></div></div><p class="tcp-more"><b>更多游戏</b>: <a href="quiz" translate="no">Sabi Suriname</a><a href="crossword" translate="no">Switi Mini</a><a href="map-game" translate="no">Pe A De?</a><a href="heiligenweg-jam" translate="no">Heiligenweg Jam</a><a href="korjaal" translate="no">Korjaal Run</a><a href="anaconda" translate="no">Aboma</a><a href="muskieto" translate="no">Muskieto Survivor</a></p></section></main>
+<footer style="background:#142A1E;color:#B9C2B2">
+<div style="max-width:1140px;margin:0 auto;padding:clamp(48px,calc(5.5vw / var(--z,1)),64px) clamp(20px,calc(5vw / var(--z,1)),48px) 32px;display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:40px">
+<div>
+<div style="margin-bottom:14px"><span class="serif" style="font-weight:800;font-size:21px;color:#FCF7EC">Explore</span><span class="serif" style="font-weight:800;font-size:21px;color:var(--coral)">Suriname</span></div>
+<p style="font-size:14px;line-height:1.6;max-width:26em;margin:0 0 18px;color:#A7B1A2">您在苏里南吃、住、玩、爱的指南，由生活在这里的人维护，献给那些希望自己也住在这里的人。</p>
+<a class="ftr-cta" href="submit-business">添加您的商家</a>
+<div style="display:flex;gap:16px;font-size:12.5px;font-weight:600;letter-spacing:.04em;margin-top:20px">
+<a class="ftr-lnk" href="https://www.facebook.com/exploresurinamecom" rel="noopener" target="_blank">Facebook</a>
+<a class="ftr-lnk" href="https://www.instagram.com/exploresurinamecom/" rel="noopener" target="_blank">Instagram</a>
+<a class="ftr-lnk" href="https://www.tiktok.com/@exploresuriname.com" rel="noopener" target="_blank">TikTok</a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;margin-top:14px">
+<a class="ftr-lnk" href="tel:+5978333888">+597 833-3888</a>
+<a class="ftr-lnk" href="https://wa.me/5978333888" rel="noopener" target="_blank">WhatsApp</a>
+<a class="ftr-lnk" href="mailto:contact@exploresuriname.com">contact@exploresuriname.com</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">探索</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="activities">玩乐</a>
+<a class="ftr-lnk" href="events">活动与节庆</a>
+<a class="ftr-lnk" href="shopping">购物</a>
+<a class="ftr-lnk" href="markets-in-suriname">市场</a>
+<a class="ftr-lnk" href="services">本地服务</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">餐饮住宿</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="restaurants">餐饮推荐</a>
+<a class="ftr-lnk" href="hotels">住宿推荐</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">商务</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="doing-business-in-suriname">在苏里南经商</a>
+<a class="ftr-lnk" href="https://surinamebusiness.com/en/tools">商业工具</a>
+<a class="ftr-lnk" href="https://surinamebusiness.com/en/tenders">政府招标</a>
+<a class="ftr-lnk" href="https://surinamebusiness.com/en/jobs">职位空缺</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">行程规划</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="suriname-entry-requirements">入境要求</a>
+<a class="ftr-lnk" href="visitor-guide">旅行须知</a>
+<a class="ftr-lnk" href="getting-around-suriname">出行交通</a>
+<a class="ftr-lnk" href="suriname-itinerary">行程推荐</a>
+<a class="ftr-lnk" href="is-suriname-safe">苏里南安全吗？</a>
+<a class="ftr-lnk" href="on-the-road">驾车与交通</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">游戏</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="troefcall">Troefcall</a>
+<a class="ftr-lnk" href="crossword">Switi Mini 填字游戏</a>
+<a class="ftr-lnk" href="quiz">每日问答</a>
+<a class="ftr-lnk" href="map-game">Pe A De? 地图游戏</a>
+<a class="ftr-lnk" href="korjaal">Korjaal Run</a>
+<a class="ftr-lnk" href="anaconda">Aboma 贪吃蛇游戏</a>
+<a class="ftr-lnk" href="muskieto">Muskieto Survivor</a>
+<a class="ftr-lnk" href="heiligenweg-jam">Heiligenweg Jam</a>
+</div>
+</div>
+<div>
+<div class="ftr-h">实时</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="currency">市场行情</a>
+<a class="ftr-lnk" href="flights">航班</a>
+<a class="ftr-lnk" href="conditions">天气与潮汐</a>
+<a class="ftr-lnk" href="daily-notices">每日公告</a>
+<a class="ftr-lnk" href="atms">ATM 查找</a>
+<a class="ftr-lnk" href="gas-cylinders">煤气罐</a>
+<a class="ftr-lnk" href="matches">实时比分</a>
+<a class="ftr-lnk" href="suriname-time">时间与换算</a>
+<a class="ftr-lnk" href="news">新闻</a>
+</div>
+<div class="ftr-h" style="margin-top:26px">了解苏里南</div>
+<div class="ftr-col">
+<a class="ftr-lnk" href="about-suriname">关于苏里南</a>
+<a class="ftr-lnk" href="oil-and-gas">石油与天然气</a>
+<a class="ftr-lnk" href="suriname-history">历史年表</a>
+<a class="ftr-lnk" href="sranan-tongo-dictionary">Sranan 词典</a>
+<a class="ftr-lnk" href="flora-fauna/">动植物</a>
+<a class="ftr-lnk" href="recipes">苏里南食谱</a>
+</div>
+</div>
+</div>
+<div style="border-top:1px solid rgba(255,255,255,.09)">
+<div class="ftr-bar">
+<span>© 2026 ExploreSuriname.com</span>
+<span class="ftr-bar-links">
+<a class="ftr-lnk2" href="about">关于我们</a>
+<a class="ftr-lnk2" href="contact">联系我们</a>
+<a class="ftr-lnk2" href="privacy">隐私</a>
+<a class="ftr-lnk2" href="/images/HOME_CREDITS.txt">图片来源</a>
+</span>
+</div>
+</div>
+</footer>
+<script>
+/* Troefcall engine (Explore Suriname, Nov 2026).
+   One file, three homes: the browser (practice against the computer runs entirely here),
+   the esr-troefcall Worker (online tables; the Worker build pastes this file in) and node (tests).
+   Rules: official bond rules (STcB / TSBN) as also described on pagat.com:
+     - 4 players, fixed partners opposite each other (seats 0+2 against 1+3), 52 cards, ace high.
+     - The caller sits left of the dealer, gets 5 cards and names troef from those 5.
+       Then 5 cards to the other three, then 4 and 4 to everyone.
+     - "No picture, no game": a caller without king, queen or jack in 13 cards may ask for a new deal.
+     - Caller leads. Follow suit when you can, otherwise any card. Highest troef wins, else highest of the led suit.
+     - First team to 7 tricks wins the game: 2 points. 7 tricks to 0 is a kap: the winner of the 7th trick
+       stops (5 points) or plays on for baunie (all 13 tricks, 15 points); losing one trick then gives the
+       other team 2 points.
+     - Caller's team scores: same dealer and caller. Other team scores: the caller becomes dealer and the
+       player on his left the new caller.
+   Everything in a table's state is plain JSON, so the Worker can store it between messages. */
+var TCEngine = (function () {
+  "use strict";
+
+  var SUITS = ["S", "H", "C", "D"];
+  var RANKS = "23456789TJQKA";
+  var TURN_MS = { pub: 25000, priv: 45000 };
+  /* How long the client takes to show each event. The server adds this to a turn's deadline. */
+  var ANIM = { first: 1500, deal1: 1300, trump: 1300, deal2: 1500, nopic: 500, redeal: 1500, keep: 300,
+               play: 620, trick: 1150, kapq: 500, baunie: 1300, end: 3600, over: 600, auto: 0, join: 0, left: 0 };
+
+  function rv(c) { return RANKS.indexOf(c[0]); }
+  function su(c) { return c[1]; }
+  function isCard(c) { return typeof c === "string" && c.length === 2 && rv(c) >= 0 && SUITS.indexOf(c[1]) >= 0; }
+
+  function defaultRnd() {
+    var c = (typeof crypto !== "undefined" && crypto.getRandomValues) ? crypto : null;
+    if (!c) return Math.random();
+    var a = new Uint32Array(1);
+    c.getRandomValues(a);
+    return a[0] / 4294967296;
+  }
+  /* small seeded generator for tests */
+  function seeded(seed) {
+    var s = seed >>> 0;
+    return function () {
+      s = (s + 0x6D2B79F5) >>> 0;
+      var t = Math.imul(s ^ (s >>> 15), 1 | s);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function newDeck() {
+    var d = [];
+    for (var s = 0; s < 4; s++) for (var r = 0; r < 13; r++) d.push(RANKS[r] + SUITS[s]);
+    return d;
+  }
+  function shuffle(a, rnd) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(rnd() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function sortHand(hand, trump) {
+    /* troef first, then alternating colours; high to low inside a suit */
+    var order = ["S", "H", "C", "D"];
+    if (trump) {
+      var alt = { S: ["S", "H", "C", "D"], H: ["H", "S", "D", "C"], C: ["C", "H", "S", "D"], D: ["D", "S", "H", "C"] };
+      order = alt[trump];
+    }
+    return hand.slice().sort(function (a, b) {
+      var d = order.indexOf(su(a)) - order.indexOf(su(b));
+      return d || rv(b) - rv(a);
+    });
+  }
+
+  /* ───────────────────────── game (one match) ───────────────────────── */
+
+  function newMatch(target, rnd) {
+    rnd = rnd || defaultRnd;
+    var caller = Math.floor(rnd() * 4);
+    return {
+      target: target || 15, scores: [0, 0], handNo: 0,
+      caller: caller, dealer: (caller + 3) % 4,
+      phase: "idle", hands: [[], [], [], []], stock: [], trump: null,
+      lead: caller, turn: caller, trick: [], tricks: [0, 0], trickNo: 0,
+      baunie: null, seen: [], voids: emptyVoids(), redeals: 0, last: null, winner: null,
+      stats: { hands: 0, kap: [0, 0], baunie: [0, 0] }
+    };
+  }
+  function emptyVoids() {
+    var v = [];
+    for (var i = 0; i < 4; i++) v.push({ S: 0, H: 0, C: 0, D: 0 });
+    return v;
+  }
+  function startHand(g, rnd, ev, isRedeal) {
+    rnd = rnd || defaultRnd;
+    var d = shuffle(newDeck(), rnd);
+    g.hands = [[], [], [], []];
+    g.hands[g.caller] = d.slice(0, 5);
+    g.stock = d.slice(5);
+    g.trump = null; g.trick = []; g.tricks = [0, 0]; g.trickNo = 0; g.baunie = null;
+    g.seen = []; g.voids = emptyVoids();
+    g.phase = "trump"; g.turn = g.caller; g.lead = g.caller;
+    if (!isRedeal) { g.handNo++; g.redeals = 0; }
+    ev.push({ e: "deal1", n: g.handNo, dealer: g.dealer, caller: g.caller, priv: mapOne(g.caller, g.hands[g.caller].slice()) });
+  }
+  function mapOne(seat, cards) { var m = {}; m[seat] = cards; return m; }
+
+  function hasPicture(hand) {
+    for (var i = 0; i < hand.length; i++) if ("KQJ".indexOf(hand[i][0]) >= 0) return true;
+    return false;
+  }
+  function callTrump(g, seat, suit, ev) {
+    if (g.phase !== "trump" || seat !== g.caller || SUITS.indexOf(suit) < 0) return false;
+    g.trump = suit;
+    ev.push({ e: "trump", seat: seat, suit: suit });
+    /* 5 to the other three (clockwise from the caller's left), then 4 and 4 to everyone */
+    var st = g.stock, p = 0, i, k;
+    for (i = 1; i <= 3; i++) { k = (g.caller + i) % 4; g.hands[k] = g.hands[k].concat(st.slice(p, p + 5)); p += 5; }
+    for (var round = 0; round < 2; round++)
+      for (i = 0; i < 4; i++) { k = (g.caller + i) % 4; g.hands[k] = g.hands[k].concat(st.slice(p, p + 4)); p += 4; }
+    g.stock = [];
+    var priv = {};
+    for (i = 0; i < 4; i++) priv[i] = g.hands[i].slice();
+    ev.push({ e: "deal2", priv: priv });
+    if (!hasPicture(g.hands[g.caller]) && g.redeals < 3) {
+      g.phase = "redeal"; g.turn = g.caller;
+      ev.push({ e: "nopic", seat: g.caller });
+    } else {
+      g.phase = "play"; g.turn = g.lead = g.caller;
+    }
+    return true;
+  }
+  function answerRedeal(g, seat, yes, rnd, ev) {
+    if (g.phase !== "redeal" || seat !== g.caller) return false;
+    if (yes) {
+      g.redeals++;
+      ev.push({ e: "redeal", seat: seat, cards: g.hands[seat].slice() });
+      startHand(g, rnd, ev, true);
+    } else {
+      ev.push({ e: "keep", seat: seat });
+      g.phase = "play"; g.turn = g.lead = g.caller;
+    }
+    return true;
+  }
+  function legalCards(g, seat) {
+    if (g.phase !== "play" || g.turn !== seat) return [];
+    var hand = g.hands[seat];
+    if (!g.trick.length) return hand.slice();
+    var led = su(g.trick[0].c);
+    var f = hand.filter(function (c) { return su(c) === led; });
+    return f.length ? f : hand.slice();
+  }
+  function trickWinner(trick, trump) {
+    var best = trick[0];
+    for (var i = 1; i < trick.length; i++) {
+      var p = trick[i];
+      if (su(p.c) === su(best.c)) { if (rv(p.c) > rv(best.c)) best = p; }
+      else if (su(p.c) === trump) best = p;
+    }
+    return best;
+  }
+  function playCard(g, seat, card, ev) {
+    if (g.phase !== "play" || g.turn !== seat) return false;
+    var hand = g.hands[seat], ix = hand.indexOf(card);
+    if (ix < 0) return false;
+    if (g.trick.length) {
+      var led = su(g.trick[0].c);
+      if (su(card) !== led) {
+        if (hand.some(function (c) { return su(c) === led; })) return false;
+        g.voids[seat][led] = 1;
+      }
+    }
+    hand.splice(ix, 1);
+    g.trick.push({ s: seat, c: card });
+    ev.push({ e: "play", seat: seat, card: card });
+    if (g.trick.length < 4) { g.turn = (seat + 1) % 4; return true; }
+
+    var w = trickWinner(g.trick, g.trump).s, t = w % 2;
+    for (var i = 0; i < 4; i++) g.seen.push(g.trick[i].c);
+    g.trick = []; g.trickNo++; g.tricks[t]++;
+    ev.push({ e: "trick", w: w, tricks: g.tricks.slice() });
+    if (g.baunie !== null) {
+      if (t !== g.baunie) endHand(g, t, 2, "fail", ev);
+      else if (g.tricks[t] === 13) endHand(g, t, 15, "baunie", ev);
+      else g.turn = g.lead = w;
+    } else if (g.tricks[t] === 7) {
+      if (g.tricks[1 - t] === 0) { g.phase = "kap"; g.turn = w; ev.push({ e: "kapq", seat: w }); }
+      else endHand(g, t, 2, "win", ev);
+    } else g.turn = g.lead = w;
+    return true;
+  }
+  function decideKap(g, seat, goOn, ev) {
+    if (g.phase !== "kap" || g.turn !== seat) return false;
+    if (goOn) {
+      g.baunie = seat % 2; g.phase = "play"; g.lead = g.turn = seat;
+      ev.push({ e: "baunie", seat: seat });
+    } else endHand(g, seat % 2, 5, "kap", ev);
+    return true;
+  }
+  function endHand(g, team, pts, kind, ev) {
+    g.scores[team] += pts;
+    g.stats.hands++;
+    if (kind === "kap") g.stats.kap[team]++;
+    if (kind === "baunie") g.stats.baunie[team]++;
+    g.last = { kind: kind, team: team, pts: pts, tricks: g.tricks.slice(), caller: g.caller, trump: g.trump };
+    ev.push({ e: "end", kind: kind, team: team, pts: pts, scores: g.scores.slice(), tricks: g.tricks.slice() });
+    /* caller's team scored: nothing moves. Otherwise the caller deals and the player on his left calls. */
+    if (team !== g.caller % 2) { g.dealer = g.caller; g.caller = (g.caller + 1) % 4; }
+    g.hands = [[], [], [], []]; g.trick = [];
+    if (g.scores[team] >= g.target) {
+      g.phase = "over"; g.winner = team;
+      ev.push({ e: "over", team: team, scores: g.scores.slice() });
+    } else g.phase = "handend";
+  }
+
+  /* ───────────────────────── computer player ───────────────────────── */
+  /* A bot only uses what its seat can know: its own cards, the cards played so far and who failed to follow suit. */
+
+  function botTrump(hand) {
+    var best = null, bs = -1;
+    SUITS.forEach(function (s) {
+      var cs = hand.filter(function (c) { return su(c) === s; });
+      if (!cs.length) return;
+      var sc = cs.length * 10;
+      cs.forEach(function (c) { var r = rv(c); sc += r >= 12 ? 7 : r === 11 ? 5 : r === 10 ? 3.5 : r === 9 ? 2.5 : r === 8 ? 1 : r / 20; });
+      if (sc > bs) { bs = sc; best = s; }
+    });
+    return best || "S";
+  }
+  function botRedeal(hand) {
+    var aces = hand.filter(function (c) { return c[0] === "A"; }).length;
+    return aces < 2;
+  }
+  function knowledge(g, seat) {
+    var hand = g.hands[seat], gone = {}, i;
+    for (i = 0; i < g.seen.length; i++) gone[g.seen[i]] = 1;
+    for (i = 0; i < g.trick.length; i++) gone[g.trick[i].c] = 1;
+    var mine = {};
+    for (i = 0; i < hand.length; i++) mine[hand[i]] = 1;
+    /* boss = no higher card of that suit is still with another player */
+    function boss(c) {
+      for (var r = rv(c) + 1; r < 13; r++) { var x = RANKS[r] + su(c); if (!gone[x] && !mine[x]) return false; }
+      return true;
+    }
+    var T = g.trump, tOut = 0;
+    for (i = 0; i < 13; i++) { var x = RANKS[i] + T; if (!gone[x] && !mine[x]) tOut++; }
+    var opp = [(seat + 1) % 4, (seat + 3) % 4], mate = (seat + 2) % 4;
+    function oppCanRuff(suit) {
+      if (suit === T || !tOut) return false;
+      return opp.some(function (o) { return g.voids[o][suit] && !g.voids[o][T]; });
+    }
+    function outIn(suit) { /* cards of the suit still with other players */
+      var n = 0;
+      for (var r = 0; r < 13; r++) { var x = RANKS[r] + suit; if (!gone[x] && !mine[x]) n++; }
+      return n;
+    }
+    return { boss: boss, tOut: tOut, opp: opp, mate: mate, oppCanRuff: oppCanRuff, outIn: outIn, T: T };
+  }
+  function lowest(cards) { return cards.reduce(function (a, b) { return rv(b) < rv(a) ? b : a; }); }
+  function highest(cards) { return cards.reduce(function (a, b) { return rv(b) > rv(a) ? b : a; }); }
+
+  function botPlay(g, seat, rnd) {
+    var legal = legalCards(g, seat);
+    if (legal.length === 1) return legal[0];
+    var K = knowledge(g, seat), T = K.T, hand = g.hands[seat];
+    var trumps = hand.filter(function (c) { return su(c) === T; });
+    var side = hand.filter(function (c) { return su(c) !== T; });
+    function bySuit(s) { return hand.filter(function (c) { return su(c) === s; }); }
+    function discard(pool) {
+      /* throw the least useful card: low, not a boss, from a short suit; troef only when nothing else */
+      var nt = pool.filter(function (c) { return su(c) !== T; });
+      var p = nt.length ? nt : pool;
+      var best = p[0], bs = 1e9;
+      p.forEach(function (c) {
+        var s = rv(c) + (K.boss(c) ? 30 : 0) + bySuit(su(c)).length * 0.3;
+        if (s < bs) { bs = s; best = c; }
+      });
+      return best;
+    }
+
+    if (!g.trick.length) {
+      /* ── leading ── */
+      var myTeamCalled = g.caller % 2 === seat % 2;
+      if (trumps.length && K.tOut > 0) {
+        var topT = highest(trumps);
+        if (K.boss(topT) && (myTeamCalled || trumps.length >= 3 || g.baunie === seat % 2)) return topT;
+      }
+      var bosses = side.filter(function (c) { return K.boss(c) && !K.oppCanRuff(su(c)); });
+      if (bosses.length) {
+        /* cash the one from the suit the others still hold most of (least likely to be ruffed) */
+        bosses.sort(function (a, b) { return K.outIn(su(b)) - K.outIn(su(a)) || rv(b) - rv(a); });
+        return bosses[0];
+      }
+      if (trumps.length && K.tOut > 0 && myTeamCalled && trumps.length >= 4) return lowest(trumps);
+      /* give partner a ruff */
+      var forMate = side.filter(function (c) { return g.voids[K.mate][su(c)] && !g.voids[K.mate][T] && K.tOut > 0 && !K.oppCanRuff(su(c)); });
+      if (forMate.length) return lowest(forMate);
+      var safe = side.filter(function (c) { return !K.oppCanRuff(su(c)); });
+      var pool = safe.length ? safe : side;
+      if (pool.length) {
+        /* a single low card when I can ruff the suit later, else low from my longest suit */
+        if (trumps.length) {
+          var single = pool.filter(function (c) { return bySuit(su(c)).length === 1 && rv(c) < 10; });
+          if (single.length) return lowest(single);
+        }
+        var longest = pool.slice().sort(function (a, b) { return bySuit(su(b)).length - bySuit(su(a)).length || rv(a) - rv(b); });
+        return longest[0];
+      }
+      return K.boss(highest(trumps)) ? highest(trumps) : lowest(trumps);
+    }
+
+    /* ── following ── */
+    var n = g.trick.length, last = n === 3;
+    var led = su(g.trick[0].c);
+    var cur = trickWinner(g.trick, T);
+    var mateWins = cur.s % 2 === seat % 2;
+    var curIsRuff = su(cur.c) === T && led !== T;
+    var follow = su(legal[0]) === led && bySuit(led).length > 0;
+
+    if (follow) {
+      var win = curIsRuff ? [] : legal.filter(function (c) { return rv(c) > rv(cur.c); });
+      if (mateWins) {
+        if (last || curIsRuff || K.boss(cur.c) || rv(cur.c) >= 9) return lowest(legal);
+        var hi = highest(legal);
+        return (win.length && (K.boss(hi) || rv(hi) >= 10)) ? hi : lowest(legal);
+      }
+      if (!win.length) return lowest(legal);
+      if (last) return lowest(win);
+      var top = highest(win);
+      if (K.boss(top)) return top;
+      if (n === 2) return top;            /* third hand high */
+      return lowest(legal);               /* second hand low */
+    }
+    /* cannot follow suit */
+    if (mateWins) {
+      if (last || curIsRuff || K.boss(cur.c)) return discard(legal);
+      if (trumps.length && rv(cur.c) < 9) return lowest(trumps);
+      return discard(legal);
+    }
+    if (trumps.length) {
+      if (curIsRuff) {
+        var over = trumps.filter(function (c) { return rv(c) > rv(cur.c); });
+        if (over.length) return lowest(over);
+        return discard(legal);
+      }
+      return lowest(trumps);
+    }
+    return discard(legal);
+  }
+  function botKap(g, seat) {
+    /* play on for baunie only with a hand that cannot lose a trick */
+    var K = knowledge(g, seat), T = K.T, hand = g.hands[seat];
+    var trumps = hand.filter(function (c) { return su(c) === T; }).sort(function (a, b) { return rv(b) - rv(a); });
+    var run = 0;
+    /* my top troefs in sequence: after the ace is played the king is boss, and so on */
+    var gone = {};
+    g.seen.forEach(function (c) { gone[c] = 1; });
+    var mine = {};
+    hand.forEach(function (c) { mine[c] = 1; });
+    function topRun(suit) {
+      var k = 0;
+      for (var r = 12; r >= 0; r--) {
+        var x = RANKS[r] + suit;
+        if (gone[x]) continue;
+        if (mine[x]) k++; else break;
+      }
+      return k;
+    }
+    run = topRun(T);
+    if (K.tOut > 0 && run < K.tOut) return false;
+    if (K.tOut > 0 && trumps.length < K.tOut) return false;
+    for (var i = 0; i < 4; i++) {
+      var s = SUITS[i];
+      if (s === T) continue;
+      var n = hand.filter(function (c) { return su(c) === s; }).length;
+      if (n && topRun(s) < n) return false;
+    }
+    return true;
+  }
+
+  /* ───────────────────────── table (seats, people, flow) ───────────────────────── */
+
+  var BOT_NAMES = ["Anansi", "Kodjo", "Ba Tigri", "Sisa", "Oom Rudi", "Tante Es", "Mati", "Tia", "Kofi", "Amba", "Baas Jopie", "Swagri"];
+
+  function cleanName(s) {
+    s = String(s == null ? "" : s).replace(/[\u0000-\u001f\u007f<>&"'`\\]/g, "").replace(/\s+/g, " ").trim();
+    if (s.length > 14) s = s.slice(0, 14).trim();
+    return s;
+  }
+  function cleanChat(s) {
+    s = String(s == null ? "" : s).replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim();
+    if (s.length > 140) s = s.slice(0, 140);
+    return s;
+  }
+
+  function Table(opts) {
+    opts = opts || {};
+    this.rnd = opts.rnd || defaultRnd;
+    this.out = [];              /* [{pid, msg}] for the transport to deliver */
+    if (opts.state) { this.s = opts.state; return; }
+    var now = opts.now || Date.now();
+    this.s = {
+      v: 1, code: opts.code || "", pub: !!opts.pub, solo: !!opts.solo,
+      target: opts.target || 15, phase: opts.pub || opts.solo ? "game" : "wait", host: null,
+      seats: [], g: null, deadline: 0, restartAt: 0, created: now, emptySince: now, seq: 0, chatAt: {}
+    };
+    var names = shuffle(BOT_NAMES.slice(), this.rnd);
+    for (var i = 0; i < 4; i++) this.s.seats.push({ pid: null, name: "", bot: names[i], conn: 0, away: 0, strikes: 0, gone: 0 });
+  }
+
+  Table.prototype.seatOf = function (pid) {
+    if (!pid) return -1;
+    for (var i = 0; i < 4; i++) if (this.s.seats[i].pid === pid) return i;
+    return -1;
+  };
+  Table.prototype.humans = function () { return this.s.seats.filter(function (x) { return x.pid; }).length; };
+  Table.prototype.connected = function () { return this.s.seats.filter(function (x) { return x.pid && x.conn; }).length; };
+  Table.prototype.active = function () { return this.s.seats.filter(function (x) { return x.pid && x.conn && !x.away; }).length; };
+  Table.prototype.label = function (i) { var x = this.s.seats[i]; return x.pid ? x.name : x.bot; };
+
+  /* join or come back. Returns seat number, or -1 when the table is full. */
+  Table.prototype.join = function (pid, name, now) {
+    var s = this.s, i = this.seatOf(pid), ev = [];
+    name = cleanName(name) || "Speler";
+    if (i >= 0) {
+      var st = s.seats[i];
+      st.conn = 1; st.away = 0; st.strikes = 0; st.gone = 0; st.name = name;
+    } else {
+      var free = [];
+      for (var k = 0; k < 4; k++) if (!s.seats[k].pid) free.push(k);
+      if (!free.length) return -1;
+      if (s.phase === "wait") i = free[0];
+      else {
+        /* online table already playing: take over a computer seat, on the side with fewer people */
+        var cnt = [0, 0];
+        s.seats.forEach(function (x, k2) { if (x.pid) cnt[k2 % 2]++; });
+        free.sort(function (a, b) { return cnt[a % 2] - cnt[b % 2]; });
+        var bestSide = cnt[free[0] % 2];
+        var cands = free.filter(function (k3) { return cnt[k3 % 2] === bestSide; });
+        i = cands[Math.floor(this.rnd() * cands.length)];
+      }
+      /* two people with the same name at one table: number the newcomer */
+      var taken = s.seats.filter(function (x) { return x.pid; }).map(function (x) { return x.name.toLowerCase(); });
+      if (taken.indexOf(name.toLowerCase()) >= 0) name = cleanName(name.slice(0, 12) + " 2");
+      s.seats[i] = { pid: pid, name: name, bot: s.seats[i].bot, conn: 1, away: 0, strikes: 0, gone: 0 };
+      if (s.host === null || this.seatOf(s.host) < 0) s.host = pid;
+      ev.push({ e: "join", seat: i, name: name });
+    }
+    s.emptySince = 0;
+    if (s.phase === "game" && !s.g) this.newGame(ev);
+    this.advance(now, ev);
+    this.broadcast(ev, now);
+    return i;
+  };
+  /* socket closed: keep the seat for a while, the computer plays meanwhile */
+  Table.prototype.drop = function (pid, now) {
+    var i = this.seatOf(pid);
+    if (i < 0) return;
+    var st = this.s.seats[i];
+    st.conn = 0; st.gone = now;
+    if (!this.connected()) this.s.emptySince = now;
+    var ev = [];
+    this.advance(now, ev);
+    this.broadcast(ev, now);
+  };
+  Table.prototype.leave = function (pid, now) {
+    var s = this.s, i = this.seatOf(pid);
+    if (i < 0) return;
+    var nm = s.seats[i].name;
+    s.seats[i] = { pid: null, name: "", bot: s.seats[i].bot, conn: 0, away: 0, strikes: 0, gone: 0 };
+    if (s.host === pid) {
+      s.host = null;
+      for (var k = 0; k < 4; k++) if (s.seats[k].pid && s.seats[k].conn) { s.host = s.seats[k].pid; break; }
+      if (s.host === null) for (k = 0; k < 4; k++) if (s.seats[k].pid) { s.host = s.seats[k].pid; break; }
+    }
+    if (!this.connected()) s.emptySince = now;
+    var ev = [{ e: "left", seat: i, name: nm }];
+    this.advance(now, ev);
+    this.broadcast(ev, now);
+  };
+  Table.prototype.newGame = function (ev) {
+    var s = this.s;
+    s.g = newMatch(s.target, this.rnd);
+    s.restartAt = 0;
+    ev.push({ e: "first", seat: s.g.caller });
+    startHand(s.g, this.rnd, ev);
+  };
+
+  /* A message from a person. Returns false when it was not allowed (the transport may ignore that). */
+  Table.prototype.handle = function (pid, m, now) {
+    var s = this.s, i = this.seatOf(pid), g = s.g, ev = [], ok = false;
+    if (i < 0 || !m || typeof m.t !== "string") return false;
+    var st = s.seats[i];
+    switch (m.t) {
+      case "sit":
+        if (s.phase !== "wait") return false;
+        var to = m.seat | 0;
+        if (to < 0 || to > 3 || to === i || s.seats[to].pid) return false;
+        var bFrom = s.seats[i].bot, bTo = s.seats[to].bot;
+        s.seats[to] = st; st.bot = bTo;
+        s.seats[i] = { pid: null, name: "", bot: bFrom, conn: 0, away: 0, strikes: 0, gone: 0 };
+        ok = true; break;
+      case "opt":
+        if (s.phase !== "wait" || s.host !== pid) return false;
+        if ([10, 15, 20].indexOf(m.target | 0) < 0) return false;
+        s.target = m.target | 0; ok = true; break;
+      case "start":
+        if (s.phase !== "wait" || s.host !== pid) return false;
+        s.phase = "game"; this.newGame(ev); ok = true; break;
+      case "again":
+        if (s.phase !== "game" || !g || g.phase !== "over") return false;
+        this.newGame(ev); ok = true; break;
+      case "back":
+        st.away = 0; st.strikes = 0; ok = true; break;
+      case "trump":
+        if (!g) return false;
+        ok = callTrump(g, i, m.suit, ev); break;
+      case "redeal":
+        if (!g) return false;
+        ok = answerRedeal(g, i, !!m.yes, this.rnd, ev); break;
+      case "play":
+        if (!g || !isCard(m.card)) return false;
+        ok = playCard(g, i, m.card, ev); break;
+      case "kap":
+        if (!g) return false;
+        ok = decideKap(g, i, !!m.go, ev); break;
+      case "chat":
+        var txt = cleanChat(m.m);
+        if (!txt) return false;
+        var last = s.chatAt[i] || 0;
+        if (now - last < 900) return false;
+        s.chatAt[i] = now;
+        for (var k = 0; k < 4; k++) if (s.seats[k].pid && s.seats[k].conn) this.out.push({ pid: s.seats[k].pid, msg: { t: "chat", seat: i, name: st.name, m: txt } });
+        return true;
+      default: return false;
+    }
+    if (!ok) return false;
+    if (m.t === "trump" || m.t === "play" || m.t === "kap" || m.t === "redeal") { st.away = 0; st.strikes = 0; }
+    this.advance(now, ev);
+    this.broadcast(ev, now);
+    return true;
+  };
+
+  /* Let the computer act for its own seats and for people who are away, until a person has to decide. */
+  Table.prototype.advance = function (now, ev) {
+    var s = this.s, g = s.g;
+    s.deadline = 0;
+    if (s.phase !== "game" || !g) return;
+    var guard = 0;
+    while (guard++ < 400) {
+      if (g.phase === "handend") {
+        if (!this.active()) return;           /* nobody is watching: wait */
+        startHand(g, this.rnd, ev);
+        continue;
+      }
+      if (g.phase === "over") {
+        if (s.pub && !s.restartAt) s.restartAt = now + animMs(ev) + 15000;
+        return;
+      }
+      if (g.phase === "idle") return;
+      var seat = g.turn, st = s.seats[seat];
+      var person = st.pid && st.conn && !st.away;
+      if (person) {
+        if (!s.solo) s.deadline = now + animMs(ev) + (s.pub ? TURN_MS.pub : TURN_MS.priv) + (g.phase === "trump" ? 8000 : 0);
+        return;
+      }
+      if (!this.active()) return;             /* only computers and absent people left: pause */
+      this.botAct(seat, ev);
+    }
+  };
+  Table.prototype.botAct = function (seat, ev) {
+    var g = this.s.g;
+    if (g.phase === "trump") callTrump(g, seat, botTrump(g.hands[seat]), ev);
+    else if (g.phase === "redeal") answerRedeal(g, seat, botRedeal(g.hands[seat]), this.rnd, ev);
+    else if (g.phase === "kap") decideKap(g, seat, botKap(g, seat), ev);
+    else if (g.phase === "play") playCard(g, seat, botPlay(g, seat, this.rnd), ev);
+  };
+
+  /* Clock: turn ran out, absent seats are given back, a finished online match starts again.
+     Returns "dead" when the table can be thrown away. */
+  Table.prototype.tick = function (now) {
+    var s = this.s, g = s.g, ev = [], changed = false, self = this;
+    var grace = s.pub ? 90000 : 600000;
+    s.seats.forEach(function (st, i) {
+      if (st.pid && !st.conn && st.gone && now - st.gone > grace) {
+        var nm = st.name;
+        s.seats[i] = { pid: null, name: "", bot: st.bot, conn: 0, away: 0, strikes: 0, gone: 0 };
+        if (s.host === st.pid) {
+          s.host = null;
+          for (var k = 0; k < 4; k++) if (s.seats[k].pid) { s.host = s.seats[k].pid; break; }
+        }
+        ev.push({ e: "left", seat: i, name: nm });
+        changed = true;
+      }
+    });
+    if (!this.connected()) {
+      if (!s.emptySince) s.emptySince = now;
+      if (now - s.emptySince > (s.pub ? 120000 : 1800000)) return "dead";
+    }
+    if (s.phase === "game" && g) {
+      if (g.phase === "over" && s.restartAt && now >= s.restartAt && this.active()) {
+        this.newGame(ev); changed = true;
+      } else if (s.deadline && now >= s.deadline && g.phase !== "over" && g.phase !== "handend") {
+        var seat = g.turn, st = s.seats[seat];
+        st.strikes++;
+        if (st.strikes >= 2) st.away = 1;
+        ev.push({ e: "auto", seat: seat });
+        self.botAct(seat, ev);
+        changed = true;
+      }
+    }
+    if (changed) { this.advance(now, ev); this.broadcast(ev, now); }
+    return "ok";
+  };
+  /* when the transport should call tick() next (0 = no need) */
+  Table.prototype.nextWake = function (now) {
+    var s = this.s, t = 0;
+    function want(x) { if (x && (!t || x < t)) t = x; }
+    want(s.deadline);
+    if (s.g && s.g.phase === "over") want(s.restartAt);
+    var grace = s.pub ? 90000 : 600000;
+    s.seats.forEach(function (st) { if (st.pid && !st.conn && st.gone) want(st.gone + grace + 500); });
+    if (!this.connected()) want((s.emptySince || now) + (s.pub ? 120000 : 1800000) + 500);
+    return t ? Math.max(t, now + 200) : 0;
+  };
+
+  function animMs(ev) {
+    var t = 0;
+    for (var i = 0; i < ev.length; i++) t += ANIM[ev[i].e] || 0;
+    return t;
+  }
+  function personalize(ev, seat) {
+    return ev.map(function (e) {
+      if (!e.priv) return e;
+      var c = {};
+      for (var k in e) if (k !== "priv") c[k] = e[k];
+      c.h = e.priv[seat] || null;
+      return c;
+    });
+  }
+  Table.prototype.snapshot = function (seat, now) {
+    var s = this.s, g = s.g;
+    var o = {
+      code: s.code, pub: s.pub ? 1 : 0, solo: s.solo ? 1 : 0, phase: s.phase, target: s.target, you: seat,
+      host: this.seatOf(s.host), seq: s.seq,
+      seats: s.seats.map(function (x) { return { name: x.pid ? x.name : x.bot, bot: x.pid ? 0 : 1, conn: x.pid ? (x.conn ? 1 : 0) : 1, away: x.away ? 1 : 0 }; }),
+      dl: s.deadline ? Math.max(0, s.deadline - now) : 0, g: null
+    };
+    if (g) {
+      o.g = {
+        phase: g.phase, handNo: g.handNo, dealer: g.dealer, caller: g.caller, trump: g.trump, turn: g.turn, lead: g.lead,
+        trick: g.trick, tricks: g.tricks, scores: g.scores, target: g.target, baunie: g.baunie, winner: g.winner, last: g.last,
+        stats: g.stats, counts: g.hands.map(function (h) { return h.length; }),
+        hand: seat >= 0 ? sortHand(g.hands[seat], g.trump) : [],
+        legal: seat >= 0 ? legalCards(g, seat) : [],
+        restart: g.phase === "over" && s.restartAt ? Math.max(0, s.restartAt - now) : 0
+      };
+    }
+    return o;
+  };
+  Table.prototype.broadcast = function (ev, now) {
+    var s = this.s;
+    now = now || Date.now();
+    s.seq++;
+    for (var i = 0; i < 4; i++) {
+      var st = s.seats[i];
+      if (st.pid && st.conn) this.out.push({ pid: st.pid, msg: { t: "u", ev: personalize(ev || [], i), s: this.snapshot(i, now) } });
+    }
+  };
+  Table.prototype.flush = function () { var o = this.out; this.out = []; return o; };
+
+  var api = {
+    SUITS: SUITS, RANKS: RANKS, ANIM: ANIM, TURN_MS: TURN_MS, BOT_NAMES: BOT_NAMES,
+    rv: rv, su: su, isCard: isCard, newDeck: newDeck, shuffle: shuffle, seeded: seeded, sortHand: sortHand,
+    newMatch: newMatch, startHand: startHand, callTrump: callTrump, answerRedeal: answerRedeal, legalCards: legalCards,
+    trickWinner: trickWinner, playCard: playCard, decideKap: decideKap, hasPicture: hasPicture,
+    botTrump: botTrump, botRedeal: botRedeal, botPlay: botPlay, botKap: botKap,
+    cleanName: cleanName, cleanChat: cleanChat, animMs: animMs, personalize: personalize, Table: Table
+  };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  return api;
+})();
+
+</script>
+<script>
+/* Troefcall table UI (Explore Suriname, Nov 2026). Needs TCEngine (troefcall_engine.js) and <div id="tc-app" data-api="...">.
+   Practice against the computer runs in this page; online tables talk to the esr-troefcall Worker over a WebSocket.
+   All words live in I18N below (en/nl/es/zh/fr/pt, hand-written). Names and chat are only ever written with textContent. */
+(function () {
+  "use strict";
+  var E = window.TCEngine, root = document.getElementById("tc-app");
+  if (!E || !root) return;
+
+  var I18N = {
+    en: {
+      name_lbl: "Your name", name_ph: "Name at the table", online: "{n} playing online now",
+      now: "Play now", now_sub: "Online with whoever is at the table. Computer players fill the empty seats.",
+      friends: "Play with friends", friends_sub: "Open a table and send the link on WhatsApp.",
+      code_lbl: "Got a table code?", code_ph: "Code", join: "Join",
+      solo: "Practise against the computer", solo_sub: "Works without internet, at your own pace.",
+      solo_resume: "Continue practice match ({a}–{b})", solo_new: "New practice match",
+      invited: "You are invited to table {code}", join_table: "Sit down at the table", back_table: "Back to table {code}",
+      record: "Your matches: {w} won of {p}", connecting: "Connecting…",
+      e_notfound: "This table is closed. Open a new one or tap Play now.", e_full: "This table is full.",
+      e_net: "The game server did not answer. Check your connection, or practise against the computer.",
+      e_busy: "A lot of new tables right now. Try again in a minute.",
+      e_replaced: "This table is open in another tab or on another device.",
+      us: "We", them: "They", to_n: "to {n}", troef: "Troef", tricks: "Tricks", you: "You", partner: "partner", pc: "computer", host: "host",
+      dealer: "Dealer", caller: "Caller", gone: "offline",
+      your_turn: "Your turn", turn_of: "{name} is playing",
+      pick_t: "Choose troef", pick_s: "You are the caller. Name troef from your first five cards.",
+      picking: "{name} is choosing troef…", called: "{name} calls troef",
+      S: "Spades", H: "Hearts", C: "Clubs", D: "Diamonds",
+      follow: "Follow suit: play {suit}", again_tap: "Tap again to play",
+      nopic_t: "No picture, no game", nopic_q: "You have no king, queen or jack. Ask for a new deal?", nopic_y: "New deal", nopic_n: "Play these cards",
+      nopic_o: "{name} has no picture card. New deal.",
+      kap_t: "Kap!", kap_q: "Seven tricks to nil. Stop here for 5 points, or play on for baunie: all 13 tricks for 15 points. Lose a single trick and the other side gets 2.",
+      kap_stop: "Kap partij: 5 points", kap_go: "Play on for baunie", kap_w: "Kap! {name} decides: stop or baunie?", bau_go: "{name} plays on for baunie!",
+      r_win_us: "We win the game", r_win_them: "They win the game", r_kap_us: "Kap! Seven tricks to nil", r_kap_them: "Kap against us",
+      r_bau_us: "Baunie! All 13 tricks", r_bau_them: "Baunie against us", r_fail_us: "Their baunie failed", r_fail_them: "Our baunie failed",
+      pts_us: "+{n} for us", pts_them: "+{n} for them", first: "{name} is the first caller",
+      o_win: "You win the match!", o_lose: "Match lost", final: "Final score", again: "Play again", again_in: "New match in {n} s",
+      share: "Share on WhatsApp", lobby: "Leave table",
+      sh_win: "I won at Troefcall, {a}–{b}, on Explore Suriname. Come and play: {url}", sh_any: "Come and play Troefcall on Explore Suriname: {url}",
+      w_code: "Table code", guest: "Guest", w_title: "Table {code}", w_inv: "Invite your friends", w_inv_s: "Send this link. Whoever opens it sits down at your table.",
+      wa: "Send on WhatsApp", copy: "Copy link", copied: "Copied", inv_txt: "Come play Troefcall with me! Table {code}: {url}",
+      w_seats: "Players opposite each other are partners. Tap an empty seat to move.", sit_here: "Sit here",
+      len: "Match length", pts_n: "{n} points", start: "Start the game", start_s: "Computer players take the empty seats.", w_host: "Waiting for {name} to start…",
+      n_lost: "Connection lost. Reconnecting…", n_fail: "Could not reconnect.", retry: "Try again",
+      away_t: "Still there?", away_q: "The computer is playing your cards.", back: "I'm back",
+      auto: "Time's up. The computer played for {name}.", joined: "{name} sat down", left: "{name} left. The computer takes over.",
+      chat: "Chat", chat_ph: "Say something…", send: "Send", chat_rule: "Keep it friendly, and don't tell your partner your cards.",
+      mute: "Mute", unmute: "Unmute", chat_empty: "No messages yet.",
+      sound: "Sound", confirm: "Tap twice to play a card", rules: "Rules", leave: "Leave table", leave_q: "Leave this table?", yes: "Yes, leave", no: "Stay",
+      practice: "Practice", close: "Close", menu: "Menu"
+    },
+    nl: {
+      name_lbl: "Je naam", name_ph: "Naam aan tafel", online: "{n} spelers nu online",
+      now: "Nu spelen", now_sub: "Online met wie er aan tafel zit. Computerspelers vullen de lege stoelen.",
+      friends: "Met vrienden spelen", friends_sub: "Open een tafel en stuur de link via WhatsApp.",
+      code_lbl: "Heb je een tafelcode?", code_ph: "Code", join: "Aanschuiven",
+      solo: "Oefenen tegen de computer", solo_sub: "Werkt zonder internet, in je eigen tempo.",
+      solo_resume: "Verder met je oefenwedstrijd ({a}–{b})", solo_new: "Nieuwe oefenwedstrijd",
+      invited: "Je bent uitgenodigd aan tafel {code}", join_table: "Aanschuiven", back_table: "Terug naar tafel {code}",
+      record: "Je wedstrijden: {w} gewonnen van {p}", connecting: "Verbinden…",
+      e_notfound: "Deze tafel is gesloten. Open een nieuwe of tik op Nu spelen.", e_full: "Deze tafel is vol.",
+      e_net: "De spelserver reageert niet. Controleer je verbinding, of oefen tegen de computer.",
+      e_busy: "Er worden nu veel tafels geopend. Probeer het over een minuut opnieuw.",
+      e_replaced: "Deze tafel is open in een ander tabblad of op een ander toestel.",
+      us: "Wij", them: "Zij", to_n: "tot {n}", troef: "Troef", tricks: "Slagen", you: "Jij", partner: "partner", pc: "computer", host: "host",
+      dealer: "Deler", caller: "Caller", gone: "offline",
+      your_turn: "Jij bent aan de beurt", turn_of: "{name} speelt",
+      pick_t: "Kies troef", pick_s: "Jij bent de caller. Maak troef uit je eerste vijf kaarten.",
+      picking: "{name} kiest troef…", called: "{name} maakt troef",
+      S: "Schoppen", H: "Harten", C: "Klaveren", D: "Ruiten",
+      follow: "Je moet bekennen: speel {suit}", again_tap: "Tik nog een keer om te spelen",
+      nopic_t: "No picture, no game", nopic_q: "Je hebt geen heer, vrouw of boer. Opnieuw laten delen?", nopic_y: "Opnieuw delen", nopic_n: "Met deze kaarten spelen",
+      nopic_o: "{name} heeft geen prent. Er wordt opnieuw gedeeld.",
+      kap_t: "Kap!", kap_q: "Zeven slagen tegen nul. Stop nu voor 5 punten, of speel door voor baunie: alle 13 slagen voor 15 punten. Verlies je één slag, dan krijgt de tegenpartij 2 punten.",
+      kap_stop: "Kap partij: 5 punten", kap_go: "Doorspelen voor baunie", kap_w: "Kap! {name} beslist: stoppen of baunie?", bau_go: "{name} speelt door voor baunie!",
+      r_win_us: "Wij winnen de game", r_win_them: "Zij winnen de game", r_kap_us: "Kap! Zeven slagen tegen nul", r_kap_them: "Kap tegen ons",
+      r_bau_us: "Baunie! Alle 13 slagen", r_bau_them: "Baunie tegen ons", r_fail_us: "Hun baunie is mislukt", r_fail_them: "Onze baunie is mislukt",
+      pts_us: "+{n} voor ons", pts_them: "+{n} voor hen", first: "{name} is de eerste caller",
+      o_win: "Je wint de wedstrijd!", o_lose: "Wedstrijd verloren", final: "Eindstand", again: "Nog een wedstrijd", again_in: "Nieuwe wedstrijd over {n} s",
+      share: "Delen via WhatsApp", lobby: "Tafel verlaten",
+      sh_win: "Ik heb gewonnen met Troefcall, {a}–{b}, op Explore Suriname. Kom ook spelen: {url}", sh_any: "Kom Troefcall spelen op Explore Suriname: {url}",
+      w_code: "Tafelcode", guest: "Gast", w_title: "Tafel {code}", w_inv: "Nodig je vrienden uit", w_inv_s: "Stuur deze link. Wie hem opent, schuift aan bij jouw tafel.",
+      wa: "Stuur via WhatsApp", copy: "Link kopiëren", copied: "Gekopieerd", inv_txt: "Kom Troefcall met mij spelen! Tafel {code}: {url}",
+      w_seats: "Wie tegenover elkaar zit, speelt samen. Tik op een lege stoel om te wisselen.", sit_here: "Hier zitten",
+      len: "Lengte van de wedstrijd", pts_n: "{n} punten", start: "Start het spel", start_s: "Computerspelers nemen de lege stoelen.", w_host: "Wachten tot {name} start…",
+      n_lost: "Verbinding verbroken. Opnieuw verbinden…", n_fail: "Opnieuw verbinden is niet gelukt.", retry: "Probeer opnieuw",
+      away_t: "Ben je er nog?", away_q: "De computer speelt je kaarten.", back: "Ik ben er weer",
+      auto: "De tijd is om. De computer speelde voor {name}.", joined: "{name} schuift aan", left: "{name} is weg. De computer neemt het over.",
+      chat: "Chat", chat_ph: "Zeg iets…", send: "Stuur", chat_rule: "Houd het gezellig en verklap je kaarten niet aan je partner.",
+      mute: "Dempen", unmute: "Weer tonen", chat_empty: "Nog geen berichten.",
+      sound: "Geluid", confirm: "Twee keer tikken om een kaart te spelen", rules: "Spelregels", leave: "Tafel verlaten", leave_q: "Deze tafel verlaten?", yes: "Ja, verlaten", no: "Blijven",
+      practice: "Oefenen", close: "Sluiten", menu: "Menu"
+    },
+    es: {
+      name_lbl: "Tu nombre", name_ph: "Nombre en la mesa", online: "{n} jugando en línea ahora",
+      now: "Jugar ahora", now_sub: "En línea con quien esté en la mesa. La computadora ocupa las sillas vacías.",
+      friends: "Jugar con amigos", friends_sub: "Abre una mesa y envía el enlace por WhatsApp.",
+      code_lbl: "¿Tienes un código de mesa?", code_ph: "Código", join: "Entrar",
+      solo: "Practicar contra la computadora", solo_sub: "Funciona sin internet, a tu ritmo.",
+      solo_resume: "Seguir la partida de práctica ({a}–{b})", solo_new: "Nueva partida de práctica",
+      invited: "Te invitaron a la mesa {code}", join_table: "Sentarme en la mesa", back_table: "Volver a la mesa {code}",
+      record: "Tus partidas: {w} ganadas de {p}", connecting: "Conectando…",
+      e_notfound: "Esta mesa está cerrada. Abre una nueva o toca Jugar ahora.", e_full: "Esta mesa está llena.",
+      e_net: "El servidor del juego no responde. Revisa tu conexión o practica contra la computadora.",
+      e_busy: "Se están abriendo muchas mesas. Inténtalo de nuevo en un minuto.",
+      e_replaced: "Esta mesa está abierta en otra pestaña o en otro dispositivo.",
+      us: "Nosotros", them: "Ellos", to_n: "a {n}", troef: "Troef", tricks: "Bazas", you: "Tú", partner: "pareja", pc: "computadora", host: "anfitrión",
+      dealer: "Reparte", caller: "Caller", gone: "sin conexión",
+      your_turn: "Te toca", turn_of: "Juega {name}",
+      pick_t: "Elige el troef", pick_s: "Eres el caller. Elige el palo de triunfo con tus cinco primeras cartas.",
+      picking: "{name} está eligiendo el troef…", called: "{name} canta troef",
+      S: "Picas", H: "Corazones", C: "Tréboles", D: "Diamantes",
+      follow: "Debes seguir el palo: juega {suit}", again_tap: "Toca otra vez para jugar",
+      nopic_t: "No picture, no game", nopic_q: "No tienes rey, reina ni jota. ¿Pedir un nuevo reparto?", nopic_y: "Repartir de nuevo", nopic_n: "Jugar con estas cartas",
+      nopic_o: "{name} no tiene figuras. Se reparte de nuevo.",
+      kap_t: "¡Kap!", kap_q: "Siete bazas a cero. Para aquí y gana 5 puntos, o sigue por el baunie: las 13 bazas valen 15 puntos. Si pierdes una sola baza, el otro equipo gana 2.",
+      kap_stop: "Kap partij: 5 puntos", kap_go: "Seguir por el baunie", kap_w: "¡Kap! {name} decide: ¿parar o baunie?", bau_go: "¡{name} sigue por el baunie!",
+      r_win_us: "Ganamos la mano", r_win_them: "Ellos ganan la mano", r_kap_us: "¡Kap! Siete bazas a cero", r_kap_them: "Kap en contra",
+      r_bau_us: "¡Baunie! Las 13 bazas", r_bau_them: "Baunie en contra", r_fail_us: "Su baunie falló", r_fail_them: "Nuestro baunie falló",
+      pts_us: "+{n} para nosotros", pts_them: "+{n} para ellos", first: "{name} es el primer caller",
+      o_win: "¡Ganas la partida!", o_lose: "Partida perdida", final: "Resultado final", again: "Jugar otra", again_in: "Nueva partida en {n} s",
+      share: "Compartir por WhatsApp", lobby: "Salir de la mesa",
+      sh_win: "Gané al Troefcall, {a}–{b}, en Explore Suriname. Ven a jugar: {url}", sh_any: "Ven a jugar Troefcall en Explore Suriname: {url}",
+      w_code: "Código de la mesa", guest: "Invitado", w_title: "Mesa {code}", w_inv: "Invita a tus amigos", w_inv_s: "Envía este enlace. Quien lo abra se sienta en tu mesa.",
+      wa: "Enviar por WhatsApp", copy: "Copiar enlace", copied: "Copiado", inv_txt: "¡Ven a jugar Troefcall conmigo! Mesa {code}: {url}",
+      w_seats: "Quienes se sientan enfrente son pareja. Toca una silla vacía para cambiarte.", sit_here: "Sentarme aquí",
+      len: "Duración de la partida", pts_n: "{n} puntos", start: "Empezar el juego", start_s: "La computadora ocupa las sillas vacías.", w_host: "Esperando a que {name} empiece…",
+      n_lost: "Se perdió la conexión. Reconectando…", n_fail: "No se pudo reconectar.", retry: "Intentar de nuevo",
+      away_t: "¿Sigues ahí?", away_q: "La computadora está jugando tus cartas.", back: "Ya volví",
+      auto: "Se acabó el tiempo. La computadora jugó por {name}.", joined: "{name} se sentó", left: "{name} se fue. La computadora toma su lugar.",
+      chat: "Chat", chat_ph: "Di algo…", send: "Enviar", chat_rule: "Con buen ambiente, y sin decirle tus cartas a tu pareja.",
+      mute: "Silenciar", unmute: "Volver a mostrar", chat_empty: "Aún no hay mensajes.",
+      sound: "Sonido", confirm: "Tocar dos veces para jugar una carta", rules: "Reglas", leave: "Salir de la mesa", leave_q: "¿Salir de esta mesa?", yes: "Sí, salir", no: "Quedarme",
+      practice: "Práctica", close: "Cerrar", menu: "Menú"
+    },
+    zh: {
+      name_lbl: "你的名字", name_ph: "牌桌上的名字", online: "当前 {n} 人在线",
+      now: "马上开打", now_sub: "在线与牌桌上的玩家对战，空位由电脑补上。",
+      friends: "和朋友一起玩", friends_sub: "开一张牌桌，把链接通过 WhatsApp 发给朋友。",
+      code_lbl: "有牌桌代码？", code_ph: "代码", join: "加入",
+      solo: "与电脑练习", solo_sub: "不用联网，按自己的节奏玩。",
+      solo_resume: "继续练习赛（{a}–{b}）", solo_new: "新的练习赛",
+      invited: "你被邀请到牌桌 {code}", join_table: "入座", back_table: "回到牌桌 {code}",
+      record: "你的战绩：{p} 场胜 {w} 场", connecting: "连接中…",
+      e_notfound: "这张牌桌已关闭。请新开一桌，或点“马上开打”。", e_full: "这张牌桌已满。",
+      e_net: "游戏服务器没有响应。请检查网络，或先与电脑练习。",
+      e_busy: "现在新开的牌桌太多，请一分钟后再试。",
+      e_replaced: "这张牌桌已在另一个标签页或另一台设备上打开。",
+      us: "我方", them: "对方", to_n: "打到 {n} 分", troef: "Troef", tricks: "墩数", you: "你", partner: "搭档", pc: "电脑", host: "桌主",
+      dealer: "发牌", caller: "叫牌", gone: "离线",
+      your_turn: "轮到你了", turn_of: "{name} 出牌中",
+      pick_t: "选择 Troef（将牌）", pick_s: "你是叫牌人，请根据最先拿到的五张牌定将牌花色。",
+      picking: "{name} 正在选 Troef…", called: "{name} 叫 Troef",
+      S: "黑桃", H: "红心", C: "梅花", D: "方块",
+      follow: "必须跟同花色：请出{suit}", again_tap: "再点一次出牌",
+      nopic_t: "No picture, no game", nopic_q: "你手里没有 K、Q、J。要求重新发牌吗？", nopic_y: "重新发牌", nopic_n: "就用这手牌",
+      nopic_o: "{name} 没有人头牌，重新发牌。",
+      kap_t: "Kap！", kap_q: "七比零。现在停下得 5 分，或继续打 Baunie：13 墩全拿得 15 分。只要输一墩，对方得 2 分。",
+      kap_stop: "Kap partij：5 分", kap_go: "继续打 Baunie", kap_w: "Kap！{name} 决定：停下还是打 Baunie？", bau_go: "{name} 继续打 Baunie！",
+      r_win_us: "我方赢下这一局", r_win_them: "对方赢下这一局", r_kap_us: "Kap！七比零", r_kap_them: "被 Kap 了",
+      r_bau_us: "Baunie！13 墩全拿", r_bau_them: "被 Baunie 了", r_fail_us: "对方 Baunie 失败", r_fail_them: "我方 Baunie 失败",
+      pts_us: "我方 +{n}", pts_them: "对方 +{n}", first: "{name} 先叫牌",
+      o_win: "你赢了这场比赛！", o_lose: "比赛输了", final: "最终比分", again: "再来一场", again_in: "{n} 秒后开始新比赛",
+      share: "分享到 WhatsApp", lobby: "离开牌桌",
+      sh_win: "我在 Explore Suriname 玩 Troefcall 赢了，{a}–{b}。一起来玩：{url}", sh_any: "来 Explore Suriname 玩 Troefcall：{url}",
+      w_code: "牌桌代码", guest: "访客", w_title: "牌桌 {code}", w_inv: "邀请朋友", w_inv_s: "把这个链接发出去，打开的人就会坐到你的牌桌。",
+      wa: "用 WhatsApp 发送", copy: "复制链接", copied: "已复制", inv_txt: "来和我玩 Troefcall！牌桌 {code}：{url}",
+      w_seats: "对面坐的是搭档。点空位可以换座位。", sit_here: "坐这里",
+      len: "比赛长度", pts_n: "{n} 分", start: "开始游戏", start_s: "空位由电脑补上。", w_host: "等待 {name} 开始…",
+      n_lost: "连接中断，正在重新连接…", n_fail: "重新连接失败。", retry: "重试",
+      away_t: "你还在吗？", away_q: "电脑正在替你出牌。", back: "我回来了",
+      auto: "时间到，电脑替 {name} 出了牌。", joined: "{name} 入座了", left: "{name} 离开了，由电脑接手。",
+      chat: "聊天", chat_ph: "说点什么…", send: "发送", chat_rule: "友好交流，不要把手里的牌告诉搭档。",
+      mute: "屏蔽", unmute: "取消屏蔽", chat_empty: "还没有消息。",
+      sound: "声音", confirm: "点两次才出牌", rules: "规则", leave: "离开牌桌", leave_q: "要离开这张牌桌吗？", yes: "离开", no: "留下",
+      practice: "练习", close: "关闭", menu: "菜单"
+    },
+    fr: {
+      name_lbl: "Votre nom", name_ph: "Nom à la table", online: "{n} joueurs en ligne en ce moment",
+      now: "Jouer maintenant", now_sub: "En ligne avec les joueurs présents. L’ordinateur occupe les places libres.",
+      friends: "Jouer entre amis", friends_sub: "Ouvrez une table et envoyez le lien par WhatsApp.",
+      code_lbl: "Vous avez un code de table ?", code_ph: "Code", join: "Rejoindre",
+      solo: "S’entraîner contre l’ordinateur", solo_sub: "Fonctionne sans internet, à votre rythme.",
+      solo_resume: "Reprendre le match d’entraînement ({a}–{b})", solo_new: "Nouveau match d’entraînement",
+      invited: "Vous êtes invité à la table {code}", join_table: "S’asseoir à la table", back_table: "Retour à la table {code}",
+      record: "Vos matchs : {w} gagnés sur {p}", connecting: "Connexion…",
+      e_notfound: "Cette table est fermée. Ouvrez-en une nouvelle ou touchez Jouer maintenant.", e_full: "Cette table est complète.",
+      e_net: "Le serveur du jeu ne répond pas. Vérifiez votre connexion ou entraînez-vous contre l’ordinateur.",
+      e_busy: "Beaucoup de tables s’ouvrent en ce moment. Réessayez dans une minute.",
+      e_replaced: "Cette table est ouverte dans un autre onglet ou sur un autre appareil.",
+      us: "Nous", them: "Eux", to_n: "en {n}", troef: "Troef", tricks: "Plis", you: "Vous", partner: "partenaire", pc: "ordinateur", host: "hôte",
+      dealer: "Donneur", caller: "Caller", gone: "hors ligne",
+      your_turn: "À vous de jouer", turn_of: "{name} joue",
+      pick_t: "Choisissez le troef", pick_s: "Vous êtes le caller. Annoncez l’atout avec vos cinq premières cartes.",
+      picking: "{name} choisit le troef…", called: "{name} annonce le troef",
+      S: "Pique", H: "Cœur", C: "Trèfle", D: "Carreau",
+      follow: "Vous devez fournir : jouez {suit}", again_tap: "Touchez encore pour jouer",
+      nopic_t: "No picture, no game", nopic_q: "Vous n’avez ni roi, ni dame, ni valet. Demander une nouvelle donne ?", nopic_y: "Nouvelle donne", nopic_n: "Jouer ces cartes",
+      nopic_o: "{name} n’a aucune figure. Nouvelle donne.",
+      kap_t: "Kap !", kap_q: "Sept plis à zéro. Arrêtez ici pour 5 points, ou continuez pour le baunie : les 13 plis pour 15 points. Un seul pli perdu et l’autre équipe marque 2.",
+      kap_stop: "Kap partij : 5 points", kap_go: "Continuer pour le baunie", kap_w: "Kap ! {name} décide : arrêter ou baunie ?", bau_go: "{name} continue pour le baunie !",
+      r_win_us: "Nous gagnons la manche", r_win_them: "Ils gagnent la manche", r_kap_us: "Kap ! Sept plis à zéro", r_kap_them: "Kap contre nous",
+      r_bau_us: "Baunie ! Les 13 plis", r_bau_them: "Baunie contre nous", r_fail_us: "Leur baunie a échoué", r_fail_them: "Notre baunie a échoué",
+      pts_us: "+{n} pour nous", pts_them: "+{n} pour eux", first: "{name} est le premier caller",
+      o_win: "Vous gagnez le match !", o_lose: "Match perdu", final: "Score final", again: "Rejouer", again_in: "Nouveau match dans {n} s",
+      share: "Partager sur WhatsApp", lobby: "Quitter la table",
+      sh_win: "J’ai gagné au Troefcall, {a}–{b}, sur Explore Suriname. Venez jouer : {url}", sh_any: "Venez jouer au Troefcall sur Explore Suriname : {url}",
+      w_code: "Code de la table", guest: "Invité", w_title: "Table {code}", w_inv: "Invitez vos amis", w_inv_s: "Envoyez ce lien. Ceux qui l’ouvrent s’assoient à votre table.",
+      wa: "Envoyer par WhatsApp", copy: "Copier le lien", copied: "Copié", inv_txt: "Venez jouer au Troefcall avec moi ! Table {code} : {url}",
+      w_seats: "Les joueurs face à face sont partenaires. Touchez une place libre pour changer.", sit_here: "S’asseoir ici",
+      len: "Durée du match", pts_n: "{n} points", start: "Lancer la partie", start_s: "L’ordinateur prend les places libres.", w_host: "En attente de {name}…",
+      n_lost: "Connexion perdue. Reconnexion…", n_fail: "Reconnexion impossible.", retry: "Réessayer",
+      away_t: "Toujours là ?", away_q: "L’ordinateur joue vos cartes.", back: "Je suis de retour",
+      auto: "Temps écoulé. L’ordinateur a joué pour {name}.", joined: "{name} s’assoit", left: "{name} est parti. L’ordinateur prend le relais.",
+      chat: "Chat", chat_ph: "Dites quelque chose…", send: "Envoyer", chat_rule: "Restez courtois et ne dites pas vos cartes à votre partenaire.",
+      mute: "Masquer", unmute: "Réafficher", chat_empty: "Aucun message pour l’instant.",
+      sound: "Son", confirm: "Toucher deux fois pour jouer une carte", rules: "Règles", leave: "Quitter la table", leave_q: "Quitter cette table ?", yes: "Oui, quitter", no: "Rester",
+      practice: "Entraînement", close: "Fermer", menu: "Menu"
+    },
+    pt: {
+      name_lbl: "Seu nome", name_ph: "Nome na mesa", online: "{n} jogando online agora",
+      now: "Jogar agora", now_sub: "Online com quem estiver na mesa. O computador ocupa as cadeiras vazias.",
+      friends: "Jogar com amigos", friends_sub: "Abra uma mesa e mande o link pelo WhatsApp.",
+      code_lbl: "Tem um código de mesa?", code_ph: "Código", join: "Entrar",
+      solo: "Treinar contra o computador", solo_sub: "Funciona sem internet, no seu ritmo.",
+      solo_resume: "Continuar a partida de treino ({a}–{b})", solo_new: "Nova partida de treino",
+      invited: "Você foi convidado para a mesa {code}", join_table: "Sentar à mesa", back_table: "Voltar para a mesa {code}",
+      record: "Suas partidas: {w} vitórias em {p}", connecting: "Conectando…",
+      e_notfound: "Esta mesa foi fechada. Abra uma nova ou toque em Jogar agora.", e_full: "Esta mesa está cheia.",
+      e_net: "O servidor do jogo não respondeu. Verifique sua conexão ou treine contra o computador.",
+      e_busy: "Muitas mesas sendo abertas agora. Tente de novo em um minuto.",
+      e_replaced: "Esta mesa está aberta em outra aba ou em outro aparelho.",
+      us: "Nós", them: "Eles", to_n: "até {n}", troef: "Troef", tricks: "Vazas", you: "Você", partner: "parceiro", pc: "computador", host: "anfitrião",
+      dealer: "Carteador", caller: "Caller", gone: "offline",
+      your_turn: "Sua vez", turn_of: "{name} está jogando",
+      pick_t: "Escolha o troef", pick_s: "Você é o caller. Escolha o naipe de trunfo com as suas cinco primeiras cartas.",
+      picking: "{name} está escolhendo o troef…", called: "{name} canta o troef",
+      S: "Espadas", H: "Copas", C: "Paus", D: "Ouros",
+      follow: "Você precisa seguir o naipe: jogue {suit}", again_tap: "Toque de novo para jogar",
+      nopic_t: "No picture, no game", nopic_q: "Você não tem rei, dama nem valete. Pedir nova distribuição?", nopic_y: "Dar as cartas de novo", nopic_n: "Jogar com estas cartas",
+      nopic_o: "{name} não tem figuras. As cartas serão dadas de novo.",
+      kap_t: "Kap!", kap_q: "Sete vazas a zero. Pare agora e ganhe 5 pontos, ou siga para o baunie: as 13 vazas valem 15 pontos. Se perder uma única vaza, o outro time ganha 2.",
+      kap_stop: "Kap partij: 5 pontos", kap_go: "Seguir para o baunie", kap_w: "Kap! {name} decide: parar ou baunie?", bau_go: "{name} segue para o baunie!",
+      r_win_us: "Ganhamos a mão", r_win_them: "Eles ganham a mão", r_kap_us: "Kap! Sete vazas a zero", r_kap_them: "Kap contra nós",
+      r_bau_us: "Baunie! As 13 vazas", r_bau_them: "Baunie contra nós", r_fail_us: "O baunie deles falhou", r_fail_them: "Nosso baunie falhou",
+      pts_us: "+{n} para nós", pts_them: "+{n} para eles", first: "{name} é o primeiro caller",
+      o_win: "Você venceu a partida!", o_lose: "Partida perdida", final: "Placar final", again: "Jogar de novo", again_in: "Nova partida em {n} s",
+      share: "Compartilhar no WhatsApp", lobby: "Sair da mesa",
+      sh_win: "Ganhei no Troefcall, {a}–{b}, no Explore Suriname. Vem jogar: {url}", sh_any: "Vem jogar Troefcall no Explore Suriname: {url}",
+      w_code: "Código da mesa", guest: "Convidado", w_title: "Mesa {code}", w_inv: "Convide seus amigos", w_inv_s: "Mande este link. Quem abrir senta na sua mesa.",
+      wa: "Mandar pelo WhatsApp", copy: "Copiar link", copied: "Copiado", inv_txt: "Vem jogar Troefcall comigo! Mesa {code}: {url}",
+      w_seats: "Quem senta de frente joga junto. Toque numa cadeira vazia para trocar de lugar.", sit_here: "Sentar aqui",
+      len: "Duração da partida", pts_n: "{n} pontos", start: "Começar o jogo", start_s: "O computador ocupa as cadeiras vazias.", w_host: "Esperando {name} começar…",
+      n_lost: "Conexão perdida. Reconectando…", n_fail: "Não foi possível reconectar.", retry: "Tentar de novo",
+      away_t: "Ainda está aí?", away_q: "O computador está jogando as suas cartas.", back: "Voltei",
+      auto: "O tempo acabou. O computador jogou por {name}.", joined: "{name} sentou à mesa", left: "{name} saiu. O computador assume.",
+      chat: "Chat", chat_ph: "Diga alguma coisa…", send: "Enviar", chat_rule: "Mantenha o clima bom e não conte suas cartas ao parceiro.",
+      mute: "Silenciar", unmute: "Reativar", chat_empty: "Nenhuma mensagem ainda.",
+      sound: "Som", confirm: "Tocar duas vezes para jogar uma carta", rules: "Regras", leave: "Sair da mesa", leave_q: "Sair desta mesa?", yes: "Sim, sair", no: "Ficar",
+      practice: "Treino", close: "Fechar", menu: "Menu"
+    }
+  };
+  /* said in Sranan at every table, never translated */
+  var QUICK = ["Fa waka?", "Bun wroko!", "Kap!", "Tjé!", "No span", "Grantangi", "Wakti pikinso", "Prei baka?"];
+
+  var LANG = String(document.documentElement.lang || "en").slice(0, 2).toLowerCase();
+  if (!I18N[LANG]) LANG = "en";
+  var L = I18N[LANG];
+  if (LANG === "fr") for (var fk in L) L[fk] = L[fk].replace(/ ([?!:;])/g, " $1");
+  function t(k, v) {
+    var s = L[k] != null ? L[k] : (I18N.en[k] != null ? I18N.en[k] : k);
+    if (v) for (var x in v) s = s.split("{" + x + "}").join(v[x]);
+    return s;
+  }
+
+  /* ── small helpers ── */
+  var D = document, W = window;
+  function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  function ga(n, p) { try { if (typeof W.gtag === "function") W.gtag("event", n, p || {}); } catch (e) {} }
+  function el(tag, cls, txt) { var e = D.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function add(p) { for (var i = 1; i < arguments.length; i++) if (arguments[i]) p.appendChild(arguments[i]); return p; }
+  function btn(cls, txt, fn) { var b = el("button", cls, txt); b.type = "button"; if (fn) b.addEventListener("click", fn); return b; }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  var reduced = W.matchMedia && W.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var touch = W.matchMedia && W.matchMedia("(pointer: coarse)").matches;
+  var GLYPH = { S: "♠︎", H: "♥︎", C: "♣︎", D: "♦︎" };
+  var API = (root.getAttribute("data-api") || "").replace(/\/+$/, "");
+  var RULES = root.getAttribute("data-rules") || "#tc-rules";
+
+  var SET = lsGet("tc-set", null) || { sound: 1, confirm: touch ? 1 : 0 };
+  var NAME = E.cleanName(lsGet("tc-name", ""));
+  var PID = lsGet("tc-pid", "");
+  if (!/^[A-Za-z0-9_-]{16,40}$/.test(PID)) {
+    var abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", a = new Uint8Array(24);
+    (W.crypto || W.msCrypto).getRandomValues(a);
+    PID = "";
+    for (var i0 = 0; i0 < 24; i0++) PID += abc[a[i0] % abc.length];
+    lsSet("tc-pid", PID);
+  }
+
+  /* ── state ── */
+  var conn = null;       /* LocalConn or NetConn */
+  var V = null;          /* what the table looks like right now (a snapshot, moved along by events) */
+  var mode = "";         /* solo | now | friends | join */
+  var queue = [], busy = false, sel = null, optim = null, dlAt = 0, dlFor = -1;
+  var chat = [], unread = 0, muted = {}, chatOpen = false, menuOpen = false, leaveAsk = false;
+  var net = "ok", resultEv = null, countedOver = "", restartAt = 0, toastT = 0, noteT = 0;
+  var R = {};            /* DOM refs of the table screen */
+
+  /* ── sound: tiny synth, no files ── */
+  var AC = null;
+  function tone(freq, dur, type, vol, when) {
+    if (!SET.sound) return;
+    try {
+      AC = AC || new (W.AudioContext || W.webkitAudioContext)();
+      if (AC.state === "suspended") AC.resume();
+      var o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + (when || 0);
+      o.type = type || "sine"; o.frequency.value = freq;
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol || 0.08, t0 + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g); g.connect(AC.destination); o.start(t0); o.stop(t0 + dur + 0.02);
+    } catch (e) {}
+  }
+  var SND = {
+    card: function () { tone(190, 0.07, "triangle", 0.12); tone(95, 0.05, "square", 0.03, 0.01); },
+    turn: function () { tone(660, 0.12, "sine", 0.07); tone(880, 0.16, "sine", 0.06, 0.1); },
+    won: function () { tone(523, 0.1, "sine", 0.06); tone(784, 0.16, "sine", 0.06, 0.09); },
+    lost: function () { tone(330, 0.14, "sine", 0.05); tone(262, 0.2, "sine", 0.05, 0.1); },
+    kap: function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0.2, "triangle", 0.09, i * 0.11); }); },
+    deal: function () { for (var i = 0; i < 5; i++) tone(240 + i * 14, 0.05, "triangle", 0.06, i * 0.07); }
+  };
+  function buzz(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) {} }
+  /* keep the phone awake at the table, and mark the tab when it is your turn in another tab */
+  var wakeLock = null, baseTitle = D.title, cueKey = "";
+  function awake(on) {
+    try {
+      if (on && navigator.wakeLock && !wakeLock && !D.hidden) navigator.wakeLock.request("screen").then(function (l) { wakeLock = l; l.addEventListener("release", function () { wakeLock = null; }); }, function () {});
+      if (!on && wakeLock) { wakeLock.release(); wakeLock = null; }
+    } catch (e) {}
+  }
+  function turnCue() {
+    var g = V && V.g, mine = !!(g && g.turn === V.you && !busy && (g.phase === "play" || g.phase === "trump" || g.phase === "kap" || g.phase === "redeal") && V.phase === "game");
+    D.title = (mine && D.hidden ? "\u25CF " : "") + baseTitle;
+    if (!mine) return;
+    var key = V.seq + ":" + g.phase + ":" + g.hand.length;
+    if (key === cueKey) return;
+    cueKey = key;
+    if (g.phase === "play") { tone(740, 0.09, "sine", 0.045); buzz(25); }
+  }
+
+  /* ───────────────────────── lobby ───────────────────────── */
+
+  function hashCode() {
+    var m = /[#&]t=([A-Za-z2-9]{5})\b/.exec(location.hash || "");
+    return m ? m[1].toUpperCase() : "";
+  }
+  function setHash(code) {
+    try { history.replaceState(null, "", location.pathname + location.search + (code ? "#t=" + code : "")); } catch (e) {}
+  }
+  function inviteUrl(code) { return location.origin + location.pathname + "#t=" + code; }
+  function saveName(inp) {
+    NAME = E.cleanName(inp.value);
+    lsSet("tc-name", NAME);
+    return NAME;
+  }
+
+  function showLobby(msg) {
+    if (conn) { try { conn.close(); } catch (e) {} conn = null; }
+    awake(false); D.title = baseTitle;
+    V = null; queue = []; busy = false; chat = []; unread = 0; chatOpen = false; menuOpen = false; leaveAsk = false; net = "ok"; mode = "";
+    root.className = "tc tc-in-lobby";
+    root.textContent = "";
+    var box = el("div", "tc-lobby");
+    var code = hashCode();
+    if (msg) add(box, el("p", "tc-msg", msg));
+
+    var nameRow = el("label", "tc-field");
+    var inp = el("input", "tc-inp");
+    inp.type = "text"; inp.maxLength = 14; inp.value = NAME; inp.placeholder = t("name_ph");
+    inp.setAttribute("autocomplete", "nickname"); inp.setAttribute("enterkeyhint", "done");
+    inp.addEventListener("change", function () { saveName(inp); });
+    add(nameRow, el("span", "tc-lbl", t("name_lbl")), inp);
+    add(box, nameRow);
+
+    function need() { saveName(inp); if (!NAME) NAME = E.cleanName(t("guest") + " " + (10 + Math.floor(Math.random() * 90))); return true; }
+
+    if (code) {
+      var inv = el("div", "tc-invite");
+      add(inv, el("p", "tc-inv-t", t("invited", { code: code })),
+        btn("tc-btn tc-btn-p", t("join_table"), function () { need(); goOnline("join", code); }));
+      add(box, inv);
+    }
+    var last = lsGet("tc-last", null);
+    if (!code && last && last.code && Date.now() - last.at < 2 * 3600000)
+      add(box, btn("tc-btn tc-btn-g tc-wide", t("back_table", { code: last.code }), function () { need(); goOnline("join", last.code); }));
+
+    var opts = el("div", "tc-opts");
+    var bNow = btn("tc-opt" + (code ? "" : " tc-opt-p"), null, function () { need(); goOnline("now"); });
+    add(bNow, el("b", null, t("now")), el("span", null, t("now_sub")));
+    var bFr = btn("tc-opt", null, function () { need(); goOnline("friends"); });
+    add(bFr, el("b", null, t("friends")), el("span", null, t("friends_sub")));
+    var solo = lsGet("tc-solo", null), soloLive = solo && solo.g && solo.g.phase !== "over" && solo.seats && solo.seats.some(function (x) { return x.pid === PID; });
+    var bSolo = btn("tc-opt", null, function () { need(); goSolo(!!soloLive); });
+    add(bSolo, el("b", null, soloLive ? t("solo_resume", { a: solo.g.scores[0], b: solo.g.scores[1] }) : t("solo")), el("span", null, t("solo_sub")));
+    if (soloLive) {
+      var me = 0;
+      solo.seats.forEach(function (x, i) { if (x.pid === PID) me = i; });
+      bSolo.firstChild.textContent = t("solo_resume", { a: solo.g.scores[me % 2], b: solo.g.scores[1 - me % 2] });
+    }
+    add(opts, bNow, bFr, bSolo);
+    if (soloLive) add(opts, btn("tc-link", t("solo_new"), function () { need(); lsDel("tc-solo"); goSolo(false); }));
+    add(box, opts);
+
+    var joinRow = el("form", "tc-join");
+    var cin = el("input", "tc-inp tc-code");
+    cin.type = "text"; cin.maxLength = 5; cin.placeholder = t("code_ph"); cin.setAttribute("autocapitalize", "characters"); cin.setAttribute("autocomplete", "off");
+    cin.setAttribute("aria-label", t("code_lbl"));
+    var jb = el("button", "tc-btn tc-btn-g", t("join")); jb.type = "submit";
+    joinRow.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var c = cin.value.toUpperCase().replace(/[^A-Z2-9]/g, "");
+      if (c.length !== 5) { cin.focus(); return; }
+      need(); goOnline("join", c);
+    });
+    add(joinRow, el("span", "tc-lbl", t("code_lbl")), cin, jb);
+    add(box, joinRow);
+
+    var foot = el("p", "tc-foot");
+    var st = lsGet("tc-stats", null);
+    if (st && st.p) foot.textContent = t("record", { w: st.w || 0, p: st.p });
+    var on = el("span", "tc-online"); on.hidden = true;
+    add(box, on, foot);
+    add(root, box);
+
+    if (API) {
+      fetch(API + "/stats").then(function (r) { return r.json(); }).then(function (j) {
+        if (j && j.players > 0 && on.isConnected) { on.textContent = t("online", { n: j.players }); on.hidden = false; }
+      }).catch(function () {});
+    }
+  }
+
+  function goSolo(resume) {
+    mode = "solo";
+    ga("tc_start", { tc_mode: "solo" });
+    conn = new LocalConn(resume);
+    conn.open();
+  }
+  function goOnline(kind, code) {
+    mode = kind;
+    ga("tc_start", { tc_mode: kind });
+    if (!API) { showLobby(t("e_net")); return; }
+    root.textContent = "";
+    add(root, add(el("div", "tc-lobby tc-wait"), el("p", "tc-msg", t("connecting"))));
+    if (code) { conn = new NetConn(code); conn.open(); return; }
+    var tried = "";
+    function ask() {
+      fetch(API + (kind === "now" ? "/quick" : "/new") + (tried ? "?not=" + tried : ""), { method: "POST" })
+        .then(function (r) { return r.json().then(function (j) { return { s: r.status, j: j }; }); })
+        .then(function (x) {
+          if (x.s === 429) { showLobby(t("e_busy")); return; }
+          if (!x.j || !x.j.code) throw new Error("no code");
+          conn = new NetConn(x.j.code);
+          conn.onFull = kind === "now" && !tried ? function () { tried = x.j.code; ask(); } : null;
+          conn.open();
+        })
+        .catch(function () { showLobby(t("e_net")); });
+    }
+    ask();
+  }
+
+  /* ───────────────────────── connections ───────────────────────── */
+
+  function LocalConn(resume) { this.resume = resume; this.T = null; this.local = true; }
+  LocalConn.prototype.open = function () {
+    var st = this.resume ? lsGet("tc-solo", null) : null;
+    try { this.T = st ? new E.Table({ state: st }) : null; } catch (e) { this.T = null; }
+    if (!this.T || this.T.seatOf(PID) < 0) this.T = new E.Table({ solo: true, target: 15 });
+    this.T.join(PID, NAME, Date.now());
+    this.pump();
+  };
+  LocalConn.prototype.send = function (m) {
+    if (m.t === "leave") return;
+    this.T.handle(PID, m, Date.now());
+    this.pump();
+  };
+  LocalConn.prototype.pump = function () {
+    var out = this.T.flush();
+    lsSet("tc-solo", this.T.s);
+    out.forEach(function (o) { setTimeout(function () { onMsg(o.msg); }, 0); });
+  };
+  LocalConn.prototype.close = function () {};
+
+  function NetConn(code) { this.code = code; this.ws = null; this.tries = 0; this.ever = false; this.done = false; this.ka = 0; this.onFull = null; }
+  NetConn.prototype.open = function () {
+    var self = this, ws;
+    try { ws = this.ws = new WebSocket(API.replace(/^http/, "ws") + "/ws?t=" + this.code); }
+    catch (e) { this.fail(); return; }
+    ws.onopen = function () {
+      ws.send(JSON.stringify({ t: "hello", pid: PID, name: NAME }));
+      clearInterval(self.ka);
+      self.ka = setInterval(function () { try { if (ws.readyState === 1) ws.send("ping"); } catch (e) {} }, 25000);
+    };
+    ws.onmessage = function (ev) {
+      if (ev.data === "pong" || self.done) return;
+      var m;
+      try { m = JSON.parse(ev.data); } catch (e) { return; }
+      if (m.t === "u") { self.ever = true; self.tries = 0; setNet("ok"); }
+      if (m.t === "err") {
+        self.done = true;
+        try { ws.close(); } catch (e) {}
+        if (m.code === "full" && self.onFull) { self.onFull(); return; }
+        if (m.code === "notfound" || m.code === "full") { lsDel("tc-last"); setHash(""); }
+        showLobby(t(m.code === "full" ? "e_full" : m.code === "replaced" ? "e_replaced" : "e_notfound"));
+        return;
+      }
+      onMsg(m);
+    };
+    ws.onclose = function () {
+      clearInterval(self.ka);
+      if (self.done || self.ws !== ws) return;
+      self.fail();
+    };
+    ws.onerror = function () {};
+  };
+  NetConn.prototype.fail = function () {
+    var self = this;
+    if (this.done) return;
+    this.tries++;
+    if (!this.ever && this.tries > 2) { this.done = true; showLobby(t("e_net")); return; }
+    if (this.tries > 8) { setNet("fail"); return; }
+    if (this.ever) setNet("lost");
+    setTimeout(function () { if (!self.done) self.open(); }, Math.min(8000, 500 * Math.pow(1.7, this.tries)));
+  };
+  NetConn.prototype.send = function (m) { try { if (this.ws && this.ws.readyState === 1) this.ws.send(JSON.stringify(m)); } catch (e) {} };
+  NetConn.prototype.close = function () { this.done = true; clearInterval(this.ka); try { this.ws.close(); } catch (e) {} };
+  NetConn.prototype.retryNow = function () { this.tries = 0; setNet("lost"); this.open(); };
+
+  function setNet(s) { if (net === s) return; net = s; if (V) render(); }
+  D.addEventListener("visibilitychange", function () {
+    if (!D.hidden) { D.title = baseTitle; if (V) awake(true); }
+    if (!D.hidden && conn && !conn.local && !conn.done && conn.ws && conn.ws.readyState > 1 && net !== "fail") { conn.tries = 0; conn.open(); }
+  });
+
+  /* ───────────────────────── messages ───────────────────────── */
+
+  function onMsg(m) {
+    if (m.t === "chat") { gotChat(m); return; }
+    if (m.t !== "u") return;
+    m.at = Date.now();
+    if (!V) {
+      V = m.s;
+      if (!V.solo) { lsSet("tc-last", { code: V.code, at: Date.now() }); if (!V.pub) setHash(V.code); }
+      buildTable();
+      /* a game already under way: show it as it is, then follow along */
+      useSnapshot(m);
+      render();
+      try { root.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" }); } catch (e) {}
+      return;
+    }
+    queue.push(m);
+    runQueue();
+  }
+  function useSnapshot(m) {
+    V = m.s;
+    dlAt = V.dl ? m.at + V.dl : 0;
+    dlFor = V.g ? V.g.turn : -1;
+    restartAt = V.g && V.g.restart ? m.at + V.g.restart : 0;
+    optim = null; sel = null;
+    if (V.g && V.g.phase === "over") countMatch();
+  }
+  function countMatch() {
+    var g = V.g, key = V.code + ":" + g.scores.join("-") + ":" + g.handNo + ":" + (g.stats ? g.stats.hands : 0);
+    if (countedOver === key) return;
+    countedOver = key;
+    var st = lsGet("tc-stats", null) || { p: 0, w: 0 };
+    st.p++; if (g.winner === V.you % 2) st.w++;
+    lsSet("tc-stats", st);
+    ga("tc_match_end", { tc_mode: mode, tc_result: g.winner === V.you % 2 ? "win" : "loss" });
+  }
+  function runQueue() {
+    if (busy) return;
+    busy = true;
+    (function next() {
+      if (!V || !queue.length) { busy = false; if (V) render(); return; }
+      var m = queue.shift();
+      var fast = D.hidden || queue.length > 2;
+      var i = 0;
+      (function step() {
+        if (!V) { busy = false; return; }
+        if (i >= m.ev.length) { useSnapshot(m); render(); next(); return; }
+        showEvent(m.ev[i++], fast).then(step, step);
+      })();
+    })();
+  }
+  function nameOf(seat) { return seat === V.you ? t("you") : V.seats[seat].name; }
+  function nm(seat) { return V.seats[seat].name; }
+
+  function showEvent(e, fast) {
+    var g = V.g, A = E.ANIM, me = V.you, d = fast ? 0 : 1;
+    switch (e.e) {
+      case "first":
+        if (g) { g.scores = [0, 0]; g.phase = "idle"; g.winner = null; g.trick = []; g.hand = []; g.counts = [0, 0, 0, 0]; g.trump = null; g.tricks = [0, 0]; }
+        V.phase = "game"; resultEv = null;
+        note(t("first", { name: nm(e.seat) }), 2600);
+        render();
+        return wait(A.first * d);
+      case "deal1":
+        V.phase = "game";
+        V.g = g = { phase: "trump", handNo: e.n, dealer: e.dealer, caller: e.caller, trump: null, turn: e.caller, lead: e.caller, trick: [], tricks: [0, 0],
+          scores: g ? g.scores : [0, 0], target: g ? g.target : V.target, baunie: null, winner: null, last: g ? g.last : null, stats: g ? g.stats : null,
+          counts: [0, 0, 0, 0], hand: e.h ? E.sortHand(e.h, null) : [], legal: [], restart: 0 };
+        g.counts[e.caller] = 5;
+        resultEv = null; dlAt = 0;
+        render(true);
+        SND.deal();
+        return wait(A.deal1 * d);
+      case "trump":
+        g.trump = e.suit; g.hand = E.sortHand(g.hand, g.trump);
+        render();
+        toast(t("called", { name: nm(e.seat) }), e.suit, A.trump - 150);
+        return wait(A.trump * d);
+      case "deal2":
+        g.counts = [13, 13, 13, 13]; g.phase = "play"; g.turn = g.lead = g.caller;
+        if (e.h) g.hand = E.sortHand(e.h, g.trump);
+        render(true);
+        SND.deal();
+        return wait(A.deal2 * d);
+      case "nopic":
+        g.phase = "redeal"; g.turn = e.seat; render();
+        return wait(A.nopic * d);
+      case "redeal":
+        note(t("nopic_o", { name: nm(e.seat) }), 2400);
+        return wait(A.redeal * d);
+      case "keep":
+        g.phase = "play"; render();
+        return wait(A.keep * d);
+      case "play":
+        if (e.seat === me && optim === e.card) { optim = null; return wait(260 * d); }
+        var from = null;
+        if (!fast) {
+          var src = e.seat === me ? R.hand.querySelector('[data-c="' + e.card + '"]') : R.seat[rel(e.seat)];
+          if (src) from = src.getBoundingClientRect();
+        }
+        if (e.seat === me) g.hand = g.hand.filter(function (c) { return c !== e.card; });
+        g.counts[e.seat] = Math.max(0, g.counts[e.seat] - 1);
+        g.trick.push({ s: e.seat, c: e.card });
+        g.turn = g.trick.length < 4 ? (e.seat + 1) % 4 : -1;
+        g.phase = "play"; g.legal = []; sel = null;
+        render();
+        if (from) fly(R.slot[rel(e.seat)].firstChild, from);
+        SND.card();
+        return wait(A.play * d);
+      case "trick":
+        return collect(e, fast);
+      case "kapq":
+        g.phase = "kap"; g.turn = e.seat; render();
+        toast(t("kap_t"), null, 900, "tc-toast-kap");
+        SND.kap(); buzz(60);
+        return wait(A.kapq * d);
+      case "baunie":
+        g.baunie = e.seat % 2; g.phase = "play"; g.turn = e.seat; render();
+        note(t("bau_go", { name: nm(e.seat) }), 2600);
+        return wait(A.baunie * d);
+      case "end":
+        g.scores = e.scores; g.tricks = e.tricks; g.phase = "handend"; g.turn = -1;
+        resultEv = e;
+        render();
+        if (e.kind === "kap" || e.kind === "baunie") { if (e.team === me % 2) SND.kap(); else SND.lost(); }
+        else if (e.team === me % 2) SND.won(); else SND.lost();
+        return wait(A.end * d).then(function () { resultEv = null; });
+      case "over":
+        return wait(A.over * d);
+      case "auto":
+        note(t("auto", { name: nm(e.seat) }), 2600);
+        return Promise.resolve();
+      case "join":
+        if (e.seat !== me) note(t("joined", { name: e.name }), 2600);
+        return Promise.resolve();
+      case "left":
+        note(t("left", { name: e.name }), 3000);
+        return Promise.resolve();
+    }
+    return Promise.resolve();
+  }
+  function collect(e, fast) {
+    var g = V.g, A = E.ANIM, pos = rel(e.w);
+    if (fast) { g.tricks = e.tricks; g.trick = []; g.turn = e.w; render(); return Promise.resolve(); }
+    var slot = R.slot[pos];
+    if (slot.firstChild) slot.firstChild.classList.add("tc-win");
+    return wait(A.trick - 420).then(function () {
+      if (!V) return;
+      var to = (pos === "b" ? R.me : R.seat[pos]).getBoundingClientRect();
+      ["b", "l", "t", "r"].forEach(function (p) {
+        var c = R.slot[p].firstChild;
+        if (!c || reduced) return;
+        var r = c.getBoundingClientRect();
+        c.style.transition = "transform .34s ease-in, opacity .34s ease-in";
+        c.style.transform = "translate(" + (to.left + to.width / 2 - r.left - r.width / 2) + "px," + (to.top + to.height / 2 - r.top - r.height / 2) + "px) scale(.35)";
+        c.style.opacity = "0";
+      });
+      if (e.w % 2 === V.you % 2) tone(620, 0.08, "sine", 0.04);
+      return wait(360);
+    }).then(function () {
+      if (!V) return;
+      g.tricks = e.tricks; g.trick = []; g.turn = e.w;
+      render();
+      return wait(60);
+    });
+  }
+  function fly(card, from) {
+    if (!card || reduced) return;
+    var to = card.getBoundingClientRect();
+    var dx = from.left + from.width / 2 - to.left - to.width / 2, dy = from.top + from.height / 2 - to.top - to.height / 2;
+    var rot = card.style.getPropertyValue("--rot") || "0deg";
+    card.style.transition = "none";
+    card.style.transform = "translate(" + dx + "px," + dy + "px) scale(" + Math.max(0.5, Math.min(1.2, from.width / to.width)) + ")";
+    void card.offsetWidth;
+    card.style.transition = "transform .26s cubic-bezier(.2,.8,.25,1)";
+    card.style.transform = "rotate(" + rot + ")";
+  }
+
+  /* ───────────────────────── table screen ───────────────────────── */
+
+  function rel(seat) { return ["b", "l", "t", "r"][(seat - V.you + 4) % 4]; }
+  function seatAt(pos) { return (V.you + { b: 0, l: 1, t: 2, r: 3 }[pos]) % 4; }
+
+  function cardEl(c, cls) {
+    var red = c[1] === "H" || c[1] === "D", r = c[0] === "T" ? "10" : c[0], face = "KQJ".indexOf(c[0]) >= 0;
+    var d = el("div", "tc-card " + (red ? "tc-red" : "tc-blk") + (face ? " tc-face" : "") + (c[0] === "A" ? " tc-ace" : "") + (cls ? " " + cls : ""));
+    d.setAttribute("data-c", c);
+    var ix = el("span", "tc-ix");
+    add(ix, el("b", null, r), el("i", null, GLYPH[c[1]]));
+    var mid = el("span", "tc-pip");
+    if (face) add(mid, el("b", null, r), el("i", null, GLYPH[c[1]]));
+    else mid.textContent = GLYPH[c[1]];
+    add(d, ix, mid);
+    d.setAttribute("aria-label", r + " " + t(c[1]));
+    d.setAttribute("role", "img");
+    return d;
+  }
+  function icon(name) {
+    var P = {
+      back: "M15 5l-7 7 7 7", chat: "M4 5h16v11H9l-5 4z", menu: "M5 12h.01M12 12h.01M19 12h.01", x: "M6 6l12 12M18 6L6 18",
+      send: "M4 12l16-7-6 16-3-6z", pc: "M4 5h16v10H4zM9 19h6M12 15v4"
+    };
+    var s = D.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", "20"); s.setAttribute("height", "20");
+    s.setAttribute("fill", "none"); s.setAttribute("stroke", "currentColor"); s.setAttribute("stroke-width", name === "menu" ? "3" : "1.9");
+    s.setAttribute("stroke-linecap", "round"); s.setAttribute("stroke-linejoin", "round"); s.setAttribute("aria-hidden", "true");
+    var p = D.createElementNS("http://www.w3.org/2000/svg", "path");
+    p.setAttribute("d", P[name]); s.appendChild(p);
+    return s;
+  }
+  function ibtn(cls, ic, label, fn) { var b = btn("tc-ib " + cls, null, fn); b.appendChild(icon(ic)); b.setAttribute("aria-label", label); return b; }
+
+  function buildTable() {
+    root.className = "tc tc-in-game" + (V.solo ? " tc-solo" : "");
+    root.textContent = "";
+    R = { seat: {}, slot: {} };
+    var game = el("div", "tc-game"), main = el("div", "tc-main");
+    var top = el("div", "tc-top");
+    R.title = el("span", "tc-title");
+    R.score = el("div", "tc-score");
+    R.chatBtn = ibtn("tc-chatbtn", "chat", t("chat"), function () { chatOpen = !chatOpen; if (chatOpen) unread = 0; render(); if (chatOpen && R.chatIn && !touch) R.chatIn.focus(); });
+    R.badge = el("i", "tc-badge"); R.chatBtn.appendChild(R.badge);
+    add(top, ibtn("tc-leave", "back", t("leave"), function () { leaveAsk = true; menuOpen = false; render(); }), R.title, R.score, R.chatBtn,
+      ibtn("tc-menubtn", "menu", t("menu"), function () { menuOpen = !menuOpen; render(); }));
+    var felt = R.felt = el("div", "tc-felt");
+    R.hudL = el("div", "tc-hud tc-hud-l"); R.hudR = el("div", "tc-hud tc-hud-r");
+    ["l", "t", "r"].forEach(function (p) {
+      var s = R.seat[p] = el("div", "tc-seat tc-s-" + p);
+      s.addEventListener("click", function () { seatTap(p); });
+      felt.appendChild(s);
+    });
+    R.mid = el("div", "tc-mid");
+    ["t", "l", "r", "b"].forEach(function (p) { R.slot[p] = el("div", "tc-slot tc-sl-" + p); R.mid.appendChild(R.slot[p]); });
+    R.toast = el("div", "tc-toast"); R.toast.hidden = true;
+    R.note = el("div", "tc-note"); R.note.hidden = true;
+    R.me = el("div", "tc-me");
+    R.status = el("div", "tc-status");
+    R.hand = el("div", "tc-hand");
+    R.ov = el("div", "tc-ov"); R.ov.hidden = true;
+    R.menu = el("div", "tc-menu"); R.menu.hidden = true;
+    add(felt, R.hudL, R.hudR, R.mid, R.note, R.toast, R.status, R.me, R.hand, R.ov, R.menu);
+    R.hand.addEventListener("click", handTap);
+    R.hand.addEventListener("keydown", function (ev) { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); handTap(ev); } });
+    add(main, top, felt);
+    R.chat = el("aside", "tc-chat");
+    buildChat();
+    add(game, main, R.chat);
+    add(root, game);
+    awake(true);
+    layout();
+  }
+
+  function layout() {
+    if (!R.felt) return;
+    var w = R.felt.clientWidth || root.clientWidth || 360, vh = W.innerHeight || 700;
+    var wide = w >= 640;
+    var cw = Math.round(Math.max(44, Math.min(wide ? 86 : 70, w / (wide ? 9.2 : 6.1))));
+    var fh = wide ? Math.max(520, Math.min(640, vh - 110)) : Math.max(456, Math.min(610, vh - 58));
+    root.style.setProperty("--cw", cw + "px");
+    root.style.setProperty("--fh", Math.round(fh) + "px");
+    R.cw = cw; R.w = w;
+    if (V) layHand();
+  }
+  var rsT = 0;
+  W.addEventListener("resize", function () { clearTimeout(rsT); rsT = setTimeout(function () { layout(); }, 80); });
+
+  function layHand() {
+    var cards = R.hand.children, n = cards.length, cw = R.cw, ch = cw * 1.42, pad = 13, w = R.w - pad * 2;
+    var maxStep = cw * 0.74, minStep = touch ? 31 : 24;
+    var one = n > 1 ? Math.min(maxStep, (w - cw) / (n - 1)) : 0;
+    var rows = (n > 7 && one < minStep) ? 2 : 1;
+    var perRow = rows === 2 ? Math.ceil(n / 2) : n;
+    for (var i = 0; i < n; i++) {
+      var row = i < perRow ? 0 : 1, k = row === 0 ? perRow : n - perRow, j = row === 0 ? i : i - perRow;
+      var step = k > 1 ? Math.min(maxStep, (w - cw) / (k - 1)) : 0;
+      var total = cw + step * (k - 1);
+      cards[i].style.left = Math.round(pad + (w - total) / 2 + j * step) + "px";
+      cards[i].style.top = Math.round(rows === 2 ? row * ch * 0.6 : 0) + "px";
+      cards[i].style.zIndex = String(10 + i);
+    }
+    var hh = Math.round(rows === 2 ? ch * 1.6 : ch);
+    R.hand.style.height = hh + "px";
+    root.style.setProperty("--hh", hh + "px");
+  }
+
+  function seatTap(pos) {
+    if (!V || V.phase !== "wait") return;
+    var s = seatAt(pos);
+    if (V.seats[s].bot) conn.send({ t: "sit", seat: s });
+  }
+  function handTap(ev) {
+    var c = ev.target.closest ? ev.target.closest(".tc-card") : null;
+    if (!c || !V || !V.g) return;
+    var g = V.g, card = c.getAttribute("data-c");
+    if (busy || g.phase !== "play" || g.turn !== V.you || optim) return;
+    if (g.legal.indexOf(card) < 0) {
+      c.classList.remove("tc-shake"); void c.offsetWidth; c.classList.add("tc-shake");
+      if (g.trick.length) note(t("follow", { suit: t(g.trick[0].c[1]) + " " + GLYPH[g.trick[0].c[1]] }), 2200);
+      return;
+    }
+    if (SET.confirm && sel !== card) { sel = card; render(); return; }
+    /* show it at once, the table confirms a moment later */
+    var from = c.getBoundingClientRect();
+    optim = card; sel = null;
+    g.hand = g.hand.filter(function (x) { return x !== card; });
+    g.counts[V.you] = Math.max(0, g.counts[V.you] - 1);
+    g.trick.push({ s: V.you, c: card });
+    g.legal = []; g.turn = -1; dlAt = 0;
+    render();
+    fly(R.slot.b.firstChild, from);
+    SND.card();
+    conn.send({ t: "play", card: card });
+  }
+
+  function seatBox(pos) {
+    var s = seatAt(pos), st = V.seats[s], g = V.g, box = R.seat[pos];
+    box.textContent = "";
+    var waiting = V.phase === "wait";
+    box.className = "tc-seat tc-s-" + pos + (g && g.turn === s && g.phase !== "over" && g.phase !== "handend" ? " tc-turn" : "") +
+      (st.bot ? " tc-bot" : "") + (!st.bot && !st.conn ? " tc-off" : "") + (waiting && st.bot ? " tc-free" : "");
+    var av = el("div", "tc-av");
+    if (st.bot) av.appendChild(icon("pc")); else av.textContent = (st.name || "?").charAt(0).toUpperCase();
+    var meta = el("div", "tc-meta");
+    add(meta, el("b", "tc-nm", waiting && st.bot ? t("sit_here") : st.name));
+    var sub = [];
+    if (pos === "t") sub.push(t("partner"));
+    if (st.bot && !(waiting)) sub.push(t("pc"));
+    if (waiting && st.bot) sub.push(t("pc"));
+    if (!st.bot && !st.conn) sub.push(t("gone"));
+    if (!st.bot && V.host === s && !V.pub && !V.solo) sub.push(t("host"));
+    if (sub.length) add(meta, el("small", null, sub.join(" · ")));
+    add(box, av, meta);
+    if (g && !waiting) {
+      var tags = el("div", "tc-tags");
+      if (g.caller === s) add(tags, el("i", "tc-tag tc-tag-c", t("caller")));
+      if (g.dealer === s) add(tags, el("i", "tc-tag", t("dealer")));
+      if (g.counts[s]) add(tags, el("i", "tc-cnt", String(g.counts[s])));
+      add(box, tags);
+    }
+    var b = lastBubble(s);
+    if (b) add(box, el("div", "tc-bub", b));
+  }
+  function lastBubble(seat) {
+    for (var i = chat.length - 1; i >= 0; i--) {
+      var c = chat[i];
+      if (c.seat === seat) return (Date.now() - c.at < 4500 && !muted[c.name]) ? c.m : null;
+    }
+    return null;
+  }
+
+  function render(dealt) {
+    if (!V || !R.felt) return;
+    var g = V.g, me = V.you, my = me % 2, i;
+    var myTurn = g && g.turn === me && !busy;
+    /* top bar */
+    R.title.textContent = V.solo ? t("practice") : t("w_title", { code: V.code });
+    R.score.textContent = "";
+    if (g) {
+      add(R.score, add(el("span", "tc-sc tc-sc-us"), el("small", null, t("us")), el("b", null, String(g.scores[my]))),
+        add(el("span", "tc-sc tc-sc-them"), el("b", null, String(g.scores[1 - my])), el("small", null, t("them"))),
+        el("span", "tc-to", t("to_n", { n: g.target })));
+    }
+    R.chatBtn.hidden = !!V.solo;
+    R.badge.hidden = !unread; R.badge.textContent = unread > 9 ? "9+" : String(unread);
+    root.classList.toggle("tc-chat-open", chatOpen && !V.solo);
+    /* seats */
+    ["l", "t", "r"].forEach(seatBox);
+    /* hud */
+    R.hudL.textContent = ""; R.hudR.textContent = "";
+    if (g && V.phase === "game") {
+      var chip = el("div", "tc-troef" + (g.trump ? " tc-" + (g.trump === "H" || g.trump === "D" ? "red" : "blk") : " tc-none"));
+      add(chip, el("span", "tc-troef-g", g.trump ? GLYPH[g.trump] : "?"));
+      add(R.hudL, chip, add(el("div", "tc-troef-l"), el("small", null, t("troef")), el("b", null, g.trump ? t(g.trump) : "…")));
+      var tr = el("div", "tc-tricks");
+      [[t("us"), g.tricks[my], "us"], [t("them"), g.tricks[1 - my], "them"]].forEach(function (x) {
+        var row = el("div", "tc-trow tc-trow-" + x[2]);
+        add(row, el("small", null, x[0]));
+        var pips = el("span", "tc-pips");
+        for (var k = 0; k < Math.max(7, x[1]); k++) pips.appendChild(el("i", k < x[1] ? "on" : ""));
+        add(row, pips, el("b", null, String(x[1])));
+        tr.appendChild(row);
+      });
+      R.hudR.appendChild(tr);
+    }
+    /* trick */
+    ["b", "l", "t", "r"].forEach(function (p) { R.slot[p].textContent = ""; });
+    if (g) g.trick.forEach(function (pl) {
+      var c = cardEl(pl.c), p = rel(pl.s), rot = { b: "2deg", l: "-5deg", t: "-2deg", r: "5deg" }[p];
+      c.style.setProperty("--rot", rot); c.style.transform = "rotate(" + rot + ")";
+      R.slot[p].appendChild(c);
+    });
+    /* me + hand */
+    R.me.textContent = "";
+    var mst = V.seats[me];
+    add(R.me, el("b", "tc-nm", mst.name));
+    if (g && V.phase === "game") {
+      if (g.caller === me) add(R.me, el("i", "tc-tag tc-tag-c", t("caller")));
+      if (g.dealer === me) add(R.me, el("i", "tc-tag", t("dealer")));
+    }
+    R.me.className = "tc-me" + (g && g.turn === me && g.phase !== "over" && g.phase !== "handend" ? " tc-turn" : "");
+    R.hand.textContent = "";
+    R.hand.className = "tc-hand";
+    if (g) {
+      var canPlay = myTurn && g.phase === "play" && !optim;
+      if (canPlay && g.legal.length < g.hand.length) R.hand.className = "tc-hand tc-some";
+      g.hand.forEach(function (c, ix) {
+        var cls = "";
+        if (g.trump && c[1] === g.trump) cls += " tc-tr";
+        if (canPlay) cls += g.legal.indexOf(c) >= 0 ? " tc-ok" : " tc-no";
+        if (sel === c) cls += " tc-sel";
+        var ce = cardEl(c, cls);
+        if (canPlay && g.legal.indexOf(c) >= 0) { ce.setAttribute("role", "button"); ce.tabIndex = 0; }
+        if (dealt && !reduced) { ce.classList.add("tc-dealt"); ce.style.animationDelay = (ix * 45) + "ms"; }
+        R.hand.appendChild(ce);
+      });
+    }
+    layHand();
+    /* status line */
+    var txt = "", cls = "";
+    if (g && V.phase === "game" && g.phase !== "over" && g.phase !== "handend" && g.turn >= 0) {
+      if (g.turn === me) {
+        if (g.phase === "play" && !busy) { txt = sel ? t("again_tap") : t("your_turn"); cls = " tc-mine"; }
+      } else if (g.phase === "trump") txt = t("picking", { name: nm(g.turn) });
+      else if (g.phase === "kap") txt = t("kap_w", { name: nm(g.turn) });
+      else if (g.phase === "play" && !busy) txt = t("turn_of", { name: nm(g.turn) });
+    }
+    R.status.className = "tc-status" + cls; R.status.textContent = txt;
+    if (txt && cls) { var bar = el("i", "tc-bar"); R.status.appendChild(bar); }
+    R.status.hidden = !txt;
+    renderOverlay(myTurn);
+    renderMenu();
+    renderChat();
+    turnCue();
+    tick();
+  }
+
+  function panel(cls) { var p = el("div", "tc-panel " + (cls || "")); R.ov.appendChild(p); return p; }
+  function renderOverlay(myTurn) {
+    var g = V.g, me = V.you, my = me % 2, p;
+    var keepSuit = R.ov.getAttribute("data-k");
+    var key = "";
+    R.ov.textContent = "";
+    R.ov.className = "tc-ov";
+    if (net !== "ok" && !V.solo) {
+      key = "net";
+      p = panel("tc-p-net");
+      add(p, el("p", "tc-p-t", net === "fail" ? t("n_fail") : t("n_lost")));
+      if (net === "fail") add(p, btn("tc-btn tc-btn-p", t("retry"), function () { conn.retryNow(); }), btn("tc-link", t("lobby"), leaveNow));
+    } else if (leaveAsk) {
+      key = "leave";
+      p = panel();
+      add(p, el("p", "tc-p-t", t("leave_q")),
+        add(el("div", "tc-row"), btn("tc-btn tc-btn-g", t("no"), function () { leaveAsk = false; render(); }), btn("tc-btn tc-btn-p", t("yes"), leaveNow)));
+    } else if (V.phase === "wait") {
+      key = "wait"; waitPanel();
+    } else if (g && V.seats[me].away && g.phase !== "over") {
+      key = "away";
+      p = panel();
+      add(p, el("p", "tc-p-t", t("away_t")), el("p", "tc-p-s", t("away_q")), btn("tc-btn tc-btn-p", t("back"), function () { conn.send({ t: "back" }); }));
+    } else if (resultEv) {
+      key = "res"; resultPanel(resultEv);
+      R.ov.className = "tc-ov tc-ov-soft";
+    } else if (g && g.phase === "over" && !busy) {
+      key = "over"; overPanel();
+    } else if (g && myTurn && g.phase === "trump") {
+      key = "trump";
+      p = panel("tc-p-trump");
+      add(p, el("p", "tc-p-t", t("pick_t")), el("p", "tc-p-s", t("pick_s")));
+      var row = el("div", "tc-suits");
+      E.SUITS.forEach(function (s) {
+        var n = g.hand.filter(function (c) { return c[1] === s; }).length;
+        var b = btn("tc-suit " + (s === "H" || s === "D" ? "tc-red" : "tc-blk"), null, function () { conn.send({ t: "trump", suit: s }); R.ov.hidden = true; });
+        add(b, el("span", null, GLYPH[s]), el("b", null, t(s)), el("small", null, "× " + n));
+        row.appendChild(b);
+      });
+      p.appendChild(row);
+      R.ov.className = "tc-ov tc-ov-top";
+    } else if (g && myTurn && g.phase === "redeal") {
+      key = "redeal";
+      p = panel();
+      add(p, el("p", "tc-p-t", t("nopic_t")), el("p", "tc-p-s", t("nopic_q")),
+        add(el("div", "tc-row"), btn("tc-btn tc-btn-g", t("nopic_n"), function () { conn.send({ t: "redeal", yes: 0 }); }),
+          btn("tc-btn tc-btn-p", t("nopic_y"), function () { conn.send({ t: "redeal", yes: 1 }); })));
+      R.ov.className = "tc-ov tc-ov-top";
+    } else if (g && myTurn && g.phase === "kap") {
+      key = "kap";
+      p = panel("tc-p-kap");
+      add(p, el("p", "tc-p-big", t("kap_t")), el("p", "tc-p-s", t("kap_q")),
+        add(el("div", "tc-row tc-col"), btn("tc-btn tc-btn-p", t("kap_stop"), function () { ga("tc_kap", { tc_choice: "kap" }); conn.send({ t: "kap", go: 0 }); }),
+          btn("tc-btn tc-btn-g", t("kap_go"), function () { ga("tc_kap", { tc_choice: "baunie" }); conn.send({ t: "kap", go: 1 }); })));
+      R.ov.className = "tc-ov tc-ov-top";
+    }
+    R.ov.hidden = !key;
+    R.ov.setAttribute("data-k", key);
+    if (key && key !== keepSuit && (key === "trump" || key === "kap") && !D.hidden) { SND.turn(); buzz(40); }
+  }
+  function resultPanel(e) {
+    var mine = e.team === V.you % 2, w = mine ? "us" : "them";
+    var k = { win: "r_win_", kap: "r_kap_", baunie: "r_bau_", fail: "r_fail_" }[e.kind] + w;
+    var p = panel("tc-p-res " + (mine ? "tc-good" : "tc-bad"));
+    add(p, el("p", e.kind === "win" || e.kind === "fail" ? "tc-p-t" : "tc-p-big", t(k)),
+      el("p", "tc-p-pts", t(mine ? "pts_us" : "pts_them", { n: e.pts })),
+      scoreLine(e.scores));
+  }
+  function scoreLine(sc) {
+    var my = V.you % 2, d = el("div", "tc-final");
+    add(d, add(el("span", "tc-sc-us"), el("small", null, t("us")), el("b", null, String(sc[my]))), el("i", null, "–"),
+      add(el("span", "tc-sc-them"), el("b", null, String(sc[1 - my])), el("small", null, t("them"))));
+    return d;
+  }
+  function overPanel() {
+    var g = V.g, won = g.winner === V.you % 2, my = V.you % 2;
+    var p = panel("tc-p-over " + (won ? "tc-good" : "tc-bad"));
+    add(p, el("p", "tc-p-big", t(won ? "o_win" : "o_lose")), el("small", "tc-p-k", t("final")), scoreLine(g.scores));
+    var again = btn("tc-btn tc-btn-p", t("again"), function () { conn.send({ t: "again" }); });
+    R.again = el("small", "tc-p-s"); R.again.hidden = true;
+    var url = location.origin + location.pathname;
+    var txt = won ? t("sh_win", { a: g.scores[my], b: g.scores[1 - my], url: url }) : t("sh_any", { url: url });
+    var sh = el("a", "tc-btn tc-btn-wa", t("share"));
+    sh.href = "https://wa.me/?text=" + encodeURIComponent(txt); sh.target = "_blank"; sh.rel = "noopener";
+    sh.addEventListener("click", function () { ga("tc_share", { tc_result: won ? "win" : "loss" }); });
+    add(p, add(el("div", "tc-row tc-col"), again, sh), R.again, btn("tc-link", t("lobby"), leaveNow));
+  }
+  function waitPanel() {
+    var host = V.host === V.you, p = panel("tc-p-wait");
+    var url = inviteUrl(V.code);
+    add(p, el("p", "tc-p-t", t("w_inv")), el("p", "tc-p-s", t("w_inv_s")));
+    var link = add(el("div", "tc-codebox"), el("small", null, t("w_code")), el("b", null, V.code));
+    var wa = el("a", "tc-btn tc-btn-wa", t("wa"));
+    wa.href = "https://wa.me/?text=" + encodeURIComponent(t("inv_txt", { code: V.code, url: url })); wa.target = "_blank"; wa.rel = "noopener";
+    wa.addEventListener("click", function () { ga("tc_invite", { tc_via: "wa" }); });
+    var cp = btn("tc-btn tc-btn-g", t("copy"), function () {
+      ga("tc_invite", { tc_via: "copy" });
+      var done = function () { cp.textContent = t("copied"); setTimeout(function () { cp.textContent = t("copy"); }, 1800); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () {});
+      else { var ta = el("textarea"); ta.value = url; D.body.appendChild(ta); ta.select(); try { D.execCommand("copy"); done(); } catch (e) {} ta.remove(); }
+    });
+    /* the four seats as a small table: opposite seats share a colour */
+    var mini = el("div", "tc-mini");
+    ["t", "l", "r", "b"].forEach(function (pos) {
+      var s = seatAt(pos), st = V.seats[s];
+      var b = btn("tc-ms tc-ms-" + (s % 2 === V.you % 2 ? "a" : "b") + (st.bot ? " tc-ms-free" : "") + (pos === "b" ? " tc-ms-me" : ""), null,
+        function () { if (st.bot) conn.send({ t: "sit", seat: s }); });
+      b.style.gridArea = pos;
+      if (!st.bot) b.disabled = true;
+      add(b, el("b", null, st.bot ? t("sit_here") : st.name),
+        el("small", null, st.bot ? t("pc") : (pos === "b" ? t("you") : (!st.conn ? t("gone") : (V.host === s ? t("host") : (pos === "t" ? t("partner") : "\u00a0"))))));
+      mini.appendChild(b);
+    });
+    mini.appendChild(el("div", "tc-mc"));
+    add(p, link, add(el("div", "tc-row tc-row2"), wa, cp), mini, el("p", "tc-p-hint", t("w_seats")));
+    if (host) {
+      var len = el("div", "tc-len");
+      add(len, el("small", null, t("len")));
+      [10, 15, 20].forEach(function (n) {
+        len.appendChild(btn("tc-pill" + (V.target === n ? " on" : ""), t("pts_n", { n: n }), function () { conn.send({ t: "opt", target: n }); }));
+      });
+      add(p, len, btn("tc-btn tc-btn-p tc-wide", t("start"), function () { conn.send({ t: "start" }); }), el("small", "tc-p-s", t("start_s")));
+    } else {
+      add(p, el("p", "tc-p-s tc-pulse", t("w_host", { name: V.host >= 0 ? V.seats[V.host].name : "…" })),
+        el("small", "tc-p-k", t("len") + ": " + t("pts_n", { n: V.target })));
+    }
+    R.ov.className = "tc-ov tc-ov-wait";
+  }
+  function leaveNow() {
+    if (conn) conn.send({ t: "leave" });
+    if (V && !V.solo) { lsDel("tc-last"); setHash(""); }
+    showLobby();
+  }
+
+  function renderMenu() {
+    R.menu.hidden = !menuOpen;
+    if (!menuOpen) return;
+    R.menu.textContent = "";
+    function tog(key, label) {
+      var b = btn("tc-mi", null, function () { SET[key] = SET[key] ? 0 : 1; lsSet("tc-set", SET); sel = null; render(); });
+      add(b, el("span", null, label), el("i", "tc-sw" + (SET[key] ? " on" : "")));
+      b.setAttribute("aria-pressed", SET[key] ? "true" : "false");
+      return b;
+    }
+    var rl = el("a", "tc-mi", t("rules")); rl.href = RULES;
+    rl.addEventListener("click", function () { menuOpen = false; render(); });
+    add(R.menu, tog("sound", t("sound")), tog("confirm", t("confirm")), rl,
+      btn("tc-mi tc-mi-x", t("leave"), function () { menuOpen = false; leaveAsk = true; render(); }));
+  }
+
+  function toast(text, suit, ms, cls) {
+    clearTimeout(toastT);
+    R.toast.textContent = "";
+    R.toast.className = "tc-toast " + (cls || "");
+    if (suit) add(R.toast, el("span", "tc-toast-g " + (suit === "H" || suit === "D" ? "tc-red" : "tc-blk"), GLYPH[suit]));
+    add(R.toast, el("b", null, text));
+    if (suit) add(R.toast, el("small", null, t(suit)));
+    R.toast.hidden = false;
+    toastT = setTimeout(function () { if (R.toast) R.toast.hidden = true; }, ms || 1200);
+  }
+  function note(text, ms) {
+    if (!R.note) return;
+    clearTimeout(noteT);
+    R.note.textContent = text; R.note.hidden = false;
+    noteT = setTimeout(function () { if (R.note) R.note.hidden = true; }, ms || 2200);
+  }
+
+  /* turn clock + countdown to the next online match */
+  function tick() {
+    if (!V || !R.felt) return;
+    var g = V.g, now = Date.now(), frac = -1;
+    if (g && dlAt && !busy && g.turn === dlFor && g.turn >= 0 && !V.solo) {
+      var total = (V.pub ? E.TURN_MS.pub : E.TURN_MS.priv) + (g.phase === "trump" ? 8000 : 0);
+      frac = Math.max(0, Math.min(1, (dlAt - now) / total));
+    }
+    ["l", "t", "r"].forEach(function (p) {
+      var on = frac >= 0 && g.turn === seatAt(p);
+      R.seat[p].style.setProperty("--p", on ? String(frac) : "1");
+      R.seat[p].classList.toggle("tc-low", on && frac < 0.25);
+    });
+    var bar = R.status.querySelector(".tc-bar");
+    if (bar) { bar.style.transform = "scaleX(" + (frac >= 0 && g.turn === V.you ? frac : 1) + ")"; bar.classList.toggle("tc-low", frac >= 0 && frac < 0.25); }
+    if (R.again && R.again.isConnected) {
+      var left = restartAt ? Math.ceil((restartAt - now) / 1000) : 0;
+      R.again.hidden = !(left > 0);
+      if (left > 0) R.again.textContent = t("again_in", { n: left });
+    }
+    /* chat bubbles fade by themselves */
+    var bubs = R.felt.querySelectorAll(".tc-bub");
+    if (bubs.length) for (var i = 0; i < 4; i++) { var b = i !== V.you && lastBubble(i); if (!b) { var q = R.seat[rel(i)] && R.seat[rel(i)].querySelector(".tc-bub"); if (q) q.remove(); } }
+  }
+  setInterval(tick, 250);
+
+  /* ───────────────────────── chat ───────────────────────── */
+
+  function buildChat() {
+    R.chat.textContent = "";
+    var head = el("div", "tc-chat-h");
+    add(head, el("b", null, t("chat")), ibtn("tc-chat-x", "x", t("close"), function () { chatOpen = false; render(); }));
+    R.chatList = el("div", "tc-chat-l");
+    var quick = el("div", "tc-quick");
+    QUICK.forEach(function (q) { quick.appendChild(btn("tc-q", q, function () { sendChat(q); })); });
+    var form = el("form", "tc-chat-f");
+    R.chatIn = el("input", "tc-inp");
+    R.chatIn.type = "text"; R.chatIn.maxLength = 140; R.chatIn.placeholder = t("chat_ph"); R.chatIn.setAttribute("autocomplete", "off");
+    R.chatIn.setAttribute("enterkeyhint", "send"); R.chatIn.setAttribute("aria-label", t("chat"));
+    var sb = el("button", "tc-ib tc-send"); sb.type = "submit"; sb.appendChild(icon("send")); sb.setAttribute("aria-label", t("send"));
+    form.addEventListener("submit", function (ev) { ev.preventDefault(); var v = R.chatIn.value; R.chatIn.value = ""; sendChat(v); });
+    add(form, R.chatIn, sb);
+    add(R.chat, head, R.chatList, quick, form);
+  }
+  var chatSent = 0, lastSend = 0;
+  function sendChat(v) {
+    v = E.cleanChat(v);
+    if (!v || !conn || !V || V.solo) return;
+    if (Date.now() - lastSend < 950) return;
+    lastSend = Date.now();
+    conn.send({ t: "chat", m: v });
+    if (!chatSent++) ga("tc_chat", { tc_mode: mode });
+  }
+  function gotChat(m) {
+    if (!V) return;
+    chat.push({ seat: m.seat, name: String(m.name || ""), m: String(m.m || ""), at: Date.now() });
+    if (chat.length > 80) chat.shift();
+    if (m.seat !== V.you && !muted[m.name]) {
+      var wideOpen = W.matchMedia && W.matchMedia("(min-width: 980px)").matches;
+      if (!chatOpen && !wideOpen) unread++;
+    }
+    render();
+  }
+  function renderChat() {
+    if (!R.chatList || V.solo) return;
+    var L2 = R.chatList, atEnd = L2.scrollHeight - L2.scrollTop - L2.clientHeight < 40;
+    L2.textContent = "";
+    add(L2, el("p", "tc-chat-rule", t("chat_rule")));
+    if (!chat.length) add(L2, el("p", "tc-chat-e", t("chat_empty")));
+    chat.forEach(function (c) {
+      var mine = c.seat === V.you, row = el("div", "tc-cm" + (mine ? " tc-cm-me" : "") + (c.seat % 2 === V.you % 2 ? " tc-cm-us" : " tc-cm-them"));
+      var who = el("b", null, mine ? t("you") : c.name);
+      if (muted[c.name] && !mine) { add(row, who, el("span", "tc-cm-muted", "···")); }
+      else add(row, who, el("span", null, c.m));
+      if (!mine) row.appendChild(btn("tc-cm-mute", muted[c.name] ? t("unmute") : t("mute"), function () { muted[c.name] = !muted[c.name]; render(); }));
+      L2.appendChild(row);
+    });
+    if (atEnd) L2.scrollTop = L2.scrollHeight;
+  }
+
+  /* ───────────────────────── start ───────────────────────── */
+  W.addEventListener("hashchange", function () { if (!V && !conn) showLobby(); });
+  if (location.hostname === "localhost") W.__tc = { view: function () { return V; }, conn: function () { return conn; }, msg: onMsg, busy: function () { return busy; } };
+  showLobby();
+})();
+
+</script>
+<script id="langswitch-js">document.addEventListener('click',function(){document.querySelectorAll('[data-langmenu]').forEach(function(x){x.style.display='none';var b=x.previousElementSibling;if(b)b.setAttribute('aria-expanded','false');});});</script></body>
+</html>
