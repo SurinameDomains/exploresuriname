@@ -208,16 +208,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-12T22:55-03:00",
+   "ok": "2026-11-13T08:11-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-12T22:55-03:00",
+   "ok": "2026-11-13T08:11-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-12T22:55-03:00"
+ "updated": "2026-11-13T08:11-03:00"
 }
