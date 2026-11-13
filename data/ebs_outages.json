@@ -5,6 +5,53 @@
       "date": "15 November 2026",
       "date_iso": "2026-11-15",
       "type": "planned",
+      "link": "https://nvebs.com/nieuws/1650/gepland-onderhoud-zondag-15-november-2026",
+      "time": "09:00 – 15:00",
+      "area": "GEDEELTE KAIKOESISTRAAT TUSSEN ABONESTRAAT EN ABOENAWROKOSTRAAT, GEDEELTE BONISTRAAT TUSSEN MATHOERASTRAAT EN ANTON DRAGTENWEG, GEDEELTE BARRONSTRAAT TUSSEN COMMISSARIS E.A. ROBLESWEG EN BONISTRAAT, GEDEELTE COMMISSARIS E.A. ROBLESWEG TUSSEN LOUIS GOVEIASTRAAT, GEDEELTE ABOENAWROKOSTRAAT TUSSEN KAIKOESISTRAAT EN KROMANTI KODJOSTRAAT, JOSEPHINE SAMSON GREENSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "KAIKOESISTRAAT",
+        "BONISTRAAT",
+        "BARRONSTRAAT",
+        "COMMISSARIS E.A. ROBLESWEG",
+        "ABOENAWROKOSTRAAT",
+        "JOSEPHINE SAMSON GREENSTRAAT"
+      ],
+      "cross": [
+        "ABONESTRAAT",
+        "ABOENAWROKOSTRAAT",
+        "MATHOERASTRAAT",
+        "ANTON DRAGTENWEG",
+        "COMMISSARIS E.A. ROBLESWEG",
+        "LOUIS GOVEIASTRAAT",
+        "KROMANTI KODJOSTRAAT"
+      ],
+      "district": "Paramaribo",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.85109,
+          -55.12126
+        ],
+        [
+          5.85118,
+          -55.12133
+        ],
+        [
+          5.84793,
+          -55.12195
+        ],
+        [
+          5.84762,
+          -55.12648
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=65b3833f601f437cb031e523f6adff55"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 15 NOVEMBER 2026",
+      "date": "15 November 2026",
+      "date_iso": "2026-11-15",
+      "type": "planned",
       "link": "https://nvebs.com/nieuws/1648/gepland-onderhoud-zondag-15-november-2026",
       "time": "09:00 – 17:00",
       "area": "GEDEELTE EPHRAIMSZEGENWEG TUSSEN DJINKOEWEG EN EVENAARSTRAAT, GEDEELTE RUST EN WERKWEG TUSSEN COESEWIJNESTRAAT EN INDIRA GANDHIWEG, GEDEELTE COESEWIJNESTRAAT TUSSEN NIEUW WEERGEVONDENWEG EN HENNAWEG, GOEDEZORGWEG, KATWIJKWEG, BAKKIEWEG, AGENORIAWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
@@ -48,7 +95,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=d5593444a2334141a7b99a3d586484cf"
     }
   ],
-  "last_updated": "2026-11-13T11:59:46.956039+00:00",
+  "last_updated": "2026-11-13T15:08:00.894832+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
