@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-12T16:00:40.804677+00:00",
+  "last_updated": "2026-11-13T10:00:36.644955+00:00",
   "date_label": "Today",
   "showings": [
     {
@@ -36,6 +36,11 @@
       "time": "08:45 PM",
       "title": "Clayface",
       "url": "https://www.tblcinemas.com/movie/RS818180383796/clayface"
+    },
+    {
+      "time": "09:15 PM",
+      "title": "Ebenezer",
+      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
