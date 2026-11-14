@@ -93,9 +93,21 @@
         ]
       ],
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=d5593444a2334141a7b99a3d586484cf"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD MAANDAG 16 NOVEMBER 2026",
+      "date": "16 November 2026",
+      "date_iso": "2026-11-16",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1651/gepland-onderhoud-maandag-16-november-2026",
+      "time": "08:00 – 17:00",
+      "area": "ETMEDORAWEG Z(ZIJSTR. WANICAWEG) EN GENOROBINWEGEN (ZIJSTR. WANICAWEG)",
+      "district": "Wanica",
+      "district_src": "ebs",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=ccea037f369841af9e83dc028c55d338"
     }
   ],
-  "last_updated": "2026-11-14T11:18:19.735374+00:00",
+  "last_updated": "2026-11-14T15:07:26.983771+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
