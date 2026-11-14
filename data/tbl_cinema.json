@@ -1,9 +1,29 @@
 {
-  "last_updated": "2026-11-13T16:00:43.225282+00:00",
+  "last_updated": "2026-11-14T10:00:41.509404+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "05:00 PM",
+      "time": "02:15 PM",
+      "title": "Ramayana: Rise of a Legend",
+      "url": "https://www.tblcinemas.com/movie/RS480648796990/ramayana-rise-of-a-legend"
+    },
+    {
+      "time": "02:45 PM",
+      "title": "Forgotten Island",
+      "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
+    },
+    {
+      "time": "03:15 PM",
+      "title": "Ebenezer",
+      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
+    },
+    {
+      "time": "03:45 PM",
+      "title": "Ramayana: Rise of a Legend",
+      "url": "https://www.tblcinemas.com/movie/RS263783884677/ramayana-rise-of-a-legend"
+    },
+    {
+      "time": "04:30 PM",
       "title": "The Cat in the Hat",
       "url": "https://www.tblcinemas.com/movie/RS770454163183/the-cat-in-the-hat"
     },
@@ -39,8 +59,8 @@
     },
     {
       "time": "09:15 PM",
-      "title": "Ebenezer",
-      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
+      "title": "Other Mommy",
+      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
