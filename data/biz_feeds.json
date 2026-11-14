@@ -185,45 +185,21 @@
    "link": "https://gov.sr/bekendmaking/biza-magazine-augustus-editie/",
    "date": "2026-09-16",
    "tender": false
-  },
-  {
-   "title": "Vacature: Ministerie van buitenlandse zaken Ministerie van Buitenlandse Zaken, Internationale Business en Internationale SamenwerkingVacature Ministerie van buitenlandse zaken",
-   "link": "https://gov.sr/bekendmaking/vacature-ministerie-van-buitenlandse-zaken-ministerie-van-buitenlandse-zaken-internationale-business-en-internationale-samenwerkingvacature-ministerie-van-buitenlandse-zaken/",
-   "date": "2026-09-14",
-   "tender": false
-  },
-  {
-   "title": "SITA vacancy announcement: Chief Executive Officer (CEO)",
-   "link": "https://gov.sr/bekendmaking/sita-vacancy-announcement-chief-executive-officer-ceo/",
-   "date": "2026-09-14",
-   "tender": false
-  },
-  {
-   "title": "Bekendmaking",
-   "link": "https://gov.sr/bekendmaking/bekendmaking-60/",
-   "date": "2026-09-14",
-   "tender": false
-  },
-  {
-   "title": "Vacancy Notice Suriname GRID Project",
-   "link": "https://gov.sr/bekendmaking/vacancy-notice-suriname-grid-project/",
-   "date": "2026-09-14",
-   "tender": false
   }
  ],
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-13T22:29-03:00",
+   "ok": "2026-11-14T07:37-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-13T22:29-03:00",
+   "ok": "2026-11-14T07:38-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-13T22:29-03:00"
+ "updated": "2026-11-14T07:38-03:00"
 }
