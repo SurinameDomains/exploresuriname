@@ -22,7 +22,8 @@
   "govsr_terms_dcfeebd08120": "2026-11-05",
   "govsr_terms_3cced788d145": "2026-11-09",
   "govsr_terms_50be559c4a57": "2026-11-10",
-  "govsr_terms_118b16a0f0dd": "2026-11-14"
+  "govsr_terms_118b16a0f0dd": "2026-11-14",
+  "govsr_terms_bd3d6206681d": "2026-11-15"
  },
  "belastingdienst_wetten": {
   "value": [
@@ -48,7 +49,7 @@
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loonbelasting.pdf",
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loterijbelasting.pdf"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "only 0 links found (layout changed?)"
  },
@@ -57,7 +58,7 @@
    "2024",
    "2"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpk6s1rlyp/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -66,7 +67,7 @@
    "2024",
    "3"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpiqb_dh78/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -75,7 +76,7 @@
    "2002",
    "96"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpfv1rnotz/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -84,7 +85,7 @@
    "2025",
    "8"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
@@ -93,7 +94,7 @@
    "500",
    "5000"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
@@ -101,18 +102,18 @@
   "value": [
    "1"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "minimum_wage": {
   "value": "61,25",
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "cbvs_denominations": {
   "value": "SRD 5, SRD 10, SRD 20, SRD 50, SRD 100, SRD 200 en SRD 500",
   "ok": "2026-10-12",
-  "fails": 33,
+  "fails": 34,
   "error": "HTTP Error 403: Forbidden",
   "fail_alerted": "2026-10-15"
  },
@@ -180,7 +181,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-nadere-wijz-wetboek-van-strafrecht-g-b-1911-no-1-zoals-laatstelijk-gewijz-bij-s-b-2020-no-42/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-schadefonds-gewelds-en-verkeersmisdrijven/"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "dna_in_behandeling": {
@@ -258,7 +259,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-nadere-wijziging-van-het-wetboek-van-strafvordering-ltstelijk-gewzg-s-b-2023-no-135/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-instelling-verkeersautoriteit/"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "dna_goedgekeurd": {
@@ -326,7 +327,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-united-national-convention-against-corruption-uncac/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-rijwet-1971-alsmede-nadere-wijz-wet-aansprakelijkheidsverzekering-motorrijtuigen-1/"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "govsr_terms": {
@@ -478,6 +479,7 @@
    "https://gov.sr/unificatie-heeft-effect-op-benzineprijs-minder-van-invloed-op-basisgoederen/",
    "https://gov.sr/valse-aangifte-bij-import-boete-3-miljoen-srd/",
    "https://gov.sr/verantwoorde-herfinanciering-en-nieuw-vertrouwen-in-het-economisch-beleid/",
+   "https://gov.sr/verhoging-kredietwaardigheid-suriname-belangrijke-stap-in-herstel-internationaal-vertrouwen/",
    "https://gov.sr/voortzetting-modernisering-arbeidswetgeving-heeft-zegen-minister-kuldipsingh/",
    "https://gov.sr/vwa-en-paho-wisselden-van-gedachten-over-samenwerking-op-het-gebied-van-welzijn-en-arbeid/",
    "https://gov.sr/vwa-en-vsb-zetten-koers-uit-voor-samenwerking-in-deze-regeerperiode/",
@@ -488,7 +490,7 @@
    "https://gov.sr/wijziging-besluit-negatieve-lijst/",
    "https://gov.sr/zvf/"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "belastingdienst_news": {
@@ -506,47 +508,47 @@
    "https://belastingdienst.sr/technische-storing-oktober-2026/",
    "https://belastingdienst.sr/technische-storing/"
   ],
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "mismatched tag: line 93, column 2"
  },
- "_last_run": "2026-11-14",
+ "_last_run": "2026-11-15",
  "guide_belastingdienst_contact": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-11-14"
+  "ok": "2026-11-15"
  },
  "guide_apf_contact": {
   "value": "ok",
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
  "guide_kkf_contact": {
   "value": "ok",
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "guide_financieringswijzer": {
   "value": "ok",
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "guide_nob_products": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-11-14"
+  "ok": "2026-11-15"
  },
  "guide_werktijden": {
   "value": "ok",
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  },
  "guide_iud_negatieve_lijst": {
   "value": "ok",
-  "ok": "2026-11-14",
+  "ok": "2026-11-15",
   "fails": 0
  }
 }
