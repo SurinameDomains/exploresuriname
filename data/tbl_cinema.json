@@ -1,61 +1,41 @@
 {
-  "last_updated": "2026-11-15T16:00:58.913142+00:00",
+  "last_updated": "2026-11-16T10:00:41.186251+00:00",
   "date_label": "Today",
   "showings": [
     {
-      "time": "02:15 PM",
-      "title": "Ramayana: Rise of a Legend",
-      "url": "https://www.tblcinemas.com/movie/RS480648796990/ramayana-rise-of-a-legend"
-    },
-    {
-      "time": "02:45 PM",
-      "title": "Forgotten Island",
-      "url": "https://www.tblcinemas.com/movie/RS706204767478/forgotten-island"
-    },
-    {
-      "time": "03:15 PM",
-      "title": "Ebenezer",
-      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
-    },
-    {
-      "time": "03:45 PM",
-      "title": "Ramayana: Rise of a Legend",
-      "url": "https://www.tblcinemas.com/movie/RS263783884677/ramayana-rise-of-a-legend"
-    },
-    {
-      "time": "04:15 PM",
-      "title": "Godzilla Minus Zero",
-      "url": "https://www.tblcinemas.com/movie/RS134221373877/godzilla-minus-zero"
-    },
-    {
-      "time": "05:30 PM",
+      "time": "05:00 PM",
       "title": "The Cat in the Hat",
       "url": "https://www.tblcinemas.com/movie/RS770454163183/the-cat-in-the-hat"
     },
     {
-      "time": "06:15 PM",
-      "title": "Ebenezer",
-      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
-    },
-    {
-      "time": "06:45 PM",
-      "title": "Ramayana: Rise of a Legend",
-      "url": "https://www.tblcinemas.com/movie/RS480648796990/ramayana-rise-of-a-legend"
-    },
-    {
-      "time": "07:30 PM",
+      "time": "06:00 PM",
       "title": "Wicker",
       "url": "https://www.tblcinemas.com/movie/RS735945250540/wicker"
     },
     {
-      "time": "08:00 PM",
+      "time": "06:30 PM",
+      "title": "Ramayana: Rise of a Legend",
+      "url": "https://www.tblcinemas.com/movie/RS263783884677/ramayana-rise-of-a-legend"
+    },
+    {
+      "time": "07:00 PM",
+      "title": "How to Rob a Bank",
+      "url": "https://www.tblcinemas.com/movie/RS431508106539/how-to-rob-a-bank"
+    },
+    {
+      "time": "07:30 PM",
+      "title": "Ebenezer",
+      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
+    },
+    {
+      "time": "08:15 PM",
       "title": "Godzilla Minus Zero",
       "url": "https://www.tblcinemas.com/movie/RS134221373877/godzilla-minus-zero"
     },
     {
-      "time": "08:30 PM",
-      "title": "How to Rob a Bank",
-      "url": "https://www.tblcinemas.com/movie/RS431508106539/how-to-rob-a-bank"
+      "time": "08:45 PM",
+      "title": "Other Mommy",
+      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
