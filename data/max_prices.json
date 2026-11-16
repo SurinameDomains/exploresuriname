@@ -1,23 +1,23 @@
 {
  "show": "srdcheck",
  "srdcheck": {
-  "changed": "2026-11-03",
+  "changed": "2026-11-16",
   "rows": [
    {
     "product": "Aardappelen",
     "importer": "NV Dam",
     "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 840,00",
+    "wholesale_price": "SRD 858,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 42,00"
+    "retail_price": "SRD 42,90"
    },
    {
     "product": "Babyvoeding: Merk Lactogen 1",
     "importer": "Hem Suriname NV",
     "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.530,78",
+    "wholesale_price": "SRD 4.272,00",
     "retail_pack": "400 g",
-    "retail_price": "SRD 217,10"
+    "retail_price": "SRD 204,70"
    },
    {
     "product": "Babyvoeding: Merk Nutrilon 1",
@@ -31,9 +31,9 @@
     "product": "Babyvoeding: Merk Lactogen 2",
     "importer": "Hem Suriname NV",
     "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.530,78",
+    "wholesale_price": "SRD 4.272,00",
     "retail_pack": "400 g",
-    "retail_price": "SRD 217,10"
+    "retail_price": "SRD 204,70"
    },
    {
     "product": "Babyvoeding: Merk Nutrilon 2",
@@ -47,9 +47,9 @@
     "product": "Babyvoeding: Merk Lactogen 3",
     "importer": "Hem Suriname NV",
     "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.402,43",
+    "wholesale_price": "SRD 4.908,00",
     "retail_pack": "800 g",
-    "retail_price": "SRD 421,90"
+    "retail_price": "SRD 470,35"
    },
    {
     "product": "Bruine Bonen: Merk Annabel",
@@ -95,17 +95,17 @@
     "product": "Maandverband: Libresse Maxi Reg Cotton",
     "importer": "Firgos Suriname NV",
     "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 702,72",
+    "wholesale_price": "SRD 698,88",
     "retail_pack": "10 stuks",
-    "retail_price": "SRD 36,60"
+    "retail_price": "SRD 36,40"
    },
    {
-    "product": "Maandverband: Merk Diana Classic Normal, Long",
+    "product": "Maandverband: Merk Diana Classic Long",
     "importer": "NV Dam Import & Export",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 425,00",
-    "retail_pack": "1 stuk",
-    "retail_price": "SRD 21,25"
+    "wholesale_pack": "96 stuks",
+    "wholesale_price": "SRD 1.684,00",
+    "retail_pack": "8 stuks",
+    "retail_price": "SRD 21,05"
    },
    {
     "product": "Maandverband: Confylady Ultra Normal,Long,Extra Long",
@@ -140,12 +140,12 @@
     "retail_price": "SRD 57,00"
    },
    {
-    "product": "Thee: Merk Breakfast",
+    "product": "Thee: Merk Pickwick Spice Cinnamon/Lemon",
     "importer": "Subisco International NV",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 542,40",
-    "retail_pack": "20 x 2 g",
-    "retail_price": "SRD 28,25"
+    "wholesale_pack": "12 stuks",
+    "wholesale_price": "SRD 472,80",
+    "retail_pack": "per pak @ 20 zakjes @ 1.6-1.5gr",
+    "retail_price": "SRD 49,25"
    },
    {
     "product": "Thee: Merk Jumbo Groen Puur",
@@ -167,9 +167,9 @@
     "product": "Uien (Geel)",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 1.025,00",
+    "wholesale_price": "SRD 1.021,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 51,25"
+    "retail_price": "SRD 51,05"
    },
    {
     "product": "Wegwerpluiers Volwassen: Merk Adfit Adult Diapers (M)",
@@ -215,17 +215,17 @@
     "product": "Babyvoeding: Merk Lactogen 1",
     "importer": "Hem Suriname NV",
     "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.943,48",
+    "wholesale_price": "SRD 4.632,00",
     "retail_pack": "900 g",
-    "retail_price": "SRD 473,75"
+    "retail_price": "SRD 443,90"
    },
    {
     "product": "Babyvoeding: Merk Lactogen 2",
     "importer": "Hem Suriname NV",
     "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.943,48",
+    "wholesale_price": "SRD 4.632,00",
     "retail_pack": "900 g",
-    "retail_price": "SRD 473,75"
+    "retail_price": "SRD 443,90"
    },
    {
     "product": "Babyvoeding: Merk Nutrilon 1",
@@ -268,20 +268,20 @@
     "retail_price": "SRD 237,05"
    },
    {
-    "product": "Wegwerpluiers Volwassen: Merk Panal Tena Slip Ultra Protect M",
+    "product": "Wegwerpluiers Volwassen: Merk Panal Tena Pants Comfort M",
     "importer": "Firgos Suriname NV",
     "wholesale_pack": "8 stuks",
-    "wholesale_price": "SRD 1.287,33",
-    "retail_pack": "9 stuks",
-    "retail_price": "SRD 193,10"
+    "wholesale_price": "SRD 954,67",
+    "retail_pack": "8 stuks",
+    "retail_price": "SRD 143,20"
    },
    {
     "product": "Zonnebloem Olie: Merk Vip",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 1.208,40",
+    "wholesale_price": "SRD 1.200,00",
     "retail_pack": "900 ml",
-    "retail_price": "SRD 100,70"
+    "retail_price": "SRD 100,00"
    },
    {
     "product": "Zonnebloem Olie: Merk Vip",
@@ -511,25 +511,25 @@
     "product": "Uien (Rood)",
     "importer": "Best Food Supply NV",
     "wholesale_pack": "10 kg",
-    "wholesale_price": "SRD 410,00",
+    "wholesale_price": "SRD 382,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 51,25"
+    "retail_price": "SRD 47,75"
    },
    {
     "product": "Babyvoeding: Merk Lactogen 3",
     "importer": "Hem Suriname NV",
     "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.008,00",
+    "wholesale_price": "SRD 4.368,00",
     "retail_pack": "350 g",
-    "retail_price": "SRD 192,05"
+    "retail_price": "SRD 209,30"
    },
    {
     "product": "Gist: Merk Pakmaya (Instand Dry Yeast)",
     "importer": "Subisco International NV",
     "wholesale_pack": "20 stuks",
-    "wholesale_price": "SRD 1.656,80",
+    "wholesale_price": "SRD 1.901,60",
     "retail_pack": "500 g",
-    "retail_price": "SRD 103,55"
+    "retail_price": "SRD 118,85"
    },
    {
     "product": "Thee: Merk Kings Garden",
@@ -541,11 +541,11 @@
    },
    {
     "product": "Aardappelen",
-    "importer": "Best Food Supply NV",
+    "importer": "Sosar Express NV",
     "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 861,00",
+    "wholesale_price": "SRD 799,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 43,05"
+    "retail_price": "SRD 39,95"
    },
    {
     "product": "Wegwerpluiers Baby: Merk Kids Kit Baby Diaper (M)",
@@ -567,17 +567,17 @@
     "product": "Bruine Bonen: Merk Coroos",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 674,88",
+    "wholesale_price": "SRD 674,52",
     "retail_pack": "850 ml",
-    "retail_price": "SRD 70,30"
+    "retail_price": "SRD 67,45"
    },
    {
     "product": "Witte Suiker",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 797,00",
+    "wholesale_price": "SRD 854,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 39,85"
+    "retail_price": "SRD 42,70"
    },
    {
     "product": "Witte Bonen: Merk Coroos",
@@ -599,9 +599,9 @@
     "product": "Uien (Geel)",
     "importer": "Best Food Supply NV",
     "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 983,00",
+    "wholesale_price": "SRD 1.011,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 49,15"
+    "retail_price": "SRD 50,55"
    },
    {
     "product": "Zonnebloem Olie: Merk Vip",
@@ -756,44 +756,12 @@
     "retail_price": "SRD 47,20"
    },
    {
-    "product": "Knoflook",
-    "importer": "NV Dam Import & Export",
-    "wholesale_pack": "10 kg",
-    "wholesale_price": "SRD 743,20",
-    "retail_pack": "1 kg",
-    "retail_price": "SRD 92,90"
-   },
-   {
-    "product": "Wegwerpluiers Volwassen: Merk Panal Tena Pants Ultra Protect L",
-    "importer": "Firgos Suriname Nv",
-    "wholesale_pack": "4 stuks",
-    "wholesale_price": "SRD 1.511,50",
-    "retail_pack": "20 stuks",
-    "retail_price": "SRD 453,45"
-   },
-   {
-    "product": "Maandverband: Merk Libresse Dailies Regular, Multistyle",
-    "importer": "Firgos Suriname NV",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 618,24",
-    "retail_pack": "15 stuks",
-    "retail_price": "SRD 32,20"
-   },
-   {
     "product": "Uien (Rood)",
-    "importer": "B.Bisheshar NV",
+    "importer": "Sosar Express NV",
     "wholesale_pack": "10 kg",
-    "wholesale_price": "SRD 902,00",
+    "wholesale_price": "SRD 996,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 45,10"
-   },
-   {
-    "product": "Uien (Geel)",
-    "importer": "B.Bisheshar NV",
-    "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 892,00",
-    "retail_pack": "1 kg",
-    "retail_price": "SRD 44,60"
+    "retail_price": "SRD 49,80"
    },
    {
     "product": "Wegwerpluiers Baby's: Merk Softlove Baby Diapers (Xl)",
@@ -810,6 +778,14 @@
     "wholesale_price": "SRD 1.208,17",
     "retail_pack": "60 stuks",
     "retail_price": "SRD 362,45"
+   },
+   {
+    "product": "Knoflook",
+    "importer": "King Long Trading NV",
+    "wholesale_pack": "10 kg",
+    "wholesale_price": "SRD 637,60",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 79,70"
    },
    {
     "product": "Zonnebloemolie: Merk Sor",
@@ -839,17 +815,17 @@
     "product": "Wegwerpluiers Baby: Merk Vip Baby Pants (Midi,Maxi)",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "5 stuks",
-    "wholesale_price": "SRD 813,96",
+    "wholesale_price": "SRD 805,63",
     "retail_pack": "1 stuk",
-    "retail_price": "SRD 195,35"
+    "retail_price": "SRD 193,35"
    },
    {
     "product": "Aardappelen",
     "importer": "B. Chotelal NV",
     "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 937,00",
+    "wholesale_price": "SRD 936,00",
     "retail_pack": "1 kg",
-    "retail_price": "SRD 46,85"
+    "retail_price": "SRD 46,80"
    },
    {
     "product": "Zout",
@@ -858,12 +834,44 @@
     "wholesale_price": "SRD 351,00",
     "retail_pack": "1 kg",
     "retail_price": "SRD 17,55"
+   },
+   {
+    "product": "Sardien In Tomatensaus: Merk Bisco",
+    "importer": "Subisco International NV",
+    "wholesale_pack": "24 stuks",
+    "wholesale_price": "SRD 1.620,48",
+    "retail_pack": "425 g",
+    "retail_price": "SRD 84,40"
+   },
+   {
+    "product": "Uien (Geel)",
+    "importer": "Sosar Express NV",
+    "wholesale_pack": "25 kg",
+    "wholesale_price": "SRD 1.007,00",
+    "retail_pack": "1 kg",
+    "retail_price": "SRD 50,35"
+   },
+   {
+    "product": "Zonnebloemolie: Merk A Efendi",
+    "importer": "Sur Com Impex NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 818,40",
+    "retail_pack": "850 ml",
+    "retail_price": "SRD 68,20"
+   },
+   {
+    "product": "Zonnebloemolie: Merk Bestolie",
+    "importer": "Sur Com Impex NV",
+    "wholesale_pack": "15 stuks",
+    "wholesale_price": "SRD 919,80",
+    "retail_pack": "920 ml",
+    "retail_price": "SRD 76,65"
    }
   ],
   "url": "https://ez.gov.sr/product/index",
-  "checked": "2026-11-16T03:44-03:00",
-  "error": "SRD Check table layout changed: ['#', 'Naam', 'Importeur', 'Groothandel Verpakking', 'Groothandel Prijs', 'Kleinhandel Verpakking', 'Kleinhandel Prijs']",
-  "fails": 7
+  "checked": "2026-11-16T16:41-03:00",
+  "error": "",
+  "fails": 0
  },
  "pdf": {
   "pdf_url": "https://gov.sr/wp-content/uploads/2026/11/Publicatielijst-Basis-goederen-voor-de-periode-31-okt-13-nov-2026.pdf",
@@ -1633,9 +1641,9 @@
   ],
   "price_lines": 104,
   "fetched": "2026-11-02T16:34-03:00",
-  "checked": "2026-11-16T03:44-03:00",
+  "checked": "2026-11-16T16:41-03:00",
   "error": ""
  },
  "source_page": "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/richtprijzen-basis-en-strategische-goederen/",
- "checked": "2026-11-16T03:44-03:00"
+ "checked": "2026-11-16T16:41-03:00"
 }
