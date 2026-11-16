@@ -37,6 +37,12 @@
    "tender": false
   },
   {
+   "title": "Biza Magazine Oktober editie",
+   "link": "https://gov.sr/bekendmaking/biza-magazine-oktober-editie/",
+   "date": "2026-11-10",
+   "tender": false
+  },
+  {
    "title": "Bekendmaking",
    "link": "https://gov.sr/bekendmaking/bekendmaking-67/",
    "date": "2026-11-05",
@@ -179,27 +185,21 @@
    "link": "https://gov.sr/bekendmaking/specific-procurement-notice-works/",
    "date": "2026-09-22",
    "tender": true
-  },
-  {
-   "title": "Biza Magazine Augustus editie",
-   "link": "https://gov.sr/bekendmaking/biza-magazine-augustus-editie/",
-   "date": "2026-09-16",
-   "tender": false
   }
  ],
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-15T19:56-03:00",
+   "ok": "2026-11-16T03:44-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-15T19:56-03:00",
+   "ok": "2026-11-16T03:44-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-15T19:56-03:00"
+ "updated": "2026-11-16T03:44-03:00"
 }
