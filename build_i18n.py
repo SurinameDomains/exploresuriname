@@ -1797,9 +1797,14 @@ def localize(soup, lang: str, rel_path: str, langs=None):
             el["content"] = _tgt
         if lang != "en":
             for m in soup.select('meta[http-equiv="refresh"]'):
-                m["content"] = m.get("content", "").replace(_t, f"/{lang}{_t}")
-            for a in soup.select(f'a[href="{_t}"]'):
-                a["href"] = f"/{lang}{_t}"
+                # a stub kept from an earlier build is already link-cleaned ("/events",
+                # not "/events.html"), so a plain replace missed it and those copies
+                # forwarded to English: set the target outright (16 Nov 2026)
+                m["content"] = _REFRESH_RE.sub(lambda _rm: _rm.group(1) + f"/{lang}{_t}",
+                                               m.get("content", ""), count=1)
+            for a in soup.select("a[href]"):
+                if a["href"] in (_t, clean_url(_t)):
+                    a["href"] = f"/{lang}{_t}"
     # keep translated nav labels on a single row (they run longer than English)
     if soup.head:
         _st = soup.new_tag("style"); _st.string = "nav button,nav a{white-space:nowrap}"

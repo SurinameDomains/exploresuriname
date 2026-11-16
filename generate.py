@@ -8097,13 +8097,15 @@ def util_rail_html(prefix=""):
             f'</div></div>')
 
 
-def _retired_stub(target, esr=False):
+def _retired_stub(target, esr=False, move=False):
     """noindex meta-refresh page for a retired URL (build_i18n._STUBS must list it too).
+    move=True: the same content moved (an alias), so no noindex: it forwards like a
+    301 and Google files it under "Page with redirect" (SEO check, 16 Nov 2026).
     esr=True adds <meta name="esr-stub">, so build_i18n keeps the canonical on the
     target and points each language copy at its own /<lang> target (no _STUBS entry)."""
     return ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<meta name="robots" content="noindex,follow">'
+            + ('' if move else '<meta name="robots" content="noindex,follow">')
             + (f'<meta name="esr-stub" content="{target}">' if esr else '') +
             f'<meta http-equiv="refresh" content="0;url={target}">'
             f'<link rel="canonical" href="{SITE_URL}{target}">'
@@ -31921,7 +31923,6 @@ def build_sitemap(biz_slugs, act_slugs, nat_slugs, market_slugs=None):
         ("contact.html",    "0.5", "yearly"),
         ("submit-business.html", "0.6", "yearly"),
         ("submit-event.html",    "0.6", "monthly"),
-        ("privacy.html",    "0.3", "yearly"),
     ] + [("doing-business-in-suriname", "0.7", "monthly")] + list(_ff_sitemap_entries()) \
       + [("event-" + _s, "0.7", "weekly") for _s in _EVENT_PAGE_SLUGS] \
       + [(_s, "0.6", "daily") for _s in sorted(_flight_page_slugs())] \
@@ -35985,7 +35986,6 @@ if __name__ == "__main__":
         # links and indexed URLs consolidate instead of 404ing.
         "nature.html":             ('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<meta name="robots" content="noindex,follow">'
             '<meta http-equiv="refresh" content="0;url=/activities.html">'
             '<link rel="canonical" href="https://exploresuriname.com/activities.html">'
             '<title>Redirecting to Things to Do&hellip;</title></head><body>'
@@ -36002,14 +36002,14 @@ if __name__ == "__main__":
         "conditions.html":  build_conditions_page(tides_data),
         # Short alias (4 Nov 2026): exploresuriname.com/weather -> /conditions (and
         # /nl/weather -> /nl/conditions etc.). Internal links stay on /conditions.
-        "weather.html":     _retired_stub("/conditions", esr=True),
+        "weather.html":     _retired_stub("/conditions", esr=True, move=True),
         "news.html":        build_news(articles, oil_articles, finance_articles, sports_articles),
         "about.html":       build_about_page(),
         "contact.html":     build_contact_page(),
         "submit-business.html": build_submit_page(),
         "submit-event.html":    build_submit_event_page(),
         "privacy.html":     build_privacy_page(),
-        "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
+        "today.html":          '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=/daily-notices.html"><link rel="canonical" href="https://exploresuriname.com/daily-notices.html"><title>Redirecting to Daily Notices…</title></head><body><p>This page has moved. <a href="/daily-notices.html">Click here</a>.</p></body></html>',
         "daily-notices.html": build_today_page(),
         "visitor-guide.html": build_visitor_guide_page(),
         "events.html":        _events_html,
@@ -36350,9 +36350,15 @@ if __name__ == "__main__":
         _tgt = _new_slug if _new_slug.startswith("/") else f"/listing/{_new_slug}/"
         _odir = Path("listing") / _old_slug
         _odir.mkdir(parents=True, exist_ok=True)
+        # A renamed or merged listing forwards like a 301: no noindex, canonical +
+        # 0-second refresh, so Google moves its ranking to the new slug (GSC filed the
+        # noindex versions under "Excluded by noindex", not "Page with redirect";
+        # SEO check 16 Nov 2026). A listing retired to its section page keeps noindex.
+        # esr-stub makes build_i18n point each language copy at its own /<lang> target.
         (_odir / "index.html").write_text(
             '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
-            '<meta name="robots" content="noindex">'
+            + ('<meta name="robots" content="noindex">' if _new_slug.startswith("/") else '')
+            + f'<meta name="esr-stub" content="{_tgt}">'
             f'<meta http-equiv="refresh" content="0;url={_tgt}">'
             f'<link rel="canonical" href="{SITE_URL}{_tgt}">'
             '<title>Redirecting&hellip;</title></head><body>'
