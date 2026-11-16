@@ -253,6 +253,21 @@ for _oslug, _o in _OVERRIDES.items():
 if _ADMIN_FEATURED:
     print(f"  Featured listings from admin panel: {len(_ADMIN_FEATURED)}")
 
+# Page (category) and type set in the admin panel (16 Nov 2026), for repo AND
+# submitted listings. Only collected here; checked against the site's own
+# taxonomy and applied after the category lists exist (block "Admin panel: page
+# and type moves" below). slug -> (category key or "", type key or "").
+_ADMIN_CATSUB: dict = {}
+_ADMIN_SUBCAT: dict = {}    # slug -> checked type key, consulted first by _subcat()
+for _oslug, _o in _OVERRIDES.items():
+    if not isinstance(_o, dict):
+        continue
+    _ac, _as = _o.get("cat"), _o.get("subcat")
+    _ac = _ac.strip() if isinstance(_ac, str) and re.fullmatch(r"[a-z-]{3,20}", _ac.strip()) else ""
+    _as = _as.strip() if isinstance(_as, str) and re.fullmatch(r"[a-z0-9-]{2,40}", _as.strip()) else ""
+    if _ac or _as:
+        _ADMIN_CATSUB[_oslug] = (_ac, _as)
+
 # ── Approved public submissions (Add your business form) ──────────────────────
 # Anyone can propose a listing at /submit-business.html. Nothing is published
 # until it is approved in the admin panel; approved rows arrive here and are
@@ -3845,6 +3860,8 @@ def _subcat(slug, main_cat=""):
 
 def _subcat_raw(slug, main_cat=""):
     s = slug.lower()
+    if s in _ADMIN_SUBCAT:      # type picked in the admin panel, already checked
+        return _ADMIN_SUBCAT[s]
     # Public submissions carry a chip the reviewer picked in the admin panel. It is
     # checked first so a new submission that reuses a retired slug never inherits
     # that old listing's pinned chip.
@@ -4741,6 +4758,57 @@ for _cbrand, _cmem in _CHAIN_GROUPS.items():
         _CHAIN_OF[_cs] = _cbrand
 
 
+# ── Admin panel: page and type moves (16 Nov 2026) ──────────────────────────
+# The Listings tab can set a listing's page (category) and type. A page change
+# moves the listing from one category list to another here, before the chains
+# collapse, so the card, chips, crumb, schema and share card all follow. Rules:
+# a type is used only when the target page offers it (never a legacy key); a page
+# change needs a type that fits the new page (the override's or the current one),
+# else the listing stays where it is; chain branches never change page (all
+# branches share one hub card). Bad rows are skipped, never fatal.
+_CAT_LISTS = {"restaurant": RESTAURANTS, "hotel": HOTELS, "sightseeing": SIGHTSEEING,
+              "adventure": ADVENTURES_BIZ, "shopping": SHOPPING, "service": SERVICES}
+
+
+def _admin_types(cat):
+    return {k for k, _l, _i in SUBCATS.get(cat, [])} - {"all"} - SUBCAT_LEGACY.get(cat, set())
+
+
+_LIST_CAT = {_x["slug"]: _c for _c, _l in _CAT_LISTS.items() for _x in _l}
+_adm_moved, _adm_typed, _adm_kept = [], [], []
+for _aslug, (_acat, _asub) in _ADMIN_CATSUB.items():
+    try:
+        _cur = _LIST_CAT.get(_aslug)
+        if _cur is None:
+            continue
+        _tgt = _acat if _acat in _CAT_LISTS else _cur
+        if _tgt != _cur and (_aslug in _CHAIN_OF or
+                             (_asub not in _admin_types(_tgt) and _subcat(_aslug) not in _admin_types(_tgt))):
+            _adm_kept.append(_aslug)
+            _tgt = _cur
+        if _asub and _asub in _admin_types(_tgt):
+            _ADMIN_SUBCAT[_aslug] = _asub
+        if _tgt != _cur:
+            _nb = _make_biz(_aslug)
+            if not _nb:
+                continue
+            _CAT_LISTS[_cur][:] = [_x for _x in _CAT_LISTS[_cur] if _x["slug"] != _aslug]
+            _CAT_LISTS[_tgt].append(_nb)
+            _LIST_CAT[_aslug] = _tgt
+            _adm_moved.append(f"{_aslug} ({_cur} -> {_tgt})")
+        elif _aslug in _ADMIN_SUBCAT:
+            for _x in _CAT_LISTS[_cur]:
+                if _x["slug"] == _aslug:
+                    _x["subcat"] = _ADMIN_SUBCAT[_aslug]
+            _adm_typed.append(_aslug)
+    except Exception as _ae:
+        print(f"  Warning: admin page/type for {_aslug} skipped — {_ae}")
+if _adm_moved or _adm_typed or _adm_kept:
+    print(f"  Admin panel page/type: {len(_adm_moved)} moved, {len(_adm_typed)} retyped"
+          + (f", {len(_adm_kept)} kept on their page (chain branch or no fitting type)" if _adm_kept else "")
+          + (": " + ", ".join(_adm_moved[:8]) if _adm_moved else ""))
+
+
 # ── Brand pages (29 Oct 2026) ─────────────────────────────────────────────────
 # Brands listed here get their own page at /<short> (kfc.html -> /kfc): the brand
 # with no location selected, the order block and every location as a link to its
@@ -5392,8 +5460,24 @@ with open("data/admin_listings.json", "w", encoding="utf-8") as _al_f:
                 "location": _b.get("location", ""), "description": _b.get("description", ""),
                 "website": _b.get("website", ""), "phone": _b.get("phone", ""),
                 "address": _b.get("address", ""), "facebook": _b.get("facebook", ""),
-                "email": _b.get("email", ""), **_admin_extra(_s, _b)}
+                "email": _b.get("email", ""), **_admin_extra(_s, _b),
+                "cat": _LIST_CAT.get(_s, ""), "subcat": _subcat(_s) if _s in _LIST_CAT else "",
+                "chain": _CHAIN_OF.get(_s, "")}
                for _s, _b in sorted(_BIZ.items())], _al_f, ensure_ascii=False)
+
+# Types the admin editor offers per page, straight from the site's taxonomy
+# (grouped pages carry their group label). Legacy keys are left out.
+try:
+    _at_grp = {}
+    for _gc, _gl in SUBCAT_GROUPS.items():
+        for _gk, _glabel, _gkeys in _gl:
+            for _k in _gkeys:
+                _at_grp.setdefault((_gc, _k), _glabel)
+    with open("data/admin_types.json", "w", encoding="utf-8") as _at_f:
+        json.dump({_c: [[_k, _l, _at_grp.get((_c, _k), "")] for _k, _l, _i in SUBCATS.get(_c, [])
+                        if _k in _admin_types(_c)] for _c in _CAT_LISTS}, _at_f, ensure_ascii=False)
+except Exception as _ate:
+    print(f"  Warning: admin_types.json not written — {_ate}")
 
 CME_FALLBACK = [
     # CME.sr only publishes SRD, USD, and EUR — no other currencies
