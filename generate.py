@@ -33411,21 +33411,21 @@ _CAT_COLORS = {
 def build_roads_page():
     """On the Road: embedded Waze Live Map + road info panels for Suriname."""
     return f"""{PAGE_HEAD}
-  <title>Suriname Traffic &amp; Road Guide | Live Waze Map | Explore Suriname</title>
+  <title>Driving in Suriname: Road Rules, Speed Limits &amp; Live Traffic</title>
   <meta name="description" content="Live Suriname traffic and road conditions. Speed limits, emergency numbers, driving rules, rainy season road advisory and what to do after an accident.">
   <link rel="canonical" href="{SITE_URL}/on-the-road.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Explore Suriname">
   <meta property="og:url" content="{SITE_URL}/on-the-road.html">
-  <meta property="og:title" content="Suriname Traffic &amp; Road Guide | Live Waze Map | Explore Suriname">
+  <meta property="og:title" content="Driving in Suriname: Road Rules, Speed Limits &amp; Live Traffic">
   <meta property="og:description" content="Live Suriname traffic and road conditions. Speed limits, emergency numbers, driving rules, rainy season advisory and a live Waze map.">
   <meta property="og:image" content="{SITE_URL}/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Suriname Traffic &amp; Road Guide | Live Waze Map | Explore Suriname">
+  <meta name="twitter:title" content="Driving in Suriname: Road Rules, Speed Limits &amp; Live Traffic">
   <meta name="twitter:description" content="Live Suriname traffic and road conditions. Speed limits, emergency numbers, driving rules, rainy season advisory and a live Waze map.">
   <meta name="twitter:image" content="{SITE_URL}/og-image.jpg">
   <script type="application/ld+json">
-  {{"@context":"https://schema.org","@type":"WebPage","name":"Suriname Traffic & Road Guide | Live Waze Map","url":"{SITE_URL}/on-the-road.html","description":"Live traffic and road conditions in Suriname. Emergency numbers, road rules, speed limits, rainy season advisory and what to do after an accident.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
+  {{"@context":"https://schema.org","@type":"WebPage","name":"Driving in Suriname: Road Rules, Speed Limits & Live Traffic","url":"{SITE_URL}/on-the-road.html","description":"Live traffic and road conditions in Suriname. Emergency numbers, road rules, speed limits, rainy season advisory and what to do after an accident.","dateModified":"{datetime.now(SR_TZ).strftime('%Y-%m-%d')}","about":{{"@type":"Place","name":"Suriname","addressCountry":"SR"}},"isPartOf":{{"@type":"WebSite","name":"Explore Suriname","url":"{SITE_URL}/"}}}}
   </script>
   <script type="application/ld+json">
   {{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},{{"@type":"ListItem","position":2,"name":"On the Road","item":"{SITE_URL}/on-the-road.html"}}]}}
@@ -33450,7 +33450,7 @@ def build_roads_page():
 
 <div class="pg-hero text-white py-10 text-center" style="background:var(--forest)">
   <a href="./" class="inline-flex items-center gap-1 text-white/60 text-sm hover:text-white mb-6 transition">&#8592; Back to Home</a>
-  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Suriname Road Conditions</h1>
+  <h1 class="serif text-4xl sm:text-5xl font-bold mb-3">Driving in Suriname: Road Rules &amp; Live Traffic</h1>
   <p class="text-white/65 text-lg max-w-xl mx-auto px-5">Waze drivers across Suriname report accidents, closures and hazards as they happen. Check before you go.</p>
 </div>
 

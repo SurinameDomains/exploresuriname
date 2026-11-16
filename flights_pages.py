@@ -992,9 +992,9 @@ def build_board(ctx, c):
     ]
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage",
               "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
-    title = "Suriname Flights Today: Live Arrivals &amp; Departures"
+    title = "Suriname Flights Today: Zanderij Arrivals &amp; Departures"
     desc = "Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX): delays, landing times, pickup help and on-time records."
-    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": "Suriname Flights Today: Live Arrivals & Departures",
+    ld = [{"@context": "https://schema.org", "@type": "WebPage", "name": "Suriname Flights Today: Zanderij Arrivals & Departures",
            "url": f"{SITE}/flights", "description": html.unescape(desc),
            "dateModified": F._sr(now).strftime("%Y-%m-%d"),
            "about": {"@type": "Place", "name": "Suriname", "addressCountry": "SR"},
@@ -1002,7 +1002,7 @@ def build_board(ctx, c):
           faq_ld, _bc(SITE, [("Home", SITE + "/"), ("Flights", SITE + "/flights")])] + _airport_ld()
     head = _head(ctx, html.unescape(title), desc, "flights.html", ld)
 
-    hero = _hero("Flights", "Suriname Flights Today",
+    hero = _hero("Flights", "Zanderij Arrivals &amp; Departures Today",
                  "Live arrivals and departures at Johan Adolf Pengel (PBM) and Eduard Alexander Gummels (EAX), with delays, pickup times and on-time records.")
 
     bar = ('<div class="fl-bar">'
