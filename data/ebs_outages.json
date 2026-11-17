@@ -5,65 +5,7 @@
       "date": "17 November 2026",
       "date_iso": "2026-11-17",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1652/gepland-onderhoud-dinsdag-17-november-2026",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE PLUTOSTRAAT TUSSEN WILFRED GRIMMERSTRAAT EN JACQUES D. GOMPERTSSTRAAT, GEDEELTE VERDISTRAAT TUSSEN PLUTOSTRAAT EN RAVELSTRAAT, GEDEELTE NOLA HATTERMANSTRAAT TUSSEN MOZARTSTRAAT EN PLUTOSTRAAT, GEDEELTE NIEUWE CHARLESBURGWEG TUSSEN RINGWEG – ZUID EN SOHAWANWEG, JULES CHIN A FOENGSTRAAT, CHOPINSTRAAT, PEPERBOOMSTRAAT, SNIJBONENSTRAAT, AMSOISTRAAT, SELDERIESTRAAT, KRAROENSTRAAT, SOHAWANWEG, WALAPASTRAAT, KROBIASTRAAT, LEWENSTEINSTRAAT, HOENDERPARKWEG, MANGOLAAN EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "PLUTOSTRAAT",
-        "VERDISTRAAT",
-        "NOLA HATTERMANSTRAAT",
-        "NIEUWE CHARLESBURGWEG",
-        "JULES CHIN A FOENGSTRAAT",
-        "CHOPINSTRAAT",
-        "PEPERBOOMSTRAAT",
-        "SNIJBONENSTRAAT",
-        "AMSOISTRAAT",
-        "SELDERIESTRAAT",
-        "KRAROENSTRAAT",
-        "SOHAWANWEG",
-        "WALAPASTRAAT",
-        "KROBIASTRAAT",
-        "LEWENSTEINSTRAAT",
-        "HOENDERPARKWEG",
-        "MANGOLAAN"
-      ],
-      "cross": [
-        "WILFRED GRIMMERSTRAAT",
-        "JACQUES D. GOMPERTSSTRAAT",
-        "RAVELSTRAAT",
-        "MOZARTSTRAAT",
-        "RINGWEG – ZUID",
-        "SOHAWANWEG"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.83999,
-          -55.13838
-        ],
-        [
-          5.84666,
-          -55.14489
-        ],
-        [
-          5.84677,
-          -55.14508
-        ],
-        [
-          5.87446,
-          -55.16638
-        ],
-        [
-          5.8471,
-          -55.14563
-        ],
-        [
-          5.84325,
-          -55.14257
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=effbb4ac2a34448ab26d70ad74f71437"
+      "link": "https://nvebs.com/nieuws/1652/gepland-onderhoud-dinsdag-17-november-2026"
     },
     {
       "title": "GEPLAND ONDERHOUD WOENSDAG 18 NOVEMBER 2026",
@@ -133,7 +75,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e067b782e8784ff4a0f12a30bd531a94"
     }
   ],
-  "last_updated": "2026-11-17T15:07:29.508911+00:00",
+  "last_updated": "2026-11-17T19:07:29.142163+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
