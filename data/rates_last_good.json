@@ -4,83 +4,83 @@
    {
     "currency": "USD",
     "name": "US Dollar",
-    "buy": "37.298",
-    "sell": "37.578",
+    "buy": "37.354",
+    "sell": "37.609",
     "flag": "🇺🇸"
    },
    {
     "currency": "EUR",
     "name": "Euro",
-    "buy": "41.302",
-    "sell": "41.869",
+    "buy": "40.694",
+    "sell": "41.370",
     "flag": "🇪🇺"
    },
    {
     "currency": "GBP",
     "name": "British Pound",
-    "buy": "49.227",
-    "sell": "50.192",
+    "buy": "49.274",
+    "sell": "50.240",
     "flag": "🇬🇧"
    },
    {
     "currency": "XCG",
     "name": "Curaçao Guilder",
-    "buy": "20.493",
-    "sell": "20.895",
+    "buy": "20.524",
+    "sell": "20.926",
     "flag": "🇨🇼"
    },
    {
     "currency": "AWG",
     "name": "Aruban Florin",
-    "buy": "20.721",
-    "sell": "21.127",
+    "buy": "20.752",
+    "sell": "21.159",
     "flag": "🇦🇼"
    },
    {
     "currency": "BRL",
     "name": "Brazilian Real",
-    "buy": "6.537",
-    "sell": "6.666",
+    "buy": "6.460",
+    "sell": "6.587",
     "flag": "🇧🇷"
    },
    {
     "currency": "TTD",
     "name": "T&T Dollar",
-    "buy": "5.507",
-    "sell": "5.615",
+    "buy": "5.515",
+    "sell": "5.623",
     "flag": "🇹🇹"
    },
    {
     "currency": "BBD",
     "name": "Barbados Dollar",
-    "buy": "18.386",
-    "sell": "18.747",
+    "buy": "18.414",
+    "sell": "18.775",
     "flag": "🇧🇧"
    },
    {
     "currency": "XCD",
     "name": "E. Caribbean Dollar",
-    "buy": "13.814",
-    "sell": "14.085",
+    "buy": "13.835",
+    "sell": "14.106",
     "flag": "🏝️"
    },
    {
     "currency": "GYD",
     "name": "Guyana Dollar",
-    "buy": "0.17723",
-    "sell": "0.18070",
+    "buy": "0.17749",
+    "sell": "0.18097",
     "flag": "🇬🇾"
    },
    {
     "currency": "CNY",
     "name": "Chinese Yuan",
-    "buy": "5.595",
-    "sell": "5.704",
+    "buy": "5.604",
+    "sell": "5.713",
     "flag": "🇨🇳"
    }
   ],
-  "updated": "CBVS: 17 november - 10:00u",
-  "fetched_at": "2026-11-17T10:31:10-0300"
+  "updated": "CBVS: 17 november - 12:30u",
+  "fetched_at": "2026-11-17T13:01:21-0300"
  },
  "cme": {
   "rates": [
@@ -99,7 +99,7 @@
     "sell": "41.40"
    }
   ],
-  "updated": "CME: 17 Nov 2026 12:46 SR",
-  "fetched_at": "2026-11-17T12:46:14-0300"
+  "updated": "CME: 17 Nov 2026 13:01 SR",
+  "fetched_at": "2026-11-17T13:01:21-0300"
  }
 }
