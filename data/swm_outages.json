@@ -1,7 +1,22 @@
 {
   "active": [],
-  "planned": [],
-  "last_updated": "2026-11-18T11:07:35.582529+00:00",
+  "planned": [
+    {
+      "area": "Helena Christinaweg, Poerwodadiweg, De Craneweg, Javaweg, Magentakanaalweg tot aan de Nieuw Weergevondenweg, Reeberg, Bomaweg met alle zijwegen die er voorkomen.",
+      "description": "De SWM maakt hierbij bekend dat zij op woensdag 18 november- donderdag 19 november 2026 van 20.00 uur tot 04.00 uur, noodzakelijke onderhoudswerkzaamheden zal uitvoeren op haar productiestation te Helena Christina. Bovenstaande gebieden zullen gedurende de werkzaamheden een tijdelijke onderbreking van de watervoorziening ervaren. Er zal gedurende de werkzaamheden geen bulkwatervulling mogelijk zijn. Hiervoor kan men terecht bij de overige locaties, t.w. Republiek, Livorno, William Kraanplein en Blauwgrond. De SWM adviseert verbruikers de nodige voorzorgsmaatregelen te treffen en biedt haar verontschuldigingen aan voor het ongerief.",
+      "start": "18 Nov 2026",
+      "end": "19 Nov 2026",
+      "date": "18 Nov 2026"
+    },
+    {
+      "area": "Nieuw Nickerie, Nationaal Project, Lachman Project, Van Pettenpolder en van Fredericiweg tot Pisang Kapokweg De SWM adviseert verbruikers de nodige voorzorgsmaatregelen te treffen en biedt haar verontschuldigingen aan voor het ongerief.",
+      "description": "De SWM maakt hierbij bekend dat zij op woensdag 18 november- donderdag 19 november 2026 van 23.00 uur tot 01.00 uur, noodzakelijke onderhoudswerkzaamheden zal uitvoeren op haar productiestation te Nieuw Nickerie Bovenstaande gebieden zullen een lage waterdruk tot een tijdelijke onderbreking van de watervoorziening ervaren. De SWM adviseert verbruikers de nodige voorzorgsmaatregelen te treffen en biedt haar verontschuldigingen aan voor het ongerief.",
+      "start": "18 Nov 2026",
+      "end": "19 Nov 2026",
+      "date": "18 Nov 2026"
+    }
+  ],
+  "last_updated": "2026-11-18T15:07:30.925547+00:00",
   "source": "https://swm.sr/storing-onderhoud/",
-  "published": false
+  "published": true
 }
