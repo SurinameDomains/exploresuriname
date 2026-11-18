@@ -13,6 +13,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Bekendmaking",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-69/",
+   "date": "2026-11-17",
+   "tender": false
+  },
+  {
    "title": "Bekendmaking Openbare aanbesteding",
    "link": "https://gov.sr/bekendmaking/bekendmaking-openbare-aanbesteding-4/",
    "date": "2026-11-16",
@@ -196,16 +202,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-17T13:11-03:00",
+   "ok": "2026-11-17T22:00-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-17T13:11-03:00",
+   "ok": "2026-11-17T22:00-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-17T13:11-03:00"
+ "updated": "2026-11-17T22:00-03:00"
 }
