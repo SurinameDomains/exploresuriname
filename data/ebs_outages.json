@@ -58,9 +58,90 @@
         ]
       ],
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e067b782e8784ff4a0f12a30bd531a94"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 20 NOVEMBER 2026",
+      "date": "20 November 2026",
+      "date_iso": "2026-11-20",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1656/gepland-onderhoud-vrijdag-20-november-2026",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN PELTHOPORUMLAAN EN TOUT LUI FAUT KANAAL LINKS, GEDEELTE TOUT LUI FAUT MIDDENWEG TUSSEN DS. MARTIN LUTHER KINGWEG EN BONENKRUIDSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "DS. MARTIN LUTHER KINGWEG",
+        "TOUT LUI FAUT MIDDENWEG"
+      ],
+      "cross": [
+        "PELTHOPORUMLAAN",
+        "TOUT LUI FAUT KANAAL LINKS",
+        "BONENKRUIDSTRAAT"
+      ],
+      "district": "Wanica",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.75085,
+          -55.16101
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=1a30ce8a38fa4132bbc4ee6a425c2bd3",
+      "part": [
+        1,
+        2
+      ]
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 20 NOVEMBER 2026",
+      "date": "20 November 2026",
+      "date_iso": "2026-11-20",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1656/gepland-onderhoud-vrijdag-20-november-2026",
+      "time": "12:00 – 16:00",
+      "area": "GEHEEL TAWAJARIPOLDERWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "TAWAJARIPOLDERWEG"
+      ],
+      "district": "Wanica",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.75987,
+          -55.30914
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=98c4fc27d7104d1dbe8227dd91ac32fa",
+      "part": [
+        2,
+        2
+      ]
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DINSDAG 24 NOVEMBER 2026",
+      "date": "24 November 2026",
+      "date_iso": "2026-11-24",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1655/gepland-onderhoud-dinsdag-24-november-2026",
+      "time": "08:00 – 15:00",
+      "area": "GEDEELTE BAKKIEWEG TUSSEN AGENORIAWEG EN HABIBWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "BAKKIEWEG"
+      ],
+      "cross": [
+        "AGENORIAWEG",
+        "HABIBWEG"
+      ],
+      "district": "Paramaribo",
+      "district_src": "osm",
+      "pts": [
+        [
+          5.79527,
+          -55.20166
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=e9c99f813c064f8c844a08ff42625c83"
     }
   ],
-  "last_updated": "2026-11-18T17:04:39.862473+00:00",
+  "last_updated": "2026-11-18T19:07:33.805139+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
