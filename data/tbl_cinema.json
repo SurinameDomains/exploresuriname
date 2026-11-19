@@ -1,31 +1,26 @@
 {
-  "last_updated": "2026-11-18T16:01:00.994225+00:00",
+  "last_updated": "2026-11-19T10:00:38.852303+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
-      "title": "The Cat in the Hat",
-      "url": "https://www.tblcinemas.com/movie/RS770454163183/the-cat-in-the-hat"
-    },
-    {
-      "time": "05:30 PM",
-      "title": "Godzilla Minus Zero",
-      "url": "https://www.tblcinemas.com/movie/RS134221373877/godzilla-minus-zero"
-    },
-    {
-      "time": "06:15 PM",
       "title": "Ebenezer",
       "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
     },
     {
-      "time": "06:45 PM",
+      "time": "05:30 PM",
+      "title": "Wildwood",
+      "url": "https://www.tblcinemas.com/movie/RS980989739420/wildwood"
+    },
+    {
+      "time": "06:30 PM",
       "title": "Ramayana: Rise of a Legend",
       "url": "https://www.tblcinemas.com/movie/RS480648796990/ramayana-rise-of-a-legend"
     },
     {
       "time": "07:30 PM",
-      "title": "How to Rob a Bank",
-      "url": "https://www.tblcinemas.com/movie/RS431508106539/how-to-rob-a-bank"
+      "title": "The Hunger Games: Sunrise on the Reaping",
+      "url": "https://www.tblcinemas.com/movie/RS420074646293/the-hunger-games-sunrise-on-the-reaping"
     },
     {
       "time": "08:00 PM",
@@ -34,8 +29,8 @@
     },
     {
       "time": "08:45 PM",
-      "title": "Clayface",
-      "url": "https://www.tblcinemas.com/movie/RS818180383796/clayface"
+      "title": "I Love Boosters",
+      "url": "https://www.tblcinemas.com/movie/RS202013280957/i-love-boosters"
     }
   ],
   "source": "https://www.tblcinemas.com/films/dagschema"
