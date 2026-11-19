@@ -56,6 +56,18 @@
   },
   {
    "title": "Bekendmaking",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-70/",
+   "date": "2026-11-06",
+   "tender": false
+  },
+  {
+   "title": "Bekendmaking",
+   "link": "https://gov.sr/bekendmaking/bekendmaking-71/",
+   "date": "2026-11-06",
+   "tender": false
+  },
+  {
+   "title": "Bekendmaking",
    "link": "https://gov.sr/bekendmaking/bekendmaking-67/",
    "date": "2026-11-05",
    "tender": false
@@ -202,16 +214,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-18T23:38-03:00",
+   "ok": "2026-11-19T08:51-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-18T23:38-03:00",
+   "ok": "2026-11-19T08:51-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-18T23:38-03:00"
+ "updated": "2026-11-19T08:51-03:00"
 }
