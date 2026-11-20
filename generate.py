@@ -2065,6 +2065,9 @@ _IMGS = {
     'twenty4-hostel': 'https://exploresuriname.com/images/twenty4-hostel.webp',
     'unique-package-plan': 'https://exploresuriname.com/images/unique-package-plan.webp',
     'unlock-nature-tours': 'https://exploresuriname.com/images/unlock-nature-maratakka.webp',
+    # owner-supplied logos (email 20 Nov 2026), centred on a white 1200x675 canvas
+    'sc-reas-nv': 'https://exploresuriname.com/images/sc-reas-nv.webp',
+    'pam-nv': 'https://exploresuriname.com/images/pam-nv.webp',
     'urusji-lodge': 'https://exploresuriname.com/images/urusji-lodge.webp',
     'varossieau-suriname': 'https://exploresuriname.com/images/varossieau-suriname.webp',
     'victorious-eco-resort': 'https://exploresuriname.com/images/victorious-eco-resort.webp',
