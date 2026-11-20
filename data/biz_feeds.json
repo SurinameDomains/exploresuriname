@@ -13,6 +13,18 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Diaspora 2026 Folder",
+   "link": "https://gov.sr/bekendmaking/diaspora-2026-folder/",
+   "date": "2026-11-20",
+   "tender": false
+  },
+  {
+   "title": "Suriname country factsheet 2026",
+   "link": "https://gov.sr/bekendmaking/suriname-country-factsheet-2026/",
+   "date": "2026-11-20",
+   "tender": false
+  },
+  {
    "title": "Bekendmaking",
    "link": "https://gov.sr/bekendmaking/bekendmaking-69/",
    "date": "2026-11-17",
@@ -214,16 +226,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-20T08:52-03:00",
+   "ok": "2026-11-20T17:29-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-20T08:52-03:00",
+   "ok": "2026-11-20T17:29-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-20T08:52-03:00"
+ "updated": "2026-11-20T17:29-03:00"
 }
