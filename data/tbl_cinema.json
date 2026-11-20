@@ -1,34 +1,39 @@
 {
-  "last_updated": "2026-11-19T16:00:38.896147+00:00",
+  "last_updated": "2026-11-20T10:00:36.719963+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
+      "title": "The Cat in the Hat",
+      "url": "https://www.tblcinemas.com/movie/RS770454163183/the-cat-in-the-hat"
+    },
+    {
+      "time": "06:00 PM",
       "title": "Ebenezer",
       "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
     },
     {
-      "time": "05:30 PM",
+      "time": "06:30 PM",
       "title": "Wildwood",
       "url": "https://www.tblcinemas.com/movie/RS980989739420/wildwood"
     },
     {
-      "time": "06:30 PM",
+      "time": "07:00 PM",
       "title": "Ramayana: Rise of a Legend",
       "url": "https://www.tblcinemas.com/movie/RS480648796990/ramayana-rise-of-a-legend"
     },
     {
-      "time": "07:30 PM",
+      "time": "08:00 PM",
       "title": "The Hunger Games: Sunrise on the Reaping",
       "url": "https://www.tblcinemas.com/movie/RS420074646293/the-hunger-games-sunrise-on-the-reaping"
     },
     {
-      "time": "08:00 PM",
+      "time": "08:30 PM",
       "title": "Godzilla Minus Zero",
       "url": "https://www.tblcinemas.com/movie/RS134221373877/godzilla-minus-zero"
     },
     {
-      "time": "08:45 PM",
+      "time": "09:15 PM",
       "title": "I Love Boosters",
       "url": "https://www.tblcinemas.com/movie/RS202013280957/i-love-boosters"
     }
