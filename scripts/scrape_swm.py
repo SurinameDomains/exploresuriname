@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 """
-scrape_swm.py — SWM water outages -> data/swm_outages.json
+scrape_swm.py v3 (20 Nov 2026) -> data/swm_outages.json
 Source: https://swm.sr/storing-onderhoud/
 
-"published": false (Nov 2026) = the page has no outage tables at all, so the
-site must not read the empty lists as "no outages".
+swm.sr publishes one card per notice again (Nov 2026):
+  div.card.swmRounded > h5 "Gepland onderhoud" | "Storing(en)"
+  table.noBorderTable, 3 rows: [map-marker = areas, info = announcement, calendar = "dd/mm/yyyy - dd/mm/yyyy"]
+The real time window is only in the announcement text
+("op woensdag 18 november- donderdag 19 november 2026 van 20.00 uur tot 04.00 uur"),
+often overnight. v3 pulls out the window(s), impact, station and bulk-water note.
 
-DOM structure: h5 heading + table both live inside a div.card.swmRounded.border-0
-Table has 3 rows per outage: [area row, description row, date row]
-Each row: 2 <td> — first is icon placeholder, second is content.
+Output:
+  notices[]  {kind planned|outage, area, station, impact off|low|low_off|"", bulk_closed,
+              bulk_alt[], start_iso, end_iso, t_from, t_to, windows[[start,end]] (SR wall clock
+              "YYYY-MM-DDTHH:MM"), end_dt, text, link}
+  active[] / planned[]  legacy lists (homepage rail, old page JS)
+  published  False only when no notice was seen for 45 days
+  last_notice_seen  SR wall clock of the last scrape that found a card
+A fetch error or a page without the SWM outage section keeps the old file.
 """
 
 import json, re, sys, urllib.request
@@ -21,178 +30,227 @@ HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; ExploreSuriname/1.0; +https://exploresuriname.com)",
     "Accept": "text/html,application/xhtml+xml",
 }
+SR_TZ = timezone(timedelta(hours=-3))      # Suriname, no DST
+KEEP_ENDED_H = 12                          # page shows "Ended" for a while, then the notice drops
+PUBLISHED_DAYS = 45
 
-# Suriname is UTC-3 (no DST)
-SR_TZ = timezone(timedelta(hours=-3))
+MONTHS = {"januari": 1, "februari": 2, "maart": 3, "april": 4, "mei": 5, "juni": 6, "juli": 7,
+          "augustus": 8, "september": 9, "oktober": 10, "november": 11, "december": 12}
+BOILER = re.compile(r"adviseert verbruikers|verontschuldiging|voor het ongerief|maakt hierbij bekend|"
+                    r"bovenstaande gebieden", re.I)
 
 
 def fetch_html(url):
     req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req, timeout=20) as r:
+    with urllib.request.urlopen(req, timeout=25) as r:
         return r.read().decode("utf-8", errors="replace")
 
 
 def clean(t):
-    return re.sub(r"\s+", " ", str(t)).strip()
+    return re.sub(r"\s+", " ", str(t or "")).strip()
 
 
-_MONTHS_NL = {
-    "jan": 1, "feb": 2, "mrt": 3, "mar": 3, "apr": 4, "mei": 5, "jun": 6,
-    "jul": 7, "aug": 8, "sep": 9, "okt": 10, "oct": 10, "nov": 11, "dec": 12,
-}
+def paras(td):
+    """Cell text split on <br>: list of non-empty lines."""
+    for br in td.find_all("br"):
+        br.replace_with("\n")
+    return [clean(x) for x in td.get_text().split("\n") if clean(x)]
 
 
-def _parse_date(s):
-    """Parse various date strings to a date object. Returns None on failure."""
-    s = s.strip()
-    # dd/mm/yyyy
-    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4})", s)
-    if m:
+def sentences(lines):
+    out = []
+    for ln in lines:
+        if not re.search(r"[.!?:;]$", ln):      # SWM often drops the full stop before a <br>
+            ln += "."
+        out += [clean(s) for s in re.split(r"(?<=[.!?])\s+(?=[A-Z])", ln) if clean(s)]
+    return out
+
+
+def _hm(h, m):
+    h, m = int(h), int(m or 0)
+    if h == 24:
+        h = 0
+    return f"{h:02d}:{m:02d}" if 0 <= h < 24 and 0 <= m < 60 else None
+
+
+def parse_times(txt):
+    """'van 20.00 uur tot 04.00 uur' / 'tussen 08:00 en 16:00' / '08.00 - 14.00 uur' -> ("20:00","04:00")."""
+    t = r"(\d{1,2})(?:[.:h](\d{2}))?\s*(?:uur|u\.?)?"
+    m = (re.search(r"\b(?:van|vanaf)\s+" + t + r"\s*(?:tot(?:\s+en\s+met)?|-|–)\s*" + t, txt, re.I)
+         or re.search(r"\btussen\s+" + t + r"\s*(?:en|-|–|tot)\s*" + t, txt, re.I)
+         or re.search(r"\b(\d{1,2})[.:](\d{2})\s*(?:uur)?\s*(?:-|–|tot)\s*(\d{1,2})[.:](\d{2})", txt, re.I))
+    if not m:
+        return None, None
+    a, b = _hm(m.group(1), m.group(2)), _hm(m.group(3), m.group(4))
+    return (a, b) if a and b else (None, None)
+
+
+def parse_dates(date_cell, txt):
+    """dd/mm/yyyy from the calendar row; else 'd maand [yyyy]' from the text."""
+    ds = re.findall(r"(\d{1,2})/(\d{1,2})/(\d{4})", date_cell or "")
+    out = []
+    for d, mo, y in ds:
         try:
-            return datetime(int(m.group(3)), int(m.group(2)), int(m.group(1))).date()
-        except Exception:
+            out.append(datetime(int(y), int(mo), int(d)).date())
+        except ValueError:
             pass
-    # "d Mon YYYY" (our output format e.g. "15 Mar 2026")
-    m = re.match(r"(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})", s)
-    if m:
-        mon = _MONTHS_NL.get(m.group(2).lower())
-        if mon:
-            try:
-                return datetime(int(m.group(3)), mon, int(m.group(1))).date()
-            except Exception:
-                pass
-    return None
+    if not out:
+        yr = re.search(r"\b(20\d{2})\b", txt)
+        for d, mon in re.findall(r"(\d{1,2})\s+(" + "|".join(MONTHS) + r")", txt, re.I):
+            if yr:
+                try:
+                    out.append(datetime(int(yr.group(1)), MONTHS[mon.lower()], int(d)).date())
+                except ValueError:
+                    pass
+    if not out:
+        return None, None
+    return min(out), max(out)
 
 
-def _fmt_date(s):
-    try:
-        return datetime.strptime(s.strip(), "%d/%m/%Y").strftime("%-d %b %Y")
-    except Exception:
-        return s.strip()
+def windows(start, end, tf, tt):
+    """SR wall-clock windows. Overnight (tt <= tf): one per night from start to end
+    (a single date = into the next morning). Daytime: one per day."""
+    fmt = lambda d, t: d.isoformat() + "T" + t
+    if not tf:
+        return [[fmt(start, "00:00"), fmt(end + timedelta(days=1), "00:00")]]
+    if tt <= tf:
+        nights = max(1, (end - start).days)
+        return [[fmt(start + timedelta(days=i), tf), fmt(start + timedelta(days=i + 1), tt)] for i in range(nights)]
+    return [[fmt(start + timedelta(days=i), tf), fmt(start + timedelta(days=i), tt)]
+            for i in range((end - start).days + 1)]
 
 
-def parse_table(table):
-    """3 rows per outage: [area, description, date]. Second <td> is content."""
-    cells = []
-    for row in table.find_all("tr"):
-        tds = row.find_all("td")
-        content = clean(tds[1].get_text()) if len(tds) >= 2 else (clean(tds[0].get_text()) if tds else "")
-        if content:
-            cells.append(content)
+def impact(txt):
+    low = bool(re.search(r"lage?\s+(water)?druk|drukverlaging|vermindering van de waterdruk", txt, re.I))
+    off = bool(re.search(r"onderbreking|geen water|stilgelegd|afgesloten", txt, re.I))
+    return "low_off" if low and off else "low" if low else "off" if off else ""
 
-    entries = []
-    for i in range(0, len(cells), 3):
-        chunk = cells[i:i+3]
-        if len(chunk) < 2:
+
+def parse_card(card, kind):
+    table = card.find("table")
+    if not table:
+        return None
+    rows = {}
+    for tr in table.find_all("tr"):
+        tds = tr.find_all("td")
+        if len(tds) < 2:
             continue
-        area = chunk[0]
-        desc = chunk[1] if len(chunk) > 1 else ""
-        date_str = chunk[2] if len(chunk) > 2 else ""
-        dates = re.findall(r"\d{2}/\d{2}/\d{4}", date_str)
-        start = _fmt_date(dates[0]) if dates else date_str
-        end   = _fmt_date(dates[1]) if len(dates) > 1 else start
-        entries.append({"area": area, "description": desc, "start": start, "end": end})
-    return entries
-
-
-def find_card_for_heading(heading):
-    """Walk up from h5 to find the .card container that holds both the heading and its table."""
-    node = heading
-    for _ in range(10):
-        node = node.parent
-        if not node or node.name in ("html", "body"):
-            break
-        classes = node.get("class", [])
-        if "card" in classes and "swmRounded" in classes:
-            return node
-    return None
-
-
-def parse(html):
-    from bs4 import BeautifulSoup
-    soup = BeautifulSoup(html, "html.parser")
-
-    today = datetime.now(SR_TZ).date()
-    # Allow active outages up to 3 days old (SWM may be slow to update)
-    active_cutoff = today - timedelta(days=3)
-
-    result = {
-        "active":  [],
-        "planned": [],
-        "last_updated": datetime.now(timezone.utc).isoformat(),
-        "source": URL,
+        ic = " ".join(tds[0].find("i").get("class", [])) if tds[0].find("i") else ""
+        key = "area" if "map" in ic else "date" if "calendar" in ic else "info" if "info" in ic else None
+        if key is None:                       # unknown icon: fall back to row order
+            key = ("area", "info", "date")[min(len(rows), 2)]
+        rows.setdefault(key, tds[1])
+    if "area" not in rows:
+        return None
+    a_lines = [s for s in sentences(paras(rows["area"])) if not BOILER.search(s)]
+    i_lines = sentences(paras(rows["info"])) if "info" in rows else []
+    date_cell = clean(rows["date"].get_text()) if "date" in rows else ""
+    area = clean(" ".join(a_lines)).rstrip(".").strip()
+    full = " ".join(i_lines)
+    start, end = parse_dates(date_cell, full)
+    if not start:
+        return None
+    tf, tt = parse_times(full)
+    st = re.search(r"productie(?:station|bedrijf)\s+(?:te|in|op|aan)\s+(?:de\s+)?([A-Z][\w'’\- ]{1,40}?)(?=[,.;\n]|\s+(?:en|ter|waarbij|zal|waardoor)\b|$)", full)
+    bulk_closed = bool(re.search(r"geen\s+bulkwater", full, re.I))
+    alt = []
+    m = re.search(r"bulkwater.*?(?:t\.w\.|te weten|namelijk|:)\s*([^.]+)", full, re.I)
+    if bulk_closed and m:
+        alt = [clean(x) for x in re.split(r",|\s+en\s+", m.group(1)) if clean(x)]
+    text = [s for s in i_lines if not BOILER.search(s) or re.search(r"bekend dat", s, re.I)]
+    w = windows(start, end, tf, tt)
+    return {
+        "kind": kind,
+        "area": area,
+        "station": clean(st.group(1)) if st else "",
+        "impact": impact(full + " " + " ".join(a_lines)),
+        "bulk_closed": bulk_closed,
+        "bulk_alt": alt,
+        "start_iso": start.isoformat(), "end_iso": end.isoformat(),
+        "t_from": tf or "", "t_to": tt or "",
+        "windows": w, "end_dt": w[-1][1],
+        "text": " ".join(text),
+        "link": URL,
     }
 
-    sections = 0
+
+def parse(html, prev=None):
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(html, "html.parser")
+    now = datetime.now(SR_TZ)
+    now_s = now.strftime("%Y-%m-%dT%H:%M")
+    keep_s = (now - timedelta(hours=KEEP_ENDED_H)).strftime("%Y-%m-%dT%H:%M")
+
+    page_ok = bool(soup.find(id="productie") or soup.find(id="distributie")
+                   or re.search(r"storing(en)?\s*&(amp;)?\s*onderhoud", soup.get_text(" "), re.I))
+    notices, cards = [], 0
     for h in soup.find_all("h5"):
         txt = clean(h.get_text())
-        if not re.search(r"gepland onderhoud|^storingen$", txt, re.IGNORECASE):
+        if not re.search(r"onderhoud|storing|onderbreking|werkzaamheden", txt, re.I):
             continue
-        sections += 1
-        is_planned = bool(re.search(r"gepland", txt, re.IGNORECASE))
-
-        card = find_card_for_heading(h)
+        card = h.find_parent(lambda t: t.name == "div" and "card" in (t.get("class") or []))
         if not card:
             continue
-
-        table = card.find("table")
-        if not table:
+        cards += 1
+        kind = "planned" if re.search(r"gepland|onderhoud|werkzaamheden", txt, re.I) else "outage"
+        try:
+            n = parse_card(card, kind)
+        except Exception as e:                       # one odd card never costs the others
+            print(f"    [card skipped: {e}]")
             continue
+        if not n:
+            print(f"    [card without area/date skipped] {txt}")
+            continue
+        if n["end_dt"] < keep_s:
+            print(f"    [ended] {n['area'][:60]} (until {n['end_dt']})")
+            continue
+        notices.append(n)
+    notices.sort(key=lambda n: n["windows"][0][0])
 
-        for e in parse_table(table):
-            if is_planned:
-                # Drop planned outages whose end date has already passed
-                end_date = _parse_date(e["end"])
-                if end_date and end_date < today:
-                    print(f"    [skipped past planned] {e['area']} (end {e['end']})")
-                    continue
-                result["planned"].append({
-                    "area":        e["area"],
-                    "description": e["description"],
-                    "start":       e["start"],
-                    "end":         e["end"],
-                    "date":        e["start"],
-                })
-            else:
-                # Drop active outages older than 3 days
-                start_date = _parse_date(e["start"])
-                if start_date and start_date < active_cutoff:
-                    print(f"    [skipped stale active] {e['area']} (date {e['start']})")
-                    continue
-                result["active"].append({
-                    "area":        e["area"],
-                    "description": e["description"],
-                    "date":        e["start"],
-                })
-
-    # Nov 2026: swm.sr's page lost its outage tables (the "Klik hier voor een
-    # overzicht" lines have no link and there is no table, also after JS runs).
-    # Without the tables an empty list is "unknown", not "no outages": the site
-    # then shows SWM's own channels instead of a false all-clear.
-    result["published"] = sections > 0
-    return result
+    prev = prev or {}
+    last_seen = now_s if cards else prev.get("last_notice_seen", "")
+    if not last_seen and cards == 0 and prev.get("published") is not False and prev.get("planned"):
+        last_seen = prev.get("last_updated", "")[:16]
+    try:
+        recent = bool(last_seen) and (now.replace(tzinfo=None) - datetime.fromisoformat(last_seen[:16])).days < PUBLISHED_DAYS
+    except ValueError:
+        recent = False
+    leg = lambda n: {"area": n["area"], "description": n["text"],
+                     "start": n["start_iso"], "end": n["end_iso"], "date": n["start_iso"]}
+    return {
+        "notices": notices,
+        "active": [leg(n) for n in notices if n["kind"] == "outage"],
+        "planned": [leg(n) for n in notices if n["kind"] == "planned"],
+        "published": bool(cards) or recent,
+        "last_notice_seen": last_seen,
+        "cards_on_page": cards,
+        "page_ok": page_ok,
+        "last_updated": datetime.now(timezone.utc).isoformat(),
+        "source": URL,
+        "v": 3,
+    }
 
 
 def main():
     print(f"Fetching {URL}")
+    prev = {}
+    if OUT.exists():
+        try:
+            prev = json.loads(OUT.read_text(encoding="utf-8"))
+        except Exception:
+            prev = {}
     try:
         html = fetch_html(URL)
     except Exception as e:
-        print(f"ERROR: {e}")
-        if OUT.exists():
-            print("Keeping existing data.")
+        print(f"ERROR: {e}\nKeeping existing data.")
         sys.exit(0)
-
-    data = parse(html)
-    print(f"  Active outages: {len(data['active'])}")
-    for o in data["active"]:
-        print(f"    - {o['area']} ({o['date']})")
-    print(f"  Planned:        {len(data['planned'])}")
-    if not data.get("published"):
-        print("  NOTE: no outage tables on swm.sr (published: false)")
-    for o in data["planned"]:
-        print(f"    - {o['area']} ({o['start']} -> {o['end']})")
-
+    data = parse(html, prev)
+    if not data["page_ok"] and not data["cards_on_page"]:
+        print("ERROR: page has no SWM outage section (layout change or error page). Keeping existing data.")
+        sys.exit(0)
+    print(f"  Cards on page: {data['cards_on_page']}, current notices: {len(data['notices'])}")
+    for n in data["notices"]:
+        print(f"    - [{n['kind']}] {n['windows'][0][0]} -> {n['end_dt']} {n['station'] or '-'} | {n['area'][:70]}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"  Written: {OUT}")
