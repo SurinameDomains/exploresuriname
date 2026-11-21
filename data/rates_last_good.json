@@ -88,8 +88,8 @@
     "currency": "USD",
     "name": "US Dollar",
     "flag": "🇺🇸",
-    "buy": "37.25",
-    "sell": "37.45"
+    "buy": "37.35",
+    "sell": "37.55"
    },
    {
     "currency": "EUR",
@@ -99,7 +99,7 @@
     "sell": "41.15"
    }
   ],
-  "updated": "CME: 21 Nov 2026 07:31 SR",
-  "fetched_at": "2026-11-21T07:31:11-0300"
+  "updated": "CME: 21 Nov 2026 07:46 SR",
+  "fetched_at": "2026-11-21T07:46:05-0300"
  }
 }
