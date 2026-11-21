@@ -13,6 +13,12 @@
  ],
  "bekendmakingen": [
   {
+   "title": "Diaspora Dataformulier info",
+   "link": "https://gov.sr/bekendmaking/diaspora-dataformulier-info/",
+   "date": "2026-11-20",
+   "tender": false
+  },
+  {
    "title": "Diaspora 2026 Folder",
    "link": "https://gov.sr/bekendmaking/diaspora-2026-folder/",
    "date": "2026-11-20",
@@ -226,16 +232,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-20T17:29-03:00",
+   "ok": "2026-11-20T23:26-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-20T17:29-03:00",
+   "ok": "2026-11-20T23:26-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-20T17:29-03:00"
+ "updated": "2026-11-20T23:26-03:00"
 }
