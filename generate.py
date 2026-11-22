@@ -14590,6 +14590,7 @@ def build_listing_page(slug, b, brand_short=None):
         desc_block = desc_block + _ord_m
     if _chain:
         left_top = ('\n      ' + desc_block + '\n      ' + _chain["chips"])
+        left_rest = ""
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
                     '\n        <iframe id="esr-branch-map" src="' + _chain["first_map"] + '" width="100%" height="100%"'
                     '\n          style="border:0" allowfullscreen="" loading="lazy"'
@@ -14602,9 +14603,10 @@ def build_listing_page(slug, b, brand_short=None):
                      '\n          ' + la_html +
                      '\n        </div>' + _chain["script"])
     else:
-        left_top = ('\n      ' + desc_block + branch_note + (_hours_table_html(hours) if hours else "") +
+        left_top = '\n      ' + desc_block + branch_note
+        left_rest = (((_hours_table_html(hours) if hours else "") +
                     ((_tt["body"] + _tt["foot"]) if _tt else "") + _venue_events_html(slug, _pfx) + _listing_photos_html(slug) +
-                    '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>')
+                    '\n      <h2 class="text-lg font-bold text-gray-900 mb-4">Location</h2>'))
         map_html = ('\n      <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm mb-3" style="height:380px">'
                     '\n        <iframe src="' + maps_embed + '" width="100%" height="100%"'
                     '\n          style="border:0" allowfullscreen="" loading="lazy"'
@@ -14620,29 +14622,34 @@ def build_listing_page(slug, b, brand_short=None):
         left_top = '\n      ' + desc_block + '\n      ' + _brand_list_html(_brand)
         if _brand in _BRAND_STYLE:
             left_top = '\n      ' + _ORDER_CSS + _brand_body_html(_brand, _chain["count"], brand_short)
+        left_rest = ""
         map_html = ""
         info_title = ""
         info_html = '\n        ' + la_html
 
     main = (
         '\n<main class="max-w-5xl mx-auto px-5 py-12 pb-24">'
-        '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">'
+        '\n  <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-8 lg:grid-rows-[auto_1fr]">'
 
-        '\n    <div class="lg:col-span-2">'
-        + left_top
-        + map_html +
-        '\n      <p class="text-gray-400 text-xs text-center mb-8">'
-        '\n        Map data &copy; Google. Click the map to see hours, reviews &amp; street view.'
-        '\n      </p>'
-        + ("" if brand_short else _own_box_html(_pfx)) +
+        '\n    <div class="lg:col-span-2 lg:col-start-1 lg:row-start-1">'
+        + left_top +
         '\n    </div>'
 
-        '\n    <div class="lg:col-span-1">'
+        '\n    <div class="mb-8 lg:mb-0 lg:col-span-1 lg:col-start-3 lg:row-start-1 lg:row-span-2">'
         '\n      <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sticky top-24">'
         + _ord_d
         + info_title
         + info_html +
         '\n      </div>'
+        '\n    </div>'
+
+        '\n    <div class="lg:col-span-2 lg:col-start-1 lg:row-start-2">'
+        + left_rest
+        + map_html +
+        '\n      <p class="text-gray-400 text-xs text-center mb-8">'
+        '\n        Map data &copy; Google. Click the map to see hours, reviews &amp; street view.'
+        '\n      </p>'
+        + ("" if brand_short else _own_box_html(_pfx)) +
         '\n    </div>'
 
         '\n  </div>'
