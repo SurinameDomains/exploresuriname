@@ -5,93 +5,7 @@
       "date": "22 November 2026",
       "date_iso": "2026-11-22",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1658/gepland-onderhoud-zondag-22-november-2026",
-      "time": "09:00 – 15:00",
-      "area": "GEDEELTE DR. SOPHIE REDMONDSTRAAT TUSSEN RODE KRUISLAAN EN CELINASTRAAT, GEDEELTE VAN IDSINGASTRAAT TUSSEN VERLENGDE HOOGESTRAAT EN DR. SOPHIE REDMONDSTRAAT, GEDEELTE ABRAHAM P.H. SAMSONSTRAAT TUSSEN FLUSTRAAT EN HERMAN D. BENJAMINSTRAAT, ORANJELAAN, CELINASTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN DIT GEBIED",
-      "streets": [
-        "DR. SOPHIE REDMONDSTRAAT",
-        "IDSINGASTRAAT",
-        "ABRAHAM P.H. SAMSONSTRAAT",
-        "ORANJELAAN",
-        "CELINASTRAAT"
-      ],
-      "cross": [
-        "RODE KRUISLAAN",
-        "CELINASTRAAT",
-        "VERLENGDE HOOGESTRAAT",
-        "FLUSTRAAT",
-        "HERMAN D. BENJAMINSTRAAT"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.83173,
-          -55.17422
-        ],
-        [
-          5.83183,
-          -55.17331
-        ],
-        [
-          5.83806,
-          -55.18333
-        ],
-        [
-          5.82894,
-          -55.17402
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=41bef223f2e044dab993fb432de7ded7",
-      "part": [
-        2,
-        2
-      ]
-    },
-    {
-      "title": "GEPLAND ONDERHOUD ZONDAG 22 NOVEMBER 2026",
-      "date": "22 November 2026",
-      "date_iso": "2026-11-22",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1658/gepland-onderhoud-zondag-22-november-2026",
-      "time": "09:00 – 17:00",
-      "area": "GEDEELTE SIR WINSTON CHURCHILLWEG TUSSEN SAROJA RAGHOEBARWEG EN RAMNARAIN OEMRAWWEG, GEDEELTE PANDIT PALTAN TEWARIEWEG TUSSEN AITKANTIWEG EN SIR WINSTON CHURCHILLWEG, OGANE, BOWLINGSTRAAT, SUJAFIWEG, WEG NAAR SHELL EMPLACEMENT, TAMJAKOEWEG, RAMNARAIN OEMRAWWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "SIR WINSTON CHURCHILLWEG",
-        "PANDIT PALTAN TEWARIEWEG",
-        "OGANE",
-        "BOWLINGSTRAAT",
-        "SUJAFIWEG",
-        "WEG NAAR SHELL EMPLACEMENT",
-        "TAMJAKOEWEG",
-        "RAMNARAIN OEMRAWWEG"
-      ],
-      "cross": [
-        "SAROJA RAGHOEBARWEG",
-        "RAMNARAIN OEMRAWWEG",
-        "AITKANTIWEG"
-      ],
-      "district": "Paramaribo",
-      "district_src": "osm",
-      "pts": [
-        [
-          5.77416,
-          -55.16648
-        ],
-        [
-          5.77908,
-          -55.17294
-        ],
-        [
-          5.79589,
-          -55.1647
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=41bef223f2e044dab993fb432de7ded7",
-      "part": [
-        1,
-        2
-      ]
+      "link": "https://nvebs.com/nieuws/1658/gepland-onderhoud-zondag-22-november-2026"
     },
     {
       "title": "GEPLAND ONDERHOUD DINSDAG 24 NOVEMBER 2026",
@@ -198,7 +112,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=4ca48b0bcc9a463fb2bdac03f7a4b21f"
     }
   ],
-  "last_updated": "2026-11-22T16:05:17.564348+00:00",
+  "last_updated": "2026-11-22T19:07:26.325429+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
