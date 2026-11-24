@@ -1,13 +1,6 @@
 {
   "outages": [
     {
-      "title": "GEPLAND ONDERHOUD DINSDAG 24 NOVEMBER 2026",
-      "date": "24 November 2026",
-      "date_iso": "2026-11-24",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1655/gepland-onderhoud-dinsdag-24-november-2026"
-    },
-    {
       "title": "GEPLAND ONDERHOUD DONDERDAG 26 NOVEMBER 2026",
       "date": "26 November 2026",
       "date_iso": "2026-11-26",
@@ -142,7 +135,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=4ca48b0bcc9a463fb2bdac03f7a4b21f"
     }
   ],
-  "last_updated": "2026-11-24T19:07:32.652340+00:00",
+  "last_updated": "2026-11-24T23:07:27.980429+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
