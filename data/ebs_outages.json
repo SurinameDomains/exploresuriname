@@ -30,6 +30,42 @@
       "date": "26 November 2026",
       "date_iso": "2026-11-26",
       "type": "planned",
+      "link": "https://nvebs.com/nieuws/1662/gepland-onderhoud-donderdag-26-november-2026",
+      "time": "09:00 – 14:00",
+      "area": "HOOFDWEG MARIENBURG, COPPENAMESTRAAT, KAPPASTRAAT, BAMISTRAAT, PLANTAGE RUST&WERK, PLANTAGE FREDERIKSDORP, MARIENBOSCH, JOHAN MARGARETHA EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "HOOFDWEG MARIENBURG",
+        "COPPENAMESTRAAT",
+        "KAPPASTRAAT",
+        "BAMISTRAAT",
+        "PLANTAGE RUST&WERK",
+        "PLANTAGE FREDERIKSDORP",
+        "MARIENBOSCH",
+        "JOHAN MARGARETHA"
+      ],
+      "district": "Commewijne",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.87693,
+          -55.04665
+        ],
+        [
+          5.87419,
+          -55.04128
+        ],
+        [
+          5.87944,
+          -55.04076
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=c2f21935f8194b1f93798ff5e2abba43"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD DONDERDAG 26 NOVEMBER 2026",
+      "date": "26 November 2026",
+      "date_iso": "2026-11-26",
+      "type": "planned",
       "link": "https://nvebs.com/nieuws/1659/gepland-onderhoud-donderdag-26-november-2026",
       "time": "09:00 – 14:00",
       "area": "GEDEELTE WELGELEGENSTRAAT TUSSEN KWATTAWEG EN OKERSTRAAT, KOMKOMMERSTRAAT, TOMAATSTRAAT, ABADOESTRAAT, PENTASTRAAT, ANTONSTRAAT, MISPELSTRAAT, GEMBERSTRAAT, PATATASTRAAT, KASABASTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
@@ -84,6 +120,25 @@
       "date": "27 November 2026",
       "date_iso": "2026-11-27",
       "type": "planned",
+      "link": "https://nvebs.com/nieuws/1661/gepland-onderhoud-vrijdag-27-november-2026",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN BOXELPARAWEG EN BOXEL MANJADAM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "DS. MARTIN LUTHER KINGWEG"
+      ],
+      "cross": [
+        "BOXELPARAWEG",
+        "BOXEL MANJADAM"
+      ],
+      "district": "",
+      "district_src": "",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=48abe7de20844a21b84644b972d52d19"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
+      "date": "27 November 2026",
+      "date_iso": "2026-11-27",
+      "type": "planned",
       "link": "https://nvebs.com/nieuws/1660/gepland-onderhoud-vrijdag-27-november-2026",
       "time": "09:00 – 14:00",
       "area": "GEDEELTE HELENA CHRISTINAWEG TUSSEN INDIRA GANDHIWEG EN NOAHWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
@@ -105,7 +160,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=4ca48b0bcc9a463fb2bdac03f7a4b21f"
     }
   ],
-  "last_updated": "2026-11-24T11:07:30.724329+00:00",
+  "last_updated": "2026-11-24T14:41:16.179304+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }

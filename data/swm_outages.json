@@ -1,12 +1,70 @@
 {
-  "notices": [],
+  "notices": [
+    {
+      "kind": "planned",
+      "area": "Kochweg, Damboentong, Sidodadieweg, Catharina Sophiastraat en. Larecoweg met alle zijwegen die voorkomen in genoemde gebieden",
+      "station": "Groningen",
+      "impact": "low",
+      "bulk_closed": false,
+      "bulk_alt": [],
+      "start_iso": "2026-11-26",
+      "end_iso": "2026-11-26",
+      "t_from": "08:00",
+      "t_to": "13:00",
+      "windows": [
+        [
+          "2026-11-26T08:00",
+          "2026-11-26T13:00"
+        ]
+      ],
+      "end_dt": "2026-11-26T13:00",
+      "text": "De SWM maakt hierbij bekend dat zij op woensdag donderdag 26 november 2026 van 08.00 uur tot 13.00 uur, noodzakelijke onderhoudswerkzaamheden zal uitvoeren op haar productiestation te Groningen.",
+      "link": "https://swm.sr/storing-onderhoud/"
+    },
+    {
+      "kind": "planned",
+      "area": "Tawajariepolder, Mr. P. Chandie Shawweg, Jarikaba Project, Commissaris. Weythingweg tot en met Leiding 9A, Vijfde Rijweg, Pt. Krishnapersad. Khedoeweg (Noordpolderdam) tot Leiding 9A, Garnizoenspad tot de Vierde. Rijweg, Wayamboweg, Gangarampandayweg met alle zijwegen die voorkomen. in genoemde gebieden",
+      "station": "Uitkijk",
+      "impact": "low_off",
+      "bulk_closed": false,
+      "bulk_alt": [],
+      "start_iso": "2026-11-26",
+      "end_iso": "2026-11-26",
+      "t_from": "08:00",
+      "t_to": "13:00",
+      "windows": [
+        [
+          "2026-11-26T08:00",
+          "2026-11-26T13:00"
+        ]
+      ],
+      "end_dt": "2026-11-26T13:00",
+      "text": "De SWM maakt hierbij bekend dat zij op woensdag donderdag 26 november 2026 van 08.00 uur tot 13.00 uur, noodzakelijke onderhoudswerkzaamheden zal uitvoeren op haar productiestation te Uitkijk.",
+      "link": "https://swm.sr/storing-onderhoud/"
+    }
+  ],
   "active": [],
-  "planned": [],
+  "planned": [
+    {
+      "area": "Kochweg, Damboentong, Sidodadieweg, Catharina Sophiastraat en. Larecoweg met alle zijwegen die voorkomen in genoemde gebieden",
+      "description": "De SWM maakt hierbij bekend dat zij op woensdag donderdag 26 november 2026 van 08.00 uur tot 13.00 uur, noodzakelijke onderhoudswerkzaamheden zal uitvoeren op haar productiestation te Groningen.",
+      "start": "2026-11-26",
+      "end": "2026-11-26",
+      "date": "2026-11-26"
+    },
+    {
+      "area": "Tawajariepolder, Mr. P. Chandie Shawweg, Jarikaba Project, Commissaris. Weythingweg tot en met Leiding 9A, Vijfde Rijweg, Pt. Krishnapersad. Khedoeweg (Noordpolderdam) tot Leiding 9A, Garnizoenspad tot de Vierde. Rijweg, Wayamboweg, Gangarampandayweg met alle zijwegen die voorkomen. in genoemde gebieden",
+      "description": "De SWM maakt hierbij bekend dat zij op woensdag donderdag 26 november 2026 van 08.00 uur tot 13.00 uur, noodzakelijke onderhoudswerkzaamheden zal uitvoeren op haar productiestation te Uitkijk.",
+      "start": "2026-11-26",
+      "end": "2026-11-26",
+      "date": "2026-11-26"
+    }
+  ],
   "published": true,
-  "last_notice_seen": "2026-11-24T08:07",
+  "last_notice_seen": "2026-11-24T11:41",
   "cards_on_page": 2,
   "page_ok": true,
-  "last_updated": "2026-11-24T11:07:27.637981+00:00",
+  "last_updated": "2026-11-24T14:41:05.578375+00:00",
   "source": "https://swm.sr/storing-onderhoud/",
   "v": 3
 }
