@@ -37,58 +37,33 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=c2f21935f8194b1f93798ff5e2abba43"
     },
     {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 26 NOVEMBER 2026",
-      "date": "26 November 2026",
-      "date_iso": "2026-11-26",
+      "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
+      "date": "27 November 2026",
+      "date_iso": "2026-11-27",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1659/gepland-onderhoud-donderdag-26-november-2026",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE WELGELEGENSTRAAT TUSSEN KWATTAWEG EN OKERSTRAAT, KOMKOMMERSTRAAT, TOMAATSTRAAT, ABADOESTRAAT, PENTASTRAAT, ANTONSTRAAT, MISPELSTRAAT, GEMBERSTRAAT, PATATASTRAAT, KASABASTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "link": "https://nvebs.com/nieuws/1663/gepland-onderhoud-vrijdag-27-november-2026",
+      "time": "08:30 – 12:30",
+      "area": "MANASSEZEGENWEG, GOEDEZORGWEG, GOEDE GEVINGENWEG, CLAUDIA WENSWEG, BOVEN VERWACHTINGWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
       "streets": [
-        "WELGELEGENSTRAAT",
-        "KOMKOMMERSTRAAT",
-        "TOMAATSTRAAT",
-        "ABADOESTRAAT",
-        "PENTASTRAAT",
-        "ANTONSTRAAT",
-        "MISPELSTRAAT",
-        "GEMBERSTRAAT",
-        "PATATASTRAAT",
-        "KASABASTRAAT"
-      ],
-      "cross": [
-        "KWATTAWEG",
-        "OKERSTRAAT"
+        "MANASSEZEGENWEG",
+        "GOEDEZORGWEG",
+        "GOEDE GEVINGENWEG",
+        "CLAUDIA WENSWEG",
+        "BOVEN VERWACHTINGWEG"
       ],
       "district": "Paramaribo",
-      "district_src": "osm",
+      "district_src": "ebs",
       "pts": [
         [
-          5.84123,
-          -55.2166
+          5.80121,
+          -55.21449
         ],
         [
-          5.84255,
-          -55.21754
-        ],
-        [
-          5.84315,
-          -55.21713
-        ],
-        [
-          5.84228,
-          -55.21891
-        ],
-        [
-          5.84145,
-          -55.2184
-        ],
-        [
-          5.84051,
-          -55.21769
+          5.80148,
+          -55.2119
         ]
       ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=c722df2008ec47a79ce274cac3dfdee3"
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=dc2189dc56f04ce7a9d6643030d15095"
     },
     {
       "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
@@ -130,32 +105,28 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=48abe7de20844a21b84644b972d52d19"
     },
     {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
-      "date": "27 November 2026",
-      "date_iso": "2026-11-27",
+      "title": "GEPLAND ONDERHOUD ZATERDAG 28 NOVEMBER 2026",
+      "date": "28 November 2026",
+      "date_iso": "2026-11-28",
       "type": "planned",
-      "link": "https://nvebs.com/nieuws/1660/gepland-onderhoud-vrijdag-27-november-2026",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE HELENA CHRISTINAWEG TUSSEN INDIRA GANDHIWEG EN NOAHWEG EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "link": "https://nvebs.com/nieuws/1664/gepland-onderhoud-zaterdag-28-november-2026",
+      "time": "08:00 – 15:00",
+      "area": "GEDEELTE KRAKKAWEG TUSSEN CABENDADORP EN AVOBAKAWEG, GEDEELTE AVOBAKAWEG TUSSEN KRAKKAWEG EN WEG NAAR BABUNHOL EN ALLE ZIJWEGEN DIE VOORKOMEN IN DEZE GEBIEDEN",
       "streets": [
-        "HELENA CHRISTINAWEG"
+        "KRAKKAWEG",
+        "AVOBAKAWEG"
       ],
       "cross": [
-        "INDIRA GANDHIWEG",
-        "NOAHWEG"
+        "CABENDADORP",
+        "AVOBAKAWEG",
+        "WEG NAAR BABUNHOL"
       ],
-      "district": "Wanica",
-      "district_src": "ebs",
-      "pts": [
-        [
-          5.73467,
-          -55.23116
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=4ca48b0bcc9a463fb2bdac03f7a4b21f"
+      "district": "",
+      "district_src": "",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=0ad39ef76e484b1d88a546c9c0273fea"
     }
   ],
-  "last_updated": "2026-11-25T15:07:27.967531+00:00",
+  "last_updated": "2026-11-25T19:07:36.020357+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
