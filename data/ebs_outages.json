@@ -95,6 +95,26 @@
       "date": "27 November 2026",
       "date_iso": "2026-11-27",
       "type": "planned",
+      "link": "https://nvebs.com/nieuws/1665/gepland-onderhoud-vrijdag-27-november-2026",
+      "time": "09:00 – 14:00",
+      "area": "GEDEELTE TJON A. KIETWEG TUSSEN PANDIT PALTAN TEWARIEWEG EN GROOT BLIJDENSHOOPWEG, PRO VILLA PARK EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "TJON A. KIETWEG",
+        "PRO VILLA PARK"
+      ],
+      "cross": [
+        "PANDIT PALTAN TEWARIEWEG",
+        "GROOT BLIJDENSHOOPWEG"
+      ],
+      "district": "Wanica",
+      "district_src": "ebs",
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=6ebbdfbd4ef94d0eb6074e2599f77676"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
+      "date": "27 November 2026",
+      "date_iso": "2026-11-27",
+      "type": "planned",
       "link": "https://nvebs.com/nieuws/1661/gepland-onderhoud-vrijdag-27-november-2026",
       "time": "09:00 – 14:00",
       "area": "GEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN BOXELPARAWEG EN BOXEL MANJADAM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
@@ -135,7 +155,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=4ca48b0bcc9a463fb2bdac03f7a4b21f"
     }
   ],
-  "last_updated": "2026-11-25T11:07:44.030135+00:00",
+  "last_updated": "2026-11-25T14:02:15.209132+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
