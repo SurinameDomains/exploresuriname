@@ -1,6 +1,16 @@
 {
  "belastingdienst": [
   {
+   "title": "Belastingdienst zet met HUMUS Consultancy belangrijke stap naar HRM-transformatie",
+   "link": "https://belastingdienst.sr/belastingdienst-zet-met-humus-consultancy-belangrijke-stap-naar-hrm-transformatie/",
+   "date": "2026-11-26"
+  },
+  {
+   "title": "Belastingdienst verwelkomt zestien nieuwe junior deurwaarders",
+   "link": "https://belastingdienst.sr/belastingdienst-verwelkomt-zestien-nieuwe-junior-deurwaarders/",
+   "date": "2026-11-26"
+  },
+  {
    "title": "Bekendmaking Onvangkantoor der IA",
    "link": "https://belastingdienst.sr/bekendmaking-onvangkantoor-der-ia/",
    "date": "2026-11-05"
@@ -214,16 +224,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-26T00:38-03:00",
+   "ok": "2026-11-26T14:02-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-26T00:38-03:00",
+   "ok": "2026-11-26T14:03-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-26T00:38-03:00"
+ "updated": "2026-11-26T14:03-03:00"
 }
