@@ -4,71 +4,71 @@
    {
     "currency": "USD",
     "name": "US Dollar",
-    "buy": "37.248",
-    "sell": "37.468",
+    "buy": "37.250",
+    "sell": "37.500",
     "flag": "🇺🇸"
    },
    {
     "currency": "EUR",
     "name": "Euro",
-    "buy": "41.147",
+    "buy": "40.749",
     "sell": "41.497",
     "flag": "🇪🇺"
    },
    {
     "currency": "GBP",
     "name": "British Pound",
-    "buy": "48.787",
-    "sell": "49.744",
+    "buy": "48.790",
+    "sell": "49.746",
     "flag": "🇬🇧"
    },
    {
     "currency": "XCG",
     "name": "Curaçao Guilder",
-    "buy": "20.466",
-    "sell": "20.867",
+    "buy": "20.467",
+    "sell": "20.868",
     "flag": "🇨🇼"
    },
    {
     "currency": "AWG",
     "name": "Aruban Florin",
-    "buy": "20.693",
-    "sell": "21.099",
+    "buy": "20.694",
+    "sell": "21.100",
     "flag": "🇦🇼"
    },
    {
     "currency": "BRL",
     "name": "Brazilian Real",
     "buy": "6.346",
-    "sell": "6.470",
+    "sell": "6.471",
     "flag": "🇧🇷"
    },
    {
     "currency": "TTD",
     "name": "T&T Dollar",
-    "buy": "5.504",
-    "sell": "5.612",
+    "buy": "5.495",
+    "sell": "5.603",
     "flag": "🇹🇹"
    },
    {
     "currency": "BBD",
     "name": "Barbados Dollar",
-    "buy": "18.362",
-    "sell": "18.722",
+    "buy": "18.363",
+    "sell": "18.723",
     "flag": "🇧🇧"
    },
    {
     "currency": "XCD",
     "name": "E. Caribbean Dollar",
     "buy": "13.796",
-    "sell": "14.066",
+    "sell": "14.067",
     "flag": "🏝️"
    },
    {
     "currency": "GYD",
     "name": "Guyana Dollar",
-    "buy": "0.17699",
-    "sell": "0.18046",
+    "buy": "0.17700",
+    "sell": "0.18047",
     "flag": "🇬🇾"
    },
    {
@@ -79,8 +79,8 @@
     "flag": "🇨🇳"
    }
   ],
-  "updated": "CBVS: 24 november - 15:00u",
-  "fetched_at": "2026-11-24T15:46:59-0300"
+  "updated": "CBVS: 26 november - 10:00u",
+  "fetched_at": "2026-11-26T10:31:32-0300"
  },
  "cme": {
   "rates": [
@@ -99,7 +99,7 @@
     "sell": "41.00"
    }
   ],
-  "updated": "CME: 26 Nov 2026 10:16 SR",
-  "fetched_at": "2026-11-26T10:16:14-0300"
+  "updated": "CME: 26 Nov 2026 10:31 SR",
+  "fetched_at": "2026-11-26T10:31:31-0300"
  }
 }
