@@ -2,21 +2,21 @@
  "sources": {
   "fr24_PBM": {
    "ok": true,
-   "fetched": 1795773697
+   "fetched": 1795774594
   },
   "fr24_EAX": {
    "ok": true,
-   "fetched": 1795773697
+   "fetched": 1795774594
   },
   "bw": {
    "ok": true,
    "fetched": 1795614518
   },
   "afkl": {
-   "ok": false,
-   "fetched": 1795770975,
-   "calls_today": 20,
-   "err": "The read operation timed out"
+   "ok": true,
+   "fetched": 1795774594,
+   "calls_today": 21,
+   "err": ""
   },
   "fr24_hist": {
    "ok": true,
