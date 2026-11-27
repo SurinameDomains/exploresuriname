@@ -50,25 +50,6 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=6ebbdfbd4ef94d0eb6074e2599f77676"
     },
     {
-      "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
-      "date": "27 November 2026",
-      "date_iso": "2026-11-27",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1661/gepland-onderhoud-vrijdag-27-november-2026",
-      "time": "09:00 – 14:00",
-      "area": "GEDEELTE DS. MARTIN LUTHER KINGWEG TUSSEN BOXELPARAWEG EN BOXEL MANJADAM EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "DS. MARTIN LUTHER KINGWEG"
-      ],
-      "cross": [
-        "BOXELPARAWEG",
-        "BOXEL MANJADAM"
-      ],
-      "district": "",
-      "district_src": "",
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=48abe7de20844a21b84644b972d52d19"
-    },
-    {
       "title": "GEPLAND ONDERHOUD ZATERDAG 28 NOVEMBER 2026",
       "date": "28 November 2026",
       "date_iso": "2026-11-28",
@@ -88,9 +69,39 @@
       "district": "",
       "district_src": "",
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=0ad39ef76e484b1d88a546c9c0273fea"
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 29 DECEMBER 2026",
+      "date": "29 December 2026",
+      "date_iso": "2026-11-29",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1670/gepland-onderhoud-zondag-29-december-2026",
+      "time": "07:30 – 16:30",
+      "area": "GEDEELTE SLANGENHOUTSTRAAT TUSSEN CALCUTTASTRAAT EN KOFFIEDAM, GEDEELTE CALCUTTASTRAAT TUSSEN IJZERHARTSTRAAT EN SLANGENHOUTSTRAAT EN ALLE ZIJWEGEN DIE VOORKOMEN DIT GEBIED",
+      "streets": [
+        "SLANGENHOUTSTRAAT",
+        "CALCUTTASTRAAT"
+      ],
+      "cross": [
+        "CALCUTTASTRAAT",
+        "KOFFIEDAM",
+        "IJZERHARTSTRAAT"
+      ],
+      "district": "Paramaribo",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.80215,
+          -55.17338
+        ],
+        [
+          5.80902,
+          -55.17529
+        ]
+      ]
     }
   ],
-  "last_updated": "2026-11-27T07:07:29.393009+00:00",
+  "last_updated": "2026-11-27T13:38:30.351834+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
