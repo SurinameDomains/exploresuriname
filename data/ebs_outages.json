@@ -99,9 +99,32 @@
           -55.17529
         ]
       ]
+    },
+    {
+      "title": "GEPLAND ONDERHOUD ZONDAG 29 NOVEMBER 2026",
+      "date": "29 November 2026",
+      "date_iso": "2026-11-29",
+      "type": "planned",
+      "link": "https://nvebs.com/nieuws/1666/gepland-onderhoud-zondag-29-november-2026",
+      "time": "09:00 – 16:00",
+      "area": "BOWLINGSTRAAT, WEG NAAR OGANE, WEG NAAR SHELL EMPLACEMENT EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
+      "streets": [
+        "BOWLINGSTRAAT",
+        "WEG NAAR OGANE",
+        "WEG NAAR SHELL EMPLACEMENT"
+      ],
+      "district": "Paramaribo",
+      "district_src": "ebs",
+      "pts": [
+        [
+          5.79589,
+          -55.1647
+        ]
+      ],
+      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=af7d53e78cc9416db7c1b3a6656652ce"
     }
   ],
-  "last_updated": "2026-11-27T13:38:30.351834+00:00",
+  "last_updated": "2026-11-27T23:07:28.345074+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
