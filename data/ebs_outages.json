@@ -1,42 +1,6 @@
 {
   "outages": [
     {
-      "title": "GEPLAND ONDERHOUD DONDERDAG 26 NOVEMBER 2026",
-      "date": "26 November 2026",
-      "date_iso": "2026-11-26",
-      "type": "planned",
-      "link": "https://nvebs.com/nieuws/1662/gepland-onderhoud-donderdag-26-november-2026",
-      "time": "09:00 – 14:00",
-      "area": "HOOFDWEG MARIENBURG, COPPENAMESTRAAT, KAPPASTRAAT, BAMISTRAAT, PLANTAGE RUST&WERK, PLANTAGE FREDERIKSDORP, MARIENBOSCH, JOHAN MARGARETHA EN ALLE ZIJWEGEN DIE VOORKOMEN IN DIT GEBIED",
-      "streets": [
-        "HOOFDWEG MARIENBURG",
-        "COPPENAMESTRAAT",
-        "KAPPASTRAAT",
-        "BAMISTRAAT",
-        "PLANTAGE RUST&WERK",
-        "PLANTAGE FREDERIKSDORP",
-        "MARIENBOSCH",
-        "JOHAN MARGARETHA"
-      ],
-      "district": "Commewijne",
-      "district_src": "ebs",
-      "pts": [
-        [
-          5.87693,
-          -55.04665
-        ],
-        [
-          5.87419,
-          -55.04128
-        ],
-        [
-          5.87944,
-          -55.04076
-        ]
-      ],
-      "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=c2f21935f8194b1f93798ff5e2abba43"
-    },
-    {
       "title": "GEPLAND ONDERHOUD VRIJDAG 27 NOVEMBER 2026",
       "date": "27 November 2026",
       "date_iso": "2026-11-27",
@@ -126,7 +90,7 @@
       "map": "https://gisenterprise.ebs.sr/portal/apps/experiencebuilder/experience/?id=0ad39ef76e484b1d88a546c9c0273fea"
     }
   ],
-  "last_updated": "2026-11-27T00:27:08.659280+00:00",
+  "last_updated": "2026-11-27T07:07:29.393009+00:00",
   "source": "https://nvebs.com/elektriciteit/stroom-onderbrekingen",
   "v": 2
 }
