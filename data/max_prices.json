@@ -1,64 +1,8 @@
 {
  "show": "srdcheck",
  "srdcheck": {
-  "changed": "2026-11-16",
+  "changed": "2026-11-27",
   "rows": [
-   {
-    "product": "Aardappelen",
-    "importer": "NV Dam",
-    "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 858,00",
-    "retail_pack": "1 kg",
-    "retail_price": "SRD 42,90"
-   },
-   {
-    "product": "Babyvoeding: Merk Lactogen 1",
-    "importer": "Hem Suriname NV",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.272,00",
-    "retail_pack": "400 g",
-    "retail_price": "SRD 204,70"
-   },
-   {
-    "product": "Babyvoeding: Merk Nutrilon 1",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.676,87",
-    "retail_pack": "400 g",
-    "retail_price": "SRD 224,10"
-   },
-   {
-    "product": "Babyvoeding: Merk Lactogen 2",
-    "importer": "Hem Suriname NV",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.272,00",
-    "retail_pack": "400 g",
-    "retail_price": "SRD 204,70"
-   },
-   {
-    "product": "Babyvoeding: Merk Nutrilon 2",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.763,48",
-    "retail_pack": "400 g",
-    "retail_price": "SRD 228,25"
-   },
-   {
-    "product": "Babyvoeding: Merk Lactogen 3",
-    "importer": "Hem Suriname NV",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.908,00",
-    "retail_pack": "800 g",
-    "retail_price": "SRD 470,35"
-   },
-   {
-    "product": "Bruine Bonen: Merk Annabel",
-    "importer": "Subisco International NV",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 738,72",
-    "retail_pack": "720 ml",
-    "retail_price": "SRD 76,95"
-   },
    {
     "product": "Witte Bonen: Merk Coroos",
     "importer": "NV Dam Import & Export",
@@ -210,46 +154,6 @@
     "wholesale_price": "SRD 695,83",
     "retail_pack": "40 stuks",
     "retail_price": "SRD 167,00"
-   },
-   {
-    "product": "Babyvoeding: Merk Lactogen 1",
-    "importer": "Hem Suriname NV",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.632,00",
-    "retail_pack": "900 g",
-    "retail_price": "SRD 443,90"
-   },
-   {
-    "product": "Babyvoeding: Merk Lactogen 2",
-    "importer": "Hem Suriname NV",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.632,00",
-    "retail_pack": "900 g",
-    "retail_price": "SRD 443,90"
-   },
-   {
-    "product": "Babyvoeding: Merk Nutrilon 1",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 5.257,57",
-    "retail_pack": "900 g",
-    "retail_price": "SRD 503,85"
-   },
-   {
-    "product": "Babyvoeding: Merk Nutrilon 2",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 5.345,22",
-    "retail_pack": "900 g",
-    "retail_price": "SRD 512,25"
-   },
-   {
-    "product": "Babyvoeding: Merk Nutrilon 3",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 4.760,87",
-    "retail_pack": "900 g",
-    "retail_price": "SRD 456,25"
    },
    {
     "product": "Wegwerpluiers Volwassen: Merk Grandee-Kleen (M)",
@@ -436,14 +340,6 @@
     "retail_price": "SRD 250,20"
    },
    {
-    "product": "Bruine Bonen: Merk Vip",
-    "importer": "NV Dam Import & Export",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 574,56",
-    "retail_pack": "800 ml",
-    "retail_price": "SRD 59,85"
-   },
-   {
     "product": "Soja Olie: Merk Siglo De Oro",
     "importer": "Simpex International NV",
     "wholesale_pack": "20 stuks",
@@ -516,14 +412,6 @@
     "retail_price": "SRD 47,75"
    },
    {
-    "product": "Babyvoeding: Merk Lactogen 3",
-    "importer": "Hem Suriname NV",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.368,00",
-    "retail_pack": "350 g",
-    "retail_price": "SRD 209,30"
-   },
-   {
     "product": "Gist: Merk Pakmaya (Instand Dry Yeast)",
     "importer": "Subisco International NV",
     "wholesale_pack": "20 stuks",
@@ -540,14 +428,6 @@
     "retail_price": "SRD 49,90"
    },
    {
-    "product": "Aardappelen",
-    "importer": "Sosar Express NV",
-    "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 799,00",
-    "retail_pack": "1 kg",
-    "retail_price": "SRD 39,95"
-   },
-   {
     "product": "Wegwerpluiers Baby: Merk Kids Kit Baby Diaper (M)",
     "importer": "Shen Long Company NV",
     "wholesale_pack": "6 stuks",
@@ -562,14 +442,6 @@
     "wholesale_price": "SRD 1.251,60",
     "retail_pack": "880 ml",
     "retail_price": "SRD 104,30"
-   },
-   {
-    "product": "Bruine Bonen: Merk Coroos",
-    "importer": "NV Dam Import & Export",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 674,52",
-    "retail_pack": "850 ml",
-    "retail_price": "SRD 67,45"
    },
    {
     "product": "Witte Suiker",
@@ -612,28 +484,12 @@
     "retail_price": "SRD 83,50"
    },
    {
-    "product": "Bruine Bonen: Merk Annabel",
-    "importer": "Subisco International NV",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 587,04",
-    "retail_pack": "370 ml",
-    "retail_price": "SRD 61,15"
-   },
-   {
     "product": "Groene Erwten",
     "importer": "Best Food Supply NV",
     "wholesale_pack": "22,7 kg",
     "wholesale_price": "SRD 1.011,51",
     "retail_pack": "1 kg",
     "retail_price": "SRD 55,70"
-   },
-   {
-    "product": "Bruine Bonen: Merk Vip",
-    "importer": "NV Dam Import & Export",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 566,88",
-    "retail_pack": "850 ml",
-    "retail_price": "SRD 59,05"
    },
    {
     "product": "Soja Olie: Merk Golden Fields",
@@ -724,30 +580,6 @@
     "retail_price": "SRD 85,05"
    },
    {
-    "product": "Babyvoeding: Merk Nutrilon 3",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "24 stuks",
-    "wholesale_price": "SRD 4.763,48",
-    "retail_pack": "400 g",
-    "retail_price": "SRD 228,25"
-   },
-   {
-    "product": "Kindervoeding Van Granen: Phosphatine Honey",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 1.424,35",
-    "retail_pack": "190 g",
-    "retail_price": "SRD 136,50"
-   },
-   {
-    "product": "Kindervoeding Van Granen: Phosphatine Multicereal",
-    "importer": "NV Nutrisur",
-    "wholesale_pack": "12 stuks",
-    "wholesale_price": "SRD 1.424,35",
-    "retail_pack": "190 g",
-    "retail_price": "SRD 136,50"
-   },
-   {
     "product": "Gele Erwten",
     "importer": "NV Dam Import & Export",
     "wholesale_pack": "22,7 kg",
@@ -820,14 +652,6 @@
     "retail_price": "SRD 193,35"
    },
    {
-    "product": "Aardappelen",
-    "importer": "B. Chotelal NV",
-    "wholesale_pack": "25 kg",
-    "wholesale_price": "SRD 936,00",
-    "retail_pack": "1 kg",
-    "retail_price": "SRD 46,80"
-   },
-   {
     "product": "Zout",
     "importer": "Sosar Express NV",
     "wholesale_pack": "25 kg",
@@ -869,7 +693,7 @@
    }
   ],
   "url": "https://ez.gov.sr/product/index",
-  "checked": "2026-11-27T09:42-03:00",
+  "checked": "2026-11-27T20:31-03:00",
   "error": "",
   "fails": 0
  },
@@ -1641,9 +1465,9 @@
   ],
   "price_lines": 104,
   "fetched": "2026-11-02T16:34-03:00",
-  "checked": "2026-11-27T09:42-03:00",
+  "checked": "2026-11-27T20:31-03:00",
   "error": ""
  },
  "source_page": "https://gov.sr/ministeries/ministerie-van-economische-zaken-ondernemerschap-technologische-innovatie/richtprijzen-basis-en-strategische-goederen/",
- "checked": "2026-11-27T09:42-03:00"
+ "checked": "2026-11-27T20:31-03:00"
 }
