@@ -1,39 +1,44 @@
 {
-  "last_updated": "2026-11-26T16:00:45.124861+00:00",
+  "last_updated": "2026-11-27T10:00:38.593299+00:00",
   "date_label": "Today",
   "showings": [
     {
       "time": "05:00 PM",
+      "title": "The Cat in the Hat",
+      "url": "https://www.tblcinemas.com/movie/RS770454163183/the-cat-in-the-hat"
+    },
+    {
+      "time": "05:30 PM",
       "title": "Hexed",
       "url": "https://www.tblcinemas.com/movie/RS60227284706/hexed"
     },
     {
-      "time": "05:30 PM",
-      "title": "Wildwood",
-      "url": "https://www.tblcinemas.com/movie/RS980989739420/wildwood"
+      "time": "06:15 PM",
+      "title": "Ebenezer",
+      "url": "https://www.tblcinemas.com/movie/RS266748737225/ebenezer"
     },
     {
-      "time": "06:30 PM",
+      "time": "06:45 PM",
       "title": "Ramayana: Rise of a Legend",
       "url": "https://www.tblcinemas.com/movie/RS480648796990/ramayana-rise-of-a-legend"
     },
     {
-      "time": "07:00 PM",
-      "title": "Other Mommy",
-      "url": "https://www.tblcinemas.com/movie/RS990149882856/other-mommy"
+      "time": "07:15 PM",
+      "title": "Yeh Prem Mol Liya",
+      "url": "https://www.tblcinemas.com/movie/RS814732914238/yeh-prem-mol-liya"
     },
     {
-      "time": "07:30 PM",
+      "time": "08:00 PM",
       "title": "The Hunger Games: Sunrise on the Reaping",
       "url": "https://www.tblcinemas.com/movie/RS420074646293/the-hunger-games-sunrise-on-the-reaping"
     },
     {
-      "time": "08:00 PM",
+      "time": "08:30 PM",
       "title": "Godzilla Minus Zero",
       "url": "https://www.tblcinemas.com/movie/RS134221373877/godzilla-minus-zero"
     },
     {
-      "time": "08:45 PM",
+      "time": "09:15 PM",
       "title": "Focker In-Law",
       "url": "https://www.tblcinemas.com/movie/RS100964238025/focker-in-law"
     }
