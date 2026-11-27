@@ -4,36 +4,36 @@
    {
     "currency": "USD",
     "name": "US Dollar",
-    "buy": "36.988",
-    "sell": "37.452",
+    "buy": "36.990",
+    "sell": "37.578",
     "flag": "🇺🇸"
    },
    {
     "currency": "EUR",
     "name": "Euro",
-    "buy": "40.369",
-    "sell": "41.934",
+    "buy": "40.656",
+    "sell": "40.959",
     "flag": "🇪🇺"
    },
    {
     "currency": "GBP",
     "name": "British Pound",
-    "buy": "48.534",
-    "sell": "49.486",
+    "buy": "48.537",
+    "sell": "49.488",
     "flag": "🇬🇧"
    },
    {
     "currency": "XCG",
     "name": "Curaçao Guilder",
-    "buy": "20.323",
-    "sell": "20.722",
+    "buy": "20.324",
+    "sell": "20.723",
     "flag": "🇨🇼"
    },
    {
     "currency": "AWG",
     "name": "Aruban Florin",
-    "buy": "20.549",
-    "sell": "20.952",
+    "buy": "20.550",
+    "sell": "20.953",
     "flag": "🇦🇼"
    },
    {
@@ -53,34 +53,34 @@
    {
     "currency": "BBD",
     "name": "Barbados Dollar",
-    "buy": "18.234",
-    "sell": "18.591",
+    "buy": "18.235",
+    "sell": "18.592",
     "flag": "🇧🇧"
    },
    {
     "currency": "XCD",
     "name": "E. Caribbean Dollar",
-    "buy": "13.699",
-    "sell": "13.968",
+    "buy": "13.700",
+    "sell": "13.969",
     "flag": "🏝️"
    },
    {
     "currency": "GYD",
     "name": "Guyana Dollar",
-    "buy": "0.17576",
-    "sell": "0.17920",
+    "buy": "0.17577",
+    "sell": "0.17921",
     "flag": "🇬🇾"
    },
    {
     "currency": "CNY",
     "name": "Chinese Yuan",
     "buy": "5.559",
-    "sell": "5.667",
+    "sell": "5.668",
     "flag": "🇨🇳"
    }
   ],
-  "updated": "CBVS: 27 november - 12:30u",
-  "fetched_at": "2026-11-27T12:48:30-0300"
+  "updated": "CBVS: 27 november - 15:00u",
+  "fetched_at": "2026-11-27T15:31:21-0300"
  },
  "cme": {
   "rates": [
@@ -99,7 +99,7 @@
     "sell": "41.00"
    }
   ],
-  "updated": "CME: 27 Nov 2026 15:16 SR",
-  "fetched_at": "2026-11-27T15:16:08-0300"
+  "updated": "CME: 27 Nov 2026 15:31 SR",
+  "fetched_at": "2026-11-27T15:31:21-0300"
  }
 }
