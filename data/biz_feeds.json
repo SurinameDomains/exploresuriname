@@ -1,6 +1,11 @@
 {
  "belastingdienst": [
   {
+   "title": "Belastingdienst participeert in Diplomatic Village & Exhibition",
+   "link": "https://belastingdienst.sr/belastingdienst-participeert-in-diplomatic-village-exhibition/",
+   "date": "2026-11-26"
+  },
+  {
    "title": "Belastingdienst zet met HUMUS Consultancy belangrijke stap naar HRM-transformatie",
    "link": "https://belastingdienst.sr/belastingdienst-zet-met-humus-consultancy-belangrijke-stap-naar-hrm-transformatie/",
    "date": "2026-11-26"
@@ -224,16 +229,16 @@
  "status": {
   "belastingdienst": {
    "source": "https://belastingdienst.sr/feed/",
-   "ok": "2026-11-26T14:02-03:00",
+   "ok": "2026-11-26T22:47-03:00",
    "fails": 0,
    "error": ""
   },
   "bekendmakingen": {
    "source": "https://gov.sr/feed/?post_type=bekendmaking",
-   "ok": "2026-11-26T14:03-03:00",
+   "ok": "2026-11-26T22:47-03:00",
    "fails": 0,
    "error": ""
   }
  },
- "updated": "2026-11-26T14:03-03:00"
+ "updated": "2026-11-26T22:47-03:00"
 }
