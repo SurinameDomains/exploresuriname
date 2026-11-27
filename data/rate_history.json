@@ -917,6 +917,28 @@
      41.501
     ]
    }
+  },
+  "2026-11-27": {
+   "cme": {
+    "USD": [
+     37.3,
+     37.45
+    ],
+    "EUR": [
+     40.3,
+     41.0
+    ]
+   },
+   "cbvs": {
+    "USD": [
+     37.013,
+     37.415
+    ],
+    "EUR": [
+     40.577,
+     41.501
+    ]
+   }
   }
  },
  "note": "USD/EUR [buy, sell] per Suriname day; cme = CME cash, cbvs = CBvS official."
