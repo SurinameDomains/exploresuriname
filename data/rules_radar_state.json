@@ -29,7 +29,9 @@
   "govsr_terms_04366c76fae9": "2026-11-21",
   "dna_in_behandeling_b0dcbe698a68": "2026-11-24",
   "dna_goedgekeurd_6450f3ca9d91": "2026-11-24",
-  "govsr_terms_a9f98f30ccf8": "2026-11-24"
+  "govsr_terms_a9f98f30ccf8": "2026-11-24",
+  "dna_ingediend_0e75b11a61bc": "2026-11-27",
+  "dna_in_behandeling_16c90351f9b8": "2026-11-27"
  },
  "belastingdienst_wetten": {
   "value": [
@@ -55,7 +57,7 @@
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loonbelasting.pdf",
    "https://belastingdienst.sr/wp-content/uploads/2024/10/Wet-Loterijbelasting.pdf"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "only 0 links found (layout changed?)"
  },
@@ -64,7 +66,7 @@
    "2024",
    "2"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpm0_rpulq/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -73,7 +75,7 @@
    "2024",
    "3"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpiqb_dh78/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -82,7 +84,7 @@
    "2002",
    "96"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "Command '['pdftotext', '/tmp/tmpuah5zw5g/x.pdf', '-']' returned non-zero exit status 1."
  },
@@ -91,7 +93,7 @@
    "2025",
    "8"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
@@ -100,7 +102,7 @@
    "500",
    "5000"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
@@ -108,18 +110,18 @@
   "value": [
    "1"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "minimum_wage": {
   "value": "61,25",
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "cbvs_denominations": {
   "value": "SRD 5, SRD 10, SRD 20, SRD 50, SRD 100, SRD 200 en SRD 500",
   "ok": "2026-10-12",
-  "fails": 45,
+  "fails": 46,
   "error": "HTTP Error 403: Forbidden",
   "fail_alerted": "2026-10-15"
  },
@@ -141,7 +143,11 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-algemene-douanewet-2024/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-toezicht-depositobeschermingssysteem/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-financiele-inclusie/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-herziening-van-wet-toezicht-en-controle-kansspelen/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-wijziging-van-de-handelsregisterwet-s-b-2024-no-169/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-verbod-online-kansspelen-en-digitale-kansspelpreventie/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-herziening-van-de-loterijwet-s-b-2023-no-136/",
+   "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-herziening-van-de-wet-harzardspelen-s-b-2023-no-135/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-regels-ruimtelijke-ordening/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-wet-west-suriname-bakhuis-ontwikkeling/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-duurzaam-natuurbeheer/",
@@ -187,7 +193,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-houdende-nadere-wijz-wetboek-van-strafrecht-g-b-1911-no-1-zoals-laatstelijk-gewijz-bij-s-b-2020-no-42/",
    "/wetgeving/ontwerpwetten-bij-dna/ingediende-wetten/ontwerpwet-schadefonds-gewelds-en-verkeersmisdrijven/"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "dna_in_behandeling": {
@@ -224,7 +230,6 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-pesticidemanagement/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-wet-toezicht-geldtransactiekantoren-2024/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-zaadwet/",
-   "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/wet-wijz-reglement-industriele-eigendom-suriname-1912/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-tot-vaststelling-invoeringswet-algemene-wet-belastingen-invorderingswet-wet-rechtspraak-belastingzaken/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-kostenwet-invordering-belastingen/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-algemene-douanewet-2026/",
@@ -263,7 +268,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-houdende-nadere-wijziging-van-het-wetboek-van-strafvordering-ltstelijk-gewzg-s-b-2023-no-135/",
    "/wetgeving/ontwerpwetten-bij-dna/in-behandeling/ontwerpwet-instelling-verkeersautoriteit/"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "dna_goedgekeurd": {
@@ -274,7 +279,6 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-equal-remuneration-convention-1951-no-100-geneva-01-juni-1951/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-minimum-age-convention-no-138-geneva-06-juni-1973/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-arbeidsadviescollege/",
-   "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-wijz-wet-centrum-voor-innovatie-en-productiviteit-s-b-2019-no-7/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-algemene-wet-belastingen/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-wijziging-surinaams-burgerlijk-wetboek/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-verlening-surinaamse-nationaliteit-aan-lia-kwok-tjon-en-103-anderen/",
@@ -290,7 +294,6 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-spaar-en-stabilisatie-fonds-suriname/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-suppletoire-begroting-2024/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-wijz-comptabiliteitswet-2024-s-b-2024-no-178/",
-   "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-toezicht-virtuele-activa-dienstverleners/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-invorderingswet/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/wet-bescherming-woon-en-leefgebieden/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-wijziging-decreet-rechtstoestand-voor-1-juli-1982-uitgegeven-gronden/",
@@ -331,7 +334,7 @@
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-houdende-goedkeuring-united-national-convention-against-corruption-uncac/",
    "/wetgeving/ontwerpwetten-bij-dna/goedgekeurd/ontwerpwet-wijz-rijwet-1971-alsmede-nadere-wijz-wet-aansprakelijkheidsverzekering-motorrijtuigen-1/"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "govsr_terms": {
@@ -498,7 +501,7 @@
    "https://gov.sr/wijziging-besluit-negatieve-lijst/",
    "https://gov.sr/zvf/"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "belastingdienst_news": {
@@ -519,47 +522,47 @@
    "https://belastingdienst.sr/technische-storing-oktober-2026/",
    "https://belastingdienst.sr/technische-storing/"
   ],
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "mismatched tag: line 93, column 2"
  },
- "_last_run": "2026-11-26",
+ "_last_run": "2026-11-27",
  "guide_belastingdienst_contact": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-11-26"
+  "ok": "2026-11-27"
  },
  "guide_apf_contact": {
   "value": "ok",
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0,
   "error": "HTTP Error 403: Forbidden"
  },
  "guide_kkf_contact": {
   "value": "ok",
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "guide_financieringswijzer": {
   "value": "ok",
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "guide_nob_products": {
   "fails": 0,
   "error": "page almost empty (blocked or layout changed?)",
   "value": "ok",
-  "ok": "2026-11-26"
+  "ok": "2026-11-27"
  },
  "guide_werktijden": {
   "value": "ok",
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  },
  "guide_iud_negatieve_lijst": {
   "value": "ok",
-  "ok": "2026-11-26",
+  "ok": "2026-11-27",
   "fails": 0
  }
 }
